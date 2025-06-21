@@ -8,7 +8,20 @@ namespace ZodiacsTextEngine
 {
 	public static class RoomFileParser
 	{
-		enum StatementType
+		public class ParserContext
+		{
+			public string currentFileName;
+			public string[] lines;
+			public ConditionalEffectBlock currentBlock = null;
+
+			public ParserContext(string fileName, string[] lines)
+			{
+				currentFileName = fileName;
+				this.lines = lines;
+			}
+		}
+
+		private enum StatementType
 		{
 			OnEnter,
 			OnExit,
@@ -23,57 +36,51 @@ namespace ZodiacsTextEngine
 		private const string ELSE_CONDITION_MARKER = "ELSE";
 		private const string COMMENT_MARKER = "//";
 
-		private static string currentFileName;
-		private static string[] lines;
-		private static ConditionalEffectBlock currentBlock;
 
 		public static Room Parse(string fileName, string content)
 		{
-			currentBlock = null;
-			try
-			{
-				currentFileName = Path.GetFileNameWithoutExtension(fileName);
+			var name = Path.GetFileNameWithoutExtension(fileName);
+			var lines = content.Replace("\r", "").Split('\n');
+			var ctx = new ParserContext(name, lines);
 
-				lines = content.Replace("\r", "").Split('\n');
-
-				int linePos = 0;
-				Room room = new Room(currentFileName);
-				bool done;
-				do
-				{
-					done = !ParseNextBlock(ref linePos, ref room);
-				}
-				while(!done);
-				return room;
-			}
-			finally
+			int linePos = 0;
+			Room room = new Room(ctx.currentFileName);
+			bool done;
+			do
 			{
-				lines = Array.Empty<string>();
+				done = !ParseNextBlock(ctx, ref linePos, ref room);
 			}
+			while(!done);
+			return room;
 		}
 
-		private static bool IsEmptyOrComment(int lineIndex)
+		private static bool IsEmptyOrComment(ParserContext ctx, int lineIndex)
 		{
-			return IsEmpty(lineIndex) || IsComment(lineIndex);
+			return IsEmpty(ctx, lineIndex) || IsComment(ctx, lineIndex);
 		}
 
-		private static bool IsEmpty(int lineIndex)
+		private static bool IsEmpty(ParserContext ctx, int lineIndex)
 		{
-			return lines[lineIndex].Trim() == "";
+			return ctx.lines[lineIndex].Trim() == "";
 		}
 
-		private static bool ParseNextBlock(ref int linePos, ref Room room)
+		private static bool IsComment(ParserContext ctx, int lineIndex)
 		{
-			while(linePos < lines.Length && IsEmptyOrComment(linePos))
+			return ctx.lines[lineIndex].TrimStart().StartsWith(COMMENT_MARKER);
+		}
+
+		private static bool ParseNextBlock(ParserContext ctx, ref int linePos, ref Room room)
+		{
+			while(linePos < ctx.lines.Length && IsEmptyOrComment(ctx, linePos))
 			{
-				MoveNextLine(ref linePos);
+				MoveNextLine(ctx, ref linePos);
 			}
-			if(linePos >= lines.Length)
+			if(linePos >= ctx.lines.Length)
 			{
 				//EOF reached
 				return false;
 			}
-			ParseKeyword(linePos, out var keyword, out var args);
+			ParseKeyword(ctx, linePos, out var keyword, out var args);
 			EffectGroup group;
 			switch(keyword)
 			{
@@ -88,14 +95,15 @@ namespace ZodiacsTextEngine
 					break;
 				default: throw new NotImplementedException();
 			}
-			MoveNextLine(ref linePos);
-			if(linePos >= lines.Length) return false;
-			while(linePos < lines.Length && !lines[linePos].StartsWith(EVENT_MARKER) && !lines[linePos].StartsWith(CHOICE_MARKER))
+			MoveNextLine(ctx, ref linePos);
+			if(linePos >= ctx.lines.Length) return false;
+			while(linePos < ctx.lines.Length && !ctx.lines[linePos].StartsWith(EVENT_MARKER) &&
+				!ctx.lines[linePos].StartsWith(CHOICE_MARKER))
 			{
-				var line = lines[linePos].TrimStart();
+				var line = ctx.lines[linePos].TrimStart();
 				if(string.IsNullOrWhiteSpace(line))
 				{
-					MoveNextLine(ref linePos);
+					MoveNextLine(ctx, ref linePos);
 					continue;
 				}
 				if(line.StartsWith(EFFECT_MARKER))
@@ -110,60 +118,60 @@ namespace ZodiacsTextEngine
 						}
 					}
 					*/
-					var effect = ParseEffect(ref linePos);
-					if(currentBlock != null)
+					var effect = ParseEffect(ctx, ref linePos);
+					if(ctx.currentBlock != null)
 					{
-						if(currentBlock.HasInvertedBlock) currentBlock.AddInvertedChild(effect);
-						else currentBlock.AddChild(effect);
+						if(ctx.currentBlock.HasInvertedBlock) ctx.currentBlock.AddInvertedChild(effect);
+						else ctx.currentBlock.AddChild(effect);
 					}
 					else
 					{
 						group.effects.Add(effect);
 					}
-					MoveNextLine(ref linePos);
+					MoveNextLine(ctx, ref linePos);
 				}
 				else if(line.StartsWith(CONDITION_MARKER))
 				{
-					var c = ParseCondition(ref linePos);
+					var c = ParseCondition(ctx, ref linePos);
 					var ifBlock = new ConditionalEffectBlock(c);
-					ifBlock.parent = currentBlock;
+					ifBlock.parent = ctx.currentBlock;
 
-					if(currentBlock != null)
+					if(ctx.currentBlock != null)
 					{
-						if(currentBlock.HasInvertedBlock) currentBlock.AddInvertedChild(ifBlock);
-						else currentBlock.AddChild(ifBlock);
+						if(ctx.currentBlock.HasInvertedBlock) ctx.currentBlock.AddInvertedChild(ifBlock);
+						else ctx.currentBlock.AddChild(ifBlock);
 					}
 					else
 					{
 						group.effects.Add(ifBlock);
 					}
 
-					currentBlock = ifBlock;
-					MoveNextLine(ref linePos);
+					ctx.currentBlock = ifBlock;
+					MoveNextLine(ctx, ref linePos);
 				}
 				else if(line.StartsWith(END_CONDITION_MARKER))
 				{
-					if(currentBlock == null) throw new FileParseException(currentFileName, linePos, "ENDIF encountered outside of an IF block.");
-					if(currentBlock.parent != null)
+					if(ctx.currentBlock == null) throw new FileParseException(ctx, linePos, "ENDIF encountered outside of an IF block.");
+					if(ctx.currentBlock.parent != null)
 					{
 						//Console.WriteLine("Not null: "+linePos);
 					}
-					currentBlock = currentBlock.parent;
-					MoveNextLine(ref linePos);
+					ctx.currentBlock = ctx.currentBlock.parent;
+					MoveNextLine(ctx, ref linePos);
 				}
 				else if(line.StartsWith(ELSE_CONDITION_MARKER))
 				{
-					if(currentBlock == null) throw new FileParseException(currentFileName, linePos, "ELSE encountered outside of an IF block.");
-					if(currentBlock.HasInvertedBlock) throw new FileParseException(currentFileName, linePos, "Multiple ELSE statements encountered.");
-					currentBlock.BeginElseBlock();
+					if(ctx.currentBlock == null) throw new FileParseException(ctx, linePos, "ELSE encountered outside of an IF block.");
+					if(ctx.currentBlock.HasInvertedBlock) throw new FileParseException(ctx, linePos, "Multiple ELSE statements encountered.");
+					ctx.currentBlock.BeginElseBlock();
 					//group.effects.Add(currentBlock);
-					MoveNextLine(ref linePos);
+					MoveNextLine(ctx, ref linePos);
 				}
-				else throw new FileParseException(currentFileName, linePos, "Unexpected string: " + line);
+				else throw new FileParseException(ctx, linePos, "Unexpected string: " + line);
 			}
-			if(currentBlock != null)
+			if(ctx.currentBlock != null)
 			{
-				throw new FileParseException(currentFileName, linePos, "Unclosed IF block encountered");
+				throw new FileParseException(ctx, linePos, "Unclosed IF block encountered");
 			}
 			if(keyword == StatementType.OnEnter) room.onEnter = (RoomEvent)group;
 			else if(keyword == StatementType.OnExit) room.onExit = (RoomEvent)group;
@@ -177,16 +185,16 @@ namespace ZodiacsTextEngine
 			return true;
 		}
 
-		private static Condition ParseCondition(ref int linePos)
+		private static Condition ParseCondition(ParserContext ctx, ref int linePos)
 		{
-			var line = lines[linePos].TrimStart();
+			var line = ctx.lines[linePos].TrimStart();
 			var args = line.Substring(CONDITION_MARKER.Length).Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-			if(args.Length < 3) throw new FileParseException(currentFileName, linePos, "Not enough arguments for IF statement (3 required)");
-			else if(args.Length > 3) throw new FileParseException(currentFileName, linePos, "Too many arguments for IF statement (3 required)");
-			return new Condition(args[0], ParseConditionalOperator(linePos, args[1]), int.Parse(args[2]));
+			if(args.Length < 3) throw new FileParseException(ctx, linePos, "Not enough arguments for IF statement (3 required)");
+			else if(args.Length > 3) throw new FileParseException(ctx, linePos, "Too many arguments for IF statement (3 required)");
+			return new Condition(args[0], ParseConditionalOperator(ctx, linePos, args[1]), int.Parse(args[2]));
 		}
 
-		private static Variables.ConditionalOperator ParseConditionalOperator(int lineIndex, string input)
+		private static Variables.ConditionalOperator ParseConditionalOperator(ParserContext ctx, int lineIndex, string input)
 		{
 			switch(input)
 			{
@@ -196,38 +204,38 @@ namespace ZodiacsTextEngine
 				case ">=": return Variables.ConditionalOperator.GreaterThanOrEqual;
 				case ">": return Variables.ConditionalOperator.GreaterThan;
 				case "!=": return Variables.ConditionalOperator.NotEqual;
-				default: throw new FileParseException(currentFileName, lineIndex, "Invalid conditional operator: " + input);
+				default: throw new FileParseException(ctx, lineIndex, "Invalid conditional operator: " + input);
 			}
 		}
 
-		private static Effect ParseEffect(ref int linePos)
+		private static Effect ParseEffect(ParserContext ctx, ref int linePos)
 		{
 			int startLinePos = linePos;
-			var split = lines[linePos].TrimStart().Substring(1).Split(new char[] { ' ' }, 2);
+			var split = ctx.lines[linePos].TrimStart().Substring(1).Split(new char[] { ' ' }, 2);
 			string keyword = split[0];
 			string content = split.Length > 1 ? split[1] : "";
 			//Count number of tabs to determine indent
 			int indent = 0;
-			while(lines[linePos][indent] == '\t') indent++;
+			while(ctx.lines[linePos][indent] == '\t') indent++;
 			if(keyword == "PLAIN_TEXT")
 			{
 				if(!string.IsNullOrWhiteSpace(content)) return new TextWriter(content);
 				else
 				{
-					List<string> textLines = GetTextLines(ref linePos, indent);
-					if(textLines.Count == 0) throw new FileParseException(currentFileName, startLinePos, "Text component does not contain any text");
+					List<string> textLines = GetTextLines(ctx, ref linePos, indent);
+					if(textLines.Count == 0) throw new FileParseException(ctx, startLinePos, "Text component does not contain any text");
 					return new TextWriter(textLines.ToArray());
 				}
 			}
 			else if(keyword == "TEXT")
 			{
-				if(!string.IsNullOrWhiteSpace(content)) return new RichTextWriter(ParseRichText(content, linePos));
+				if(!string.IsNullOrWhiteSpace(content)) return new RichTextWriter(ParseRichText(ctx, content, linePos));
 				else
 				{
 					int firstTextLinePos = linePos + 1;
-					List<string> textLines = GetTextLines(ref linePos, indent);
-					if(textLines.Count == 0) throw new FileParseException(currentFileName, startLinePos, "Text component does not contain any text");
-					return new RichTextWriter(ParseRichText(string.Join("\n", textLines), firstTextLinePos));
+					List<string> textLines = GetTextLines(ctx, ref linePos, indent);
+					if(textLines.Count == 0) throw new FileParseException(ctx, startLinePos, "Text component does not contain any text");
+					return new RichTextWriter(ParseRichText(ctx, string.Join("\n", textLines), firstTextLinePos));
 				}
 			}
 			else if(keyword == "GOTO")
@@ -274,12 +282,12 @@ namespace ZodiacsTextEngine
 			else if(keyword == "COLOR")
 			{
 				var args = content.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-				return new SetColor(ParseConsoleColor(args[0], linePos));
+				return new SetColor(ParseConsoleColor(ctx, args[0], linePos));
 			}
 			else if(keyword == "BACKGROUND")
 			{
 				var args = content.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-				return new SetBackgroundColor(ParseConsoleColor(args[0], linePos));
+				return new SetBackgroundColor(ParseConsoleColor(ctx, args[0], linePos));
 			}
 			else if(keyword == "RESET_COLOR")
 			{
@@ -301,18 +309,18 @@ namespace ZodiacsTextEngine
 			{
 				return new GameOver(content);
 			}
-			else throw new FileParseException(currentFileName, startLinePos, "Invalid keyword: " + keyword);
+			else throw new FileParseException(ctx, startLinePos, "Invalid keyword: " + keyword);
 		}
 
-		private static List<string> GetTextLines(ref int linePos, int indent)
+		private static List<string> GetTextLines(ParserContext ctx, ref int linePos, int indent)
 		{
-			MoveNextLine(ref linePos);
+			MoveNextLine(ctx, ref linePos);
 			List<string> textLines = new List<string>();
 			//Get all text lines below the keyword
 			do
 			{
-				if(linePos >= lines.Length) break;
-				string textLine = lines[linePos];
+				if(linePos >= ctx.lines.Length) break;
+				string textLine = ctx.lines[linePos];
 				for(int i = 0; i < indent; i++)
 				{
 					if(textLine.StartsWith("\t")) textLine = textLine.Substring(1);
@@ -328,9 +336,9 @@ namespace ZodiacsTextEngine
 					break;
 				}
 				textLines.Add(textLine);
-				MoveNextLine(ref linePos);
+				MoveNextLine(ctx, ref linePos);
 			}
-			while(linePos < lines.Length);
+			while(linePos < ctx.lines.Length);
 			/*
 			while(linePos < lines.Length
 				&& !lines[linePos].TrimStart().StartsWith(EVENT_MARKER)
@@ -356,11 +364,11 @@ namespace ZodiacsTextEngine
 			return textLines;
 		}
 
-		private static void ParseKeyword(int lineNumber, out StatementType keyword, out string[] args)
+		private static void ParseKeyword(ParserContext ctx, int lineNumber, out StatementType keyword, out string[] args)
 		{
-			keyword = GetStatementType(lineNumber, out int keyLength);
+			keyword = GetStatementType(ctx, lineNumber, out int keyLength);
 
-			var line = lines[lineNumber];
+			var line = ctx.lines[lineNumber];
 			var split = line.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 			List<string> argsList = new List<string>(split);
 			if(keyword == StatementType.Choice) argsList[0] = argsList[0].Substring(1);
@@ -368,26 +376,21 @@ namespace ZodiacsTextEngine
 			args = argsList.ToArray();
 		}
 
-		private static bool MoveNextLine(ref int lineIndex)
+		private static bool MoveNextLine(ParserContext ctx, ref int lineIndex)
 		{
 			lineIndex++;
-			if(lineIndex >= lines.Length) return false;
-			while(IsComment(lineIndex))
+			if(lineIndex >= ctx.lines.Length) return false;
+			while(IsComment(ctx, lineIndex))
 			{
 				lineIndex++;
-				if(lineIndex >= lines.Length) return false;
+				if(lineIndex >= ctx.lines.Length) return false;
 			}
 			return true;
 		}
 
-		private static bool IsComment(int lineIndex)
+		private static StatementType GetStatementType(ParserContext ctx, int lineNumber, out int offset)
 		{
-			return lines[lineIndex].TrimStart().StartsWith(COMMENT_MARKER);
-		}
-
-		private static StatementType GetStatementType(int lineNumber, out int offset)
-		{
-			var input = lines[lineNumber];
+			var input = ctx.lines[lineNumber];
 			if(input.StartsWith(EVENT_MARKER))
 			{
 				input = input.Substring(1);
@@ -401,17 +404,17 @@ namespace ZodiacsTextEngine
 					offset = 6;
 					return StatementType.OnExit;
 				}
-				else throw new FileParseException(currentFileName, lineNumber, "Invalid statement type: " + input.Split(' ')[0]);
+				else throw new FileParseException(ctx, lineNumber, "Invalid statement type: " + input.Split(' ')[0]);
 			}
 			else if(input.StartsWith(CHOICE_MARKER))
 			{
 				offset = 1;
 				return StatementType.Choice;
 			}
-			else throw new FileParseException(currentFileName, lineNumber, $"Invalid statement '{input}'");
+			else throw new FileParseException(ctx, lineNumber, $"Invalid statement '{input}'");
 		}
 
-		private static RichText ParseRichText(string text, int startLine)
+		private static RichText ParseRichText(ParserContext ctx, string text, int startLine)
 		{
 			ConsoleColor? foregroundColor = null;
 			ConsoleColor? backgroundColor = null;
@@ -435,11 +438,11 @@ namespace ZodiacsTextEngine
 					//Get the type of the match (<color=*> or <bgcolor=*> or <clear>)
 					if(matchText.StartsWith("color="))
 					{
-						foregroundColor = ParseConsoleColor(matchText.Split('=')[1], startLine);
+						foregroundColor = ParseConsoleColor(ctx, matchText.Split('=')[1], startLine);
 					}
 					else if(matchText.StartsWith("bgcolor="))
 					{
-						backgroundColor = ParseConsoleColor(matchText.Split('=')[1], startLine);
+						backgroundColor = ParseConsoleColor(ctx, matchText.Split('=')[1], startLine);
 					}
 					else if(matchText == "clear")
 					{
@@ -494,7 +497,7 @@ namespace ZodiacsTextEngine
 						}
 						richText.AddComponent(new FunctionComponent(funcName, funcArgs));
 					}
-					else throw new FileParseException(currentFileName, startLine, "Invalid rich text tag: " + matchText);
+					else throw new FileParseException(ctx, startLine, "Invalid rich text tag: " + matchText);
 				}
 				else
 				{
@@ -508,7 +511,7 @@ namespace ZodiacsTextEngine
 			return richText;
 		}
 
-		public static ConsoleColor ParseConsoleColor(string input, int linePos)
+		private static ConsoleColor ParseConsoleColor(ParserContext ctx, string input, int linePos)
 		{
 			switch(input.ToUpper())
 			{
@@ -528,7 +531,7 @@ namespace ZodiacsTextEngine
 				case "RED": return ConsoleColor.Red;
 				case "WHITE": return ConsoleColor.White;
 				case "YELLOW": return ConsoleColor.Yellow;
-				default: throw new FileParseException(currentFileName, linePos, "Invalid input for color: " + input);
+				default: throw new FileParseException(ctx, linePos, "Invalid input for color: " + input);
 			}
 		}
 	}
@@ -538,14 +541,16 @@ namespace ZodiacsTextEngine
 		private readonly string fileName;
 		private readonly int lineNumber;
 		private readonly string message;
+		private readonly string line;
 
-		public override string Message => $"File parse error on file '{fileName}' at line {lineNumber}: {message}";
+		public override string Message => $"File parse error on file '{fileName}' at line {lineNumber}: {message}\n'{line}'";
 
-		public FileParseException(string fileName, int lineIndex, string message)
+		public FileParseException(RoomFileParser.ParserContext ctx, int lineIndex, string message)
 		{
-			this.fileName = fileName;
+			fileName = ctx.currentFileName;
 			lineNumber = lineIndex + 1;
 			this.message = message;
+			line = lineIndex >= 0 && lineIndex < ctx.lines.Length ? ctx.lines[lineIndex].TrimEnd() : "";
 		}
 	}
 }
