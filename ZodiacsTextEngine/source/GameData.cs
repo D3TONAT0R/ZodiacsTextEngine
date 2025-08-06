@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using static ZodiacsTextEngine.Functions;
 
-namespace ZodiacsTextEngine.source
+namespace ZodiacsTextEngine
 {
 	public class GameData
 	{

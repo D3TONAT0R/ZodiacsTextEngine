@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using ZodiacsTextEngine.source;
-using static ZodiacsTextEngine.TextEngine;
 
 namespace ZodiacsTextEngine
 {
@@ -24,43 +21,6 @@ namespace ZodiacsTextEngine
 		public static bool Exists(string name)
 		{
 			return TextEngine.GameData.Rooms.ContainsKey(name);
-		}
-
-		public static bool LoadRooms(RoomDataLoader loader)
-		{
-			if(DebugMode) Interface.Header("GAME FILE LOAD");
-			try
-			{
-				var files = loader.Invoke();
-				if(DebugMode) Interface.Text($"Loading {files.Count()} room files ...");
-				foreach(var file in files)
-				{
-					if(DebugMode)
-					{
-						try
-						{
-							var room = RoomFileParser.Parse(file.roomName, file.data);
-							RegisterRoom(file.roomName, room);
-						}
-						catch(Exception e)
-						{
-							Interface.LogError("Failed to load room file: " + e.Message);
-						}
-					}
-					else
-					{
-						var room = RoomFileParser.Parse(file.roomName, file.data);
-						RegisterRoom(file.roomName, room);
-					}
-				}
-			}
-			catch(Exception e)
-			{
-				Interface.LogError(e.Message);
-				return false;
-			}
-			Interface.VerticalSpace();
-			return true;
 		}
 
 		public static void ValidateRooms(GameData gameData)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace ZodiacsTextEngine
 {
@@ -16,6 +17,12 @@ namespace ZodiacsTextEngine
 		{
 			onEnter = null;
 			name = id;
+		}
+
+		public static Room FromFile(string filename)
+		{
+			var content = File.ReadAllText(filename);
+			return RoomParser.Parse(filename, content);
 		}
 
 		public Choice GetChoice(string input)

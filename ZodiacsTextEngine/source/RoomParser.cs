@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace ZodiacsTextEngine
 {
-	public static class RoomFileParser
+	public static class RoomParser
 	{
 		public class ParserContext
 		{
@@ -545,7 +545,7 @@ namespace ZodiacsTextEngine
 
 		public override string Message => $"File parse error on file '{fileName}' at line {lineNumber}: {message}\n'{line}'";
 
-		public FileParseException(RoomFileParser.ParserContext ctx, int lineIndex, string message)
+		public FileParseException(RoomParser.ParserContext ctx, int lineIndex, string message)
 		{
 			fileName = ctx.currentFileName;
 			lineNumber = lineIndex + 1;

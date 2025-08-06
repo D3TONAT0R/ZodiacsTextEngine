@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using static ZodiacsTextEngine.Functions;
 
-namespace ZodiacsTextEngine.source
+namespace ZodiacsTextEngine
 {
-	public abstract class GameDataProvider
+	public abstract class GameDataLoader
 	{
 		protected GameData gameData;
 

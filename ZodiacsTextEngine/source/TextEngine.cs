@@ -2,21 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ZodiacsTextEngine.source;
 
 namespace ZodiacsTextEngine
 {
 	public static class TextEngine
 	{
-		public delegate IEnumerable<RoomFile> RoomDataLoader();
-
 		public static ITextInterface Interface { get; private set; } = null;
 
 		public static GameData GameData
 		{
 			get
 			{
-				if(!Initialized)
+				if(!Initialized && !initializing)
 				{
 					throw new InvalidOperationException("TextEngine has not yet been initialized.");
 				}
@@ -28,16 +25,18 @@ namespace ZodiacsTextEngine
 		public static bool DebugMode { get; private set; } = false;
 
 		public static bool Initialized { get; private set; } = false;
+		private static bool initializing = false;
 
-		public static async Task Initialize(ITextInterface textInterface, GameDataProvider gameDataProvider, bool debugMode)
+		public static async Task Initialize(ITextInterface textInterface, GameDataLoader gameDataLoader, bool debugMode)
 		{
+			initializing = true;
 			if(textInterface == null) throw new NullReferenceException("Null text interface passed to initialization call.");
 			Interface = textInterface;
 			DebugMode = debugMode;
 
 			Interface.Initialize(DebugMode);
 			bool success = true;
-			gameData = gameDataProvider.Load(ref success);
+			gameData = gameDataLoader.Load(ref success);
 			if(!DebugMode && !success)
 			{
 				Interface.OnLoadError();
@@ -57,6 +56,7 @@ namespace ZodiacsTextEngine
 			}
 
 			Initialized = true;
+			initializing = false;
 		}
 
 		private static void ReportWordAndCharacterCounts(GameData gameData)

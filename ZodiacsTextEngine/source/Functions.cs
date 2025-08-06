@@ -16,7 +16,11 @@ namespace ZodiacsTextEngine
 			}
 			else
 			{
-				TextEngine.Interface.LogError($"Function with id '{id}' does not exist.");
+				TextEngine.Interface.LogError($"Attempted to call unknown function '{id}'");
+				if(TextEngine.DebugMode)
+				{
+					await TextEngine.Interface.WaitForInput(true);
+				}
 				return null;
 			}
 		}
