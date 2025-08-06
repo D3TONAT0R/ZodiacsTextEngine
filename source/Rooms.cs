@@ -1,31 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ZodiacsTextEngine.source;
 using static ZodiacsTextEngine.TextEngine;
 
 namespace ZodiacsTextEngine
 {
 	public static class Rooms
 	{
-		public static Room StartRoom { get; internal set; }
-
-		private static Dictionary<string, Room> rooms = new Dictionary<string, Room>();
-
-		public static Dictionary<string, Room>.ValueCollection All => rooms.Values;
+		
+		public static Dictionary<string, Room>.ValueCollection All => TextEngine.GameData.Rooms.Values;
 
 		public static void RegisterRoom(string name, Room room)
 		{
-			rooms.Add(name, room);
+			TextEngine.GameData.Rooms.Add(name, room);
 		}
 
 		public static Room GetRoom(string name)
 		{
-			return rooms[name];
+			return TextEngine.GameData.Rooms[name];
 		}
 
 		public static bool Exists(string name)
 		{
-			return rooms.ContainsKey(name);
+			return TextEngine.GameData.Rooms.ContainsKey(name);
 		}
 
 		public static bool LoadRooms(RoomDataLoader loader)
@@ -65,10 +63,10 @@ namespace ZodiacsTextEngine
 			return true;
 		}
 
-		public static void ValidateRooms()
+		public static void ValidateRooms(GameData gameData)
 		{
 			bool headerPrinted = false;
-			foreach(var room in rooms.Values)
+			foreach(var room in gameData.Rooms.Values)
 			{
 				if(!RoomValidator.Validate(room, out var log))
 				{

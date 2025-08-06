@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ZodiacsTextEngine.source;
 
 namespace ZodiacsTextEngine
 {
@@ -11,46 +12,56 @@ namespace ZodiacsTextEngine
 
 		public static ITextInterface Interface { get; private set; } = null;
 
+		public static GameData GameData
+		{
+			get
+			{
+				if(!Initialized)
+				{
+					throw new InvalidOperationException("TextEngine has not yet been initialized.");
+				}
+				return gameData;
+			}
+		}
+		private static GameData gameData;
+
 		public static bool DebugMode { get; private set; } = false;
 
-		public static async Task Initialize(ITextInterface textInterface, RoomDataLoader roomDataLoader, bool debugMode, string startRoomName, List<string> fixedVariableNames)
+		public static bool Initialized { get; private set; } = false;
+
+		public static async Task Initialize(ITextInterface textInterface, GameDataProvider gameDataProvider, bool debugMode)
 		{
 			if(textInterface == null) throw new NullReferenceException("Null text interface passed to initialization call.");
 			Interface = textInterface;
 			DebugMode = debugMode;
 
 			Interface.Initialize(DebugMode);
-			Variables.Init(fixedVariableNames);
-			bool success = Rooms.LoadRooms(roomDataLoader);
+			bool success = true;
+			gameData = gameDataProvider.Load(ref success);
 			if(!DebugMode && !success)
 			{
 				Interface.OnLoadError();
 				return;
 			}
-			Functions.CreateFunctions();
-			Rooms.ValidateRooms();
+			Rooms.ValidateRooms(gameData);
+			var startRoom = gameData.StartRoom;
 			if(DebugMode)
 			{
 				Interface.VerticalSpace();
-				ReportWordAndCharacterCounts();
+				ReportWordAndCharacterCounts(gameData);
 				Interface.OnDebugInfo();
+				Interface.Text("Start Room ID: " + startRoom.name);
 				Interface.VerticalSpace();
 				Interface.Hint("[Press any key to start the game]");
 				await Interface.WaitForInput(false);
 			}
-			if(Rooms.Exists(startRoomName))
-			{
-				Rooms.StartRoom = Rooms.GetRoom(startRoomName);
-			}
-			else
-			{
-				throw new NullReferenceException($"Start room '{startRoomName}' not found.");
-			}
+
+			Initialized = true;
 		}
 
-		private static void ReportWordAndCharacterCounts()
+		private static void ReportWordAndCharacterCounts(GameData gameData)
 		{
-			List<ITextEffect> textEffects = Rooms.All.SelectMany(r => r.EnumerateEffectGroups())
+			List<ITextEffect> textEffects = gameData.Rooms.Values.SelectMany(r => r.EnumerateEffectGroups())
 							.Where(g => g != null && g.effects != null)
 							.SelectMany(g => g.effects)
 							.Where(e => e is ITextEffect)

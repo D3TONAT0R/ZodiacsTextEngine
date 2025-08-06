@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using ZodiacsTextEngine.source;
 
 namespace ZodiacsTextEngine
 {
@@ -20,7 +21,7 @@ namespace ZodiacsTextEngine
 		public static async Task StartNew()
 		{
 			Current = new GameSession();
-			await Current.GoToRoom(Rooms.StartRoom);
+			await Current.GoToRoom(TextEngine.GameData.StartRoom);
 		}
 
 		public async Task GoToRoom(string nextRoomName)
