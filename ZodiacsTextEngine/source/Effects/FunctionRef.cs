@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using ZodiacsTextEngine.Parser;
 
 namespace ZodiacsTextEngine.Effects
 {
@@ -23,6 +26,15 @@ namespace ZodiacsTextEngine.Effects
 		{
 			if(!Functions.Exists(functionId)) return LogMessage.Error(site, "Nonexisting function referenced: " + functionId);
 			return null;
+		}
+
+		[EffectParser("FUNC")]
+		public static Effect Parse(EffectParseContext ctx)
+		{
+			var args = ctx.GetArguments();
+			string funcId = args[0];
+			args.RemoveAt(0);
+			return new FunctionRef(funcId, args.ToArray());
 		}
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Threading.Tasks;
+using ZodiacsTextEngine.Parser;
 
 namespace ZodiacsTextEngine.Effects
 {
@@ -14,6 +15,12 @@ namespace ZodiacsTextEngine.Effects
 		public override LogMessage Validate(string site)
 		{
 			return LogMessage.Warning(site, "Breakpoint marker found");
+		}
+
+		[EffectParser("BREAKPOINT")]
+		public static Effect Parse(EffectParseContext ctx)
+		{
+			return new Breakpoint();
 		}
 	}
 }

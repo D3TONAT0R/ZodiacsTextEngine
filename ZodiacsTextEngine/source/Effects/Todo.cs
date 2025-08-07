@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using ZodiacsTextEngine.Parser;
 
 namespace ZodiacsTextEngine.Effects
 {
@@ -21,6 +22,12 @@ namespace ZodiacsTextEngine.Effects
 		public override LogMessage Validate(string site)
 		{
 			return LogMessage.Warning(site, "TODO marker found: " + info);
+		}
+
+		[EffectParser("TODO")]
+		public static Effect Parse(EffectParseContext ctx)
+		{
+			return new Todo(ctx.content);
 		}
 	}
 }

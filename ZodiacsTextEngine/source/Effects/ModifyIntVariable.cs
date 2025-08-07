@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using ZodiacsTextEngine.Parser;
 
 namespace ZodiacsTextEngine.Effects
 {
@@ -36,6 +38,20 @@ namespace ZodiacsTextEngine.Effects
 				return LogMessage.Warning(site, $"Undefined variable '{variableName}'");
 			}
 			return base.Validate(site);
+		}
+
+		[EffectParser("VAR_SET")]
+		public static ModifyIntVariable ParseSet(EffectParseContext ctx)
+		{
+			var args = ctx.GetArguments();
+			return new ModifyIntVariable(args[0], int.Parse(args[1]), false);
+		}
+
+		[EffectParser("VAR_ADD")]
+		public static ModifyIntVariable ParseAdd(EffectParseContext ctx)
+		{
+			var args = ctx.GetArguments();
+			return new ModifyIntVariable(args[0], int.Parse(args[1]), true);
 		}
 	}
 }

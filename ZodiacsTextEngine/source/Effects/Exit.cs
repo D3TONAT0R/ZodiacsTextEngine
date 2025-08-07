@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using ZodiacsTextEngine.Parser;
 
 namespace ZodiacsTextEngine.Effects
 {
@@ -9,6 +10,12 @@ namespace ZodiacsTextEngine.Effects
 		{
 			Environment.Exit(0);
 			return Task.CompletedTask;
+		}
+
+		[EffectParser("EXIT")]
+		public static Exit Parse(EffectParseContext ctx)
+		{
+			return new Exit();
 		}
 	}
 }

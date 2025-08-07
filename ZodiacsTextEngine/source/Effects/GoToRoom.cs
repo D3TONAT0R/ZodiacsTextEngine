@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using ZodiacsTextEngine.Parser;
 
 namespace ZodiacsTextEngine.Effects
 {
@@ -20,6 +22,12 @@ namespace ZodiacsTextEngine.Effects
 		{
 			if(!Rooms.Exists(nextRoomName)) return LogMessage.Error(site, "Nonexisting room referenced: " + nextRoomName);
 			return null;
+		}
+
+		[EffectParser("GOTO")]
+		public static Effect Parse(EffectParseContext ctx)
+		{
+			return new GoToRoom(ctx.content.Trim());
 		}
 	}
 }

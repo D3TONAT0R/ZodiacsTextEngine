@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using ZodiacsTextEngine.Parser;
 
 namespace ZodiacsTextEngine.Effects
 {
@@ -8,6 +9,12 @@ namespace ZodiacsTextEngine.Effects
 		{
 			TextEngine.Interface.Clear();
 			return Task.CompletedTask;
+		}
+
+		[EffectParser("CLEAR_OUTPUT")]
+		public static Effect Parse(EffectParseContext ctx)
+		{
+			return new ClearOutput();
 		}
 	}
 }

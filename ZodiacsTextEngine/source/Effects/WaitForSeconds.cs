@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using ZodiacsTextEngine.Parser;
 
 namespace ZodiacsTextEngine.Effects
 {
@@ -14,6 +16,12 @@ namespace ZodiacsTextEngine.Effects
 		public override async Task Execute(EffectGroup g)
 		{
 			await TextEngine.Interface.Wait((int)(delay * 1000));
+		}
+
+		[EffectParser("DELAY")]
+		public static WaitForSeconds Parse(EffectParseContext ctx)
+		{
+			return new WaitForSeconds(float.Parse(ctx.content.Trim()));
 		}
 	}
 }

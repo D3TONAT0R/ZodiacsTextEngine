@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using ZodiacsTextEngine.Effects;
 
-namespace ZodiacsTextEngine
+namespace ZodiacsTextEngine.Parser
 {
 	public static class RoomParser
 	{
@@ -36,6 +37,45 @@ namespace ZodiacsTextEngine
 		private const string END_CONDITION_MARKER = "ENDIF";
 		private const string ELSE_CONDITION_MARKER = "ELSE";
 		private const string COMMENT_MARKER = "//";
+
+		private static Dictionary<string, MethodInfo> effectParsers = new Dictionary<string, MethodInfo>();
+
+		static RoomParser()
+		{
+			//Initialize effect parsers
+			foreach(var type in typeof(TextEngine).Assembly.GetTypes())
+			{
+				//Find all methods with EffectParserAttribute
+				foreach(var method in type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance))
+				{
+					try
+					{
+						var attr = method.GetCustomAttribute<EffectParserAttribute>();
+						if(attr != null)
+						{
+							if(!typeof(Effect).IsAssignableFrom(method.ReturnType) && method.GetParameters().Select(p => p.ParameterType).SequenceEqual(new Type[] { typeof(EffectParseContext) }))
+							{
+								throw new InvalidOperationException($"Invalid method signature for effect parser '{method.Name}' in {method.DeclaringType.Name}.");
+							}
+							if(!method.IsStatic)
+							{
+								throw new InvalidOperationException($"Effect parser method '{method.Name}' in {method.DeclaringType.Name} must be static.");
+							}
+							var id = attr.identifier.ToUpper();
+							if(effectParsers.ContainsKey(id))
+							{
+								throw new InvalidOperationException($"Duplicate effect parser identifier '{id}' found in {method.DeclaringType.Name} and {effectParsers[id].DeclaringType.Name}.");
+							}
+							effectParsers[attr.identifier.ToUpper()] = method;
+						}
+					}
+					catch(Exception e)
+					{
+						TextEngine.Interface.LogError(e.Message);
+					}
+				}
+			}
+		}
 
 		public static Room Parse(string fileName, string content)
 		{
@@ -221,113 +261,34 @@ namespace ZodiacsTextEngine
 			//Count number of tabs to determine indent
 			int indent = 0;
 			while(ctx.lines[linePos][indent] == '\t') indent++;
-			if(keyword == "PLAIN_TEXT")
+			if(effectParsers.TryGetValue(keyword, out var method))
 			{
-				if(!string.IsNullOrWhiteSpace(content)) return new WriteText(content);
-				else
+				var attr = method.GetCustomAttribute<EffectParserAttribute>();
+				bool allowMultiline = attr.multiline;
+				var parseContext = new EffectParseContext(ctx, startLinePos);
+				if(allowMultiline)
 				{
-					List<string> textLines = GetTextLines(ctx, ref linePos, indent);
-					if(textLines.Count == 0) throw new FileParseException(ctx, startLinePos, "Text component does not contain any text");
-					return new WriteText(textLines.ToArray());
-				}
-			}
-			else if(keyword == "TEXT")
-			{
-				if(!string.IsNullOrWhiteSpace(content)) return new WriteRichText(ParseRichText(ctx, content, linePos));
-				else
-				{
-					int firstTextLinePos = linePos + 1;
-					List<string> textLines = GetTextLines(ctx, ref linePos, indent);
-					if(textLines.Count == 0) throw new FileParseException(ctx, startLinePos, "Text component does not contain any text");
-					return new WriteRichText(ParseRichText(ctx, string.Join("\n", textLines), firstTextLinePos));
-				}
-			}
-			else if(keyword == "GOTO")
-			{
-				return new GoToRoom(content.Split(' ')[0]);
-			}
-			else if(keyword == "WAIT")
-			{
-				return new WaitForAnyKey();
-			}
-			else if(keyword == "DELAY")
-			{
-				return new WaitForSeconds(float.Parse(content.Trim()));
-			}
-			else if(keyword == "SPACE")
-			{
-				string input = content.Trim();
-				if(!string.IsNullOrEmpty(input))
-				{
-					return new Space(int.Parse(input));
+					if(!string.IsNullOrWhiteSpace(content)) parseContext.content = content;
+					else parseContext.lines = GetTextLines(ctx, ref linePos, indent);
 				}
 				else
 				{
-					return new Space(1);
+					parseContext.content = content;
+				}
+				try
+				{
+					var effect = (Effect)method.Invoke(null, new object[] { parseContext });
+					return effect;
+				}
+				catch(Exception e)
+				{
+					throw e.InnerException ?? e;
 				}
 			}
-			else if(keyword == "FUNC")
+			else
 			{
-				var args = content.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
-				string funcId = args[0];
-				args.RemoveAt(0);
-				return new FunctionRef(funcId, args.ToArray());
+				throw new FileParseException(ctx, startLinePos, "Invalid keyword: " + keyword);
 			}
-			else if(keyword == "VAR_SET")
-			{
-				var args = content.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-				return new ModifyIntVariable(args[0], int.Parse(args[1]), false);
-			}
-			else if(keyword == "VAR_ADD")
-			{
-				var args = content.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-				return new ModifyIntVariable(args[0], int.Parse(args[1]), true);
-			}
-			else if(keyword == "SVAR_SET")
-			{
-				var args = content.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-				return new ModifyStringVariable(args[0], args[1], false);
-			}
-			else if(keyword == "SVAR_ADD")
-			{
-				var args = content.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-				return new ModifyStringVariable(args[0], args[1], true);
-			}
-			else if(keyword == "COLOR")
-			{
-				var args = content.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-				return new SetColor(ParseConsoleColor(ctx, args[0], linePos));
-			}
-			else if(keyword == "BACKGROUND")
-			{
-				var args = content.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-				return new SetBackgroundColor(ParseConsoleColor(ctx, args[0], linePos));
-			}
-			else if(keyword == "RESET_COLOR")
-			{
-				return new ResetColor();
-			}
-			else if(keyword == "CLEAR_OUTPUT")
-			{
-				return new ClearOutput();
-			}
-			else if(keyword == "TODO")
-			{
-				return new Todo(content);
-			}
-			else if(keyword == "BREAKPOINT")
-			{
-				return new Breakpoint();
-			}
-			else if(keyword == "GAME_OVER")
-			{
-				return new GameOver(content);
-			}
-			else if(keyword == "EXIT")
-			{
-				return new Exit();
-			}
-			else throw new FileParseException(ctx, startLinePos, "Invalid keyword: " + keyword);
 		}
 
 		private static List<string> GetTextLines(ParserContext ctx, ref int linePos, int indent)
@@ -432,129 +393,7 @@ namespace ZodiacsTextEngine
 			else throw new FileParseException(ctx, lineNumber, $"Invalid statement '{input}'");
 		}
 
-		private static RichText ParseRichText(ParserContext ctx, string text, int startLine)
-		{
-			ConsoleColor? foregroundColor = null;
-			ConsoleColor? backgroundColor = null;
-			var richText = new RichText();
-			//Find all matches of pattern <*>, with * being any character except space
-			MatchCollection matches = Regex.Matches(text, @"<[^ ]+?>");
-			int startIndex = 0;
-			for(int i = 0; i <= matches.Count; i++)
-			{
-				if(i < matches.Count)
-				{
-					var match = matches[i];
-					//Add the text before the match
-					if(match.Index > 0)
-					{
-						richText.AddComponent(new RichTextComponent(text.Substring(startIndex, match.Index - startIndex), foregroundColor, backgroundColor));
-					}
-					startIndex = match.Index + match.Length;
-					//Remove the brackets from the match
-					string matchText = match.Value.Substring(1, match.Value.Length - 2).ToLower();
-					//Get the type of the match (<color=*> or <bgcolor=*> or <clear>)
-					if(matchText.StartsWith("color="))
-					{
-						foregroundColor = ParseConsoleColor(ctx, matchText.Split('=')[1], startLine);
-					}
-					else if(matchText.StartsWith("bgcolor="))
-					{
-						backgroundColor = ParseConsoleColor(ctx, matchText.Split('=')[1], startLine);
-					}
-					else if(matchText == "clear")
-					{
-						foregroundColor = null;
-						backgroundColor = null;
-					}
-					else if(matchText.StartsWith("var="))
-					{
-						// <var=fuel> or <var=fuel*2.5> or <var=fuel*2.5@3> or <var=fuel@3>
-						// *2.5 = multiplier
-						// @3 = decimal places
-						var varData = matchText.Split('=')[1];
-						var varName = varData.Split(new char[] { '*', '@' })[0];
-
-						float multiplier = 1;
-						//Get the multiplier using a regex expression
-						Match multiplierMatch = Regex.Match(varData, @"\*(\d+(\.\d+)?)");
-						if(multiplierMatch.Success)
-						{
-							multiplier = float.Parse(multiplierMatch.Groups[1].Value);
-						}
-
-						string format = null;
-						//Get the decimal place count defined by @<number> if available
-						Match decimalsFormatMatch = Regex.Match(varData, @"@(\d+)");
-						if(decimalsFormatMatch.Success)
-						{
-							int decimals = int.Parse(decimalsFormatMatch.Groups[1].Value);
-							format = "F" + decimals; // Format for fixed-point notation with specified decimal places
-						}
-						else
-						{
-							//Get anything after a colon as the format
-							Match formatMatch = Regex.Match(varData, @":(.*)");
-							if(formatMatch.Success)
-							{
-								format = formatMatch.Groups[1].Value;
-							}
-						}
-
-						richText.AddComponent(new VariableComponent(varName, multiplier, format));
-					}
-					else if(matchText.StartsWith("svar="))
-					{
-						// <svar=name> or <svar=name@U> or <var=name@L>
-						// @U or @L = force upper or lower case
-						var varData = matchText.Split('=')[1];
-						var varName = varData.Split(new char[] { '@' })[0];
-
-						//Get the decimal place count defined by @<number> if available
-						Match caseMatch = Regex.Match(varData, @"@(\d+)");
-						StringVariableComponent.Case textCase = StringVariableComponent.Case.Unchanged;
-						if(caseMatch.Success)
-						{
-							var v = caseMatch.Groups[1].Value.ToUpper();
-							if(v == "U") textCase = StringVariableComponent.Case.Upper;
-							else if(v == "L") textCase = StringVariableComponent.Case.Lower;
-							else throw new FileParseException(ctx, startLine, $"Invalid case specifier: '{v}'");
-						}
-						richText.AddComponent(new StringVariableComponent(varName, null, textCase));
-					}
-					else if(matchText.StartsWith("func"))
-					{
-						var funcData = matchText.Split('=')[1];
-						//Get the function name before the first parentheses
-						var funcName = funcData.Split('(')[0];
-						//Get everything between parentheses as arguments
-						var argsMatch = Regex.Match(funcData, @"\((.*)\)");
-						string[] funcArgs;
-						if(argsMatch.Success)
-						{
-							funcArgs = argsMatch.Groups[1].Value.Split(',');
-						}
-						else
-						{
-							funcArgs = Array.Empty<string>();
-						}
-						richText.AddComponent(new FunctionComponent(funcName, funcArgs));
-					}
-					else throw new FileParseException(ctx, startLine, "Invalid rich text tag: " + matchText);
-				}
-				else
-				{
-					//Add the remaining text
-					if(startIndex < text.Length)
-					{
-						richText.AddComponent(new RichTextComponent(text.Substring(startIndex), foregroundColor, backgroundColor));
-					}
-				}
-			}
-			return richText;
-		}
-
-		private static ConsoleColor ParseConsoleColor(ParserContext ctx, string input, int linePos)
+		public static ConsoleColor ParseConsoleColor(ParserContext ctx, string input, int linePos)
 		{
 			switch(input.ToUpper())
 			{

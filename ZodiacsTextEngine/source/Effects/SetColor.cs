@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using ZodiacsTextEngine.Parser;
 
 namespace ZodiacsTextEngine.Effects
 {
@@ -16,6 +17,13 @@ namespace ZodiacsTextEngine.Effects
 		{
 			TextEngine.Interface.ForegroundColor = color;
 			return Task.CompletedTask;
+		}
+
+		[EffectParser("COLOR")]
+		public static SetColor Parse(EffectParseContext ctx)
+		{
+			var args = ctx.GetArguments();
+			return new SetColor(RoomParser.ParseConsoleColor(ctx.parserContext, args[0], ctx.startLinePos));
 		}
 	}
 }

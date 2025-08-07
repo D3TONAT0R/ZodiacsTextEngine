@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using ZodiacsTextEngine.Parser;
 
 namespace ZodiacsTextEngine.Effects
 {
@@ -14,6 +15,12 @@ namespace ZodiacsTextEngine.Effects
 		public override async Task Execute(EffectGroup g)
 		{
 			await TextEngine.Interface.OnGameOver(text);
+		}
+
+		[EffectParser("GAME_OVER")]
+		public static GameOver Parse(EffectParseContext ctx)
+		{
+			return new GameOver(ctx.content);
 		}
 	}
 }
