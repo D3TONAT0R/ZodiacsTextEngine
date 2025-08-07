@@ -1,18 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace ZodiacsTextEngine
 {
 	public static class Rooms
 	{
-
-		public static Dictionary<string, Room>.ValueCollection All => TextEngine.GameData.Rooms.Values;
-
-		public static void RegisterRoom(string name, Room room)
-		{
-			TextEngine.GameData.Rooms.Add(name, room);
-		}
-
 		public static Room GetRoom(string name)
 		{
 			return TextEngine.GameData.Rooms[name];
@@ -23,7 +14,7 @@ namespace ZodiacsTextEngine
 			return TextEngine.GameData.Rooms.ContainsKey(name);
 		}
 
-		public static void ValidateRooms(GameData gameData)
+		public static void Validate(GameData gameData)
 		{
 			bool headerPrinted = false;
 			foreach(var room in gameData.Rooms.Values)

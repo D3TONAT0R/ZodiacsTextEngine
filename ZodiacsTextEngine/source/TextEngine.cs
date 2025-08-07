@@ -43,7 +43,7 @@ namespace ZodiacsTextEngine
 				Interface.OnLoadError();
 				return;
 			}
-			Rooms.ValidateRooms(gameData);
+			Rooms.Validate(gameData);
 			var startRoom = gameData.StartRoom;
 			if(DebugMode)
 			{

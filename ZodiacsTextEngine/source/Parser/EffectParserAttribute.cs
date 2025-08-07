@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ZodiacsTextEngine.Parser
 {
@@ -13,6 +11,6 @@ namespace ZodiacsTextEngine.Parser
 		{
 			this.identifier = identifier;
 			this.multiline = multiline;
-		}	
+		}
 	}
 }

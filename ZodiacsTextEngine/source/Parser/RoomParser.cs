@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text.RegularExpressions;
 using ZodiacsTextEngine.Effects;
 
 namespace ZodiacsTextEngine.Parser
@@ -38,7 +37,7 @@ namespace ZodiacsTextEngine.Parser
 		private const string ELSE_CONDITION_MARKER = "ELSE";
 		private const string COMMENT_MARKER = "//";
 
-		private static Dictionary<string, MethodInfo> effectParsers = new Dictionary<string, MethodInfo>();
+		private static readonly Dictionary<string, MethodInfo> effectParsers = new Dictionary<string, MethodInfo>();
 
 		static RoomParser()
 		{

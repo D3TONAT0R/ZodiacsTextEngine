@@ -6,7 +6,7 @@ namespace ZodiacsTextEngine
 {
 	public class TextUtility
 	{
-		private static StringBuilder sb = new StringBuilder();
+		private static readonly StringBuilder sb = new StringBuilder();
 
 		public static int GetNextWordLength(string text, int start)
 		{
