@@ -1,0 +1,14 @@
+@ENTER
++TEXT
+You follow the path north, the trees growing denser. Suddenly, you spot a glint of metal in the underbrush. It's a rusty key. You pick it up and continue until the path ends at a locked gate.
++WAIT
++SPACE
++TEXT
+Do you want to try the key or return to the clearing?
+
+>USE KEY
++VAR_SET has_key 1
++GOTO ending_escape
+
+>RETURN
++GOTO start

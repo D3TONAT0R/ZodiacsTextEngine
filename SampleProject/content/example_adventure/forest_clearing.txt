@@ -1,0 +1,9 @@
+@ENTER
++TEXT
+You wander the forest for hours, but every path leads you back to the clearing. Exhausted, you sit down, realizing you may be trapped here unless you find another way.
++WAIT
++SPACE
+>TRY AGAIN
++GOTO start
+>GIVE UP
++GOTO ending_trapped

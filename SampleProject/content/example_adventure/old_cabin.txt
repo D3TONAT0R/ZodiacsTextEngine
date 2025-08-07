@@ -1,0 +1,28 @@
+@ENTER
++TEXT
+The old cabin creaks as you step inside. Dust motes dance in the sunlight. There's a locked chest in the corner and a window looking out to the forest.
++WAIT
++SPACE
++TEXT
+What will you do?
+
+>OPEN CHEST
+IF has_key == 1
+    +TEXT You use the rusty key to open the chest. Inside, you find a map showing a secret exit from the forest!
+    +WAIT
+    +GOTO ending_escape
+ELSE
+    +TEXT The chest is locked tight. You need a key.
+    +WAIT
+    +SPACE
+    +GOTO old_cabin
+ENDIF
+
+>LOOK WINDOW
++TEXT You see the forest clearing outside. It looks peaceful.
++WAIT
++SPACE
++GOTO old_cabin
+
+>LEAVE
++GOTO start

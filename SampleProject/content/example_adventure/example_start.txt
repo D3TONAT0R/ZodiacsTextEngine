@@ -1,0 +1,13 @@
+@ENTER
++TEXT
+You awaken in a quiet forest clearing, the morning sun filtering through the trees. You remember little of how you arrived here. There is a faint path leading north, and an old cabin to the east.
++WAIT
++SPACE
++TEXT
+What will you do?
+
+>NORTH
++GOTO hidden_path
+
+>EAST
++GOTO old_cabin
