@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using static System.Collections.Specialized.BitVector32;
 using static ZodiacsTextEngine.Functions;
 
 namespace ZodiacsTextEngine
@@ -50,7 +47,8 @@ namespace ZodiacsTextEngine
 
 		public void AddFunction(string id, Action action)
 		{
-			AddFunction(id, _ => {
+			AddFunction(id, _ =>
+			{
 				action.Invoke();
 				return Task.FromResult<string>(null);
 			});

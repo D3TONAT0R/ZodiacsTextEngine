@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using ZodiacsTextEngine.Effects;
-using TextWriter = ZodiacsTextEngine.Effects.TextWriter;
 
 namespace ZodiacsTextEngine
 {
@@ -86,10 +85,10 @@ namespace ZodiacsTextEngine
 			switch(keyword)
 			{
 				case StatementType.OnEnter:
-					group = new RoomEvent(room, "onEnter");
+					group = new EffectGroup(room, "onEnter");
 					break;
 				case StatementType.OnExit:
-					group = new RoomEvent(room, "onExit");
+					group = new EffectGroup(room, "onExit");
 					break;
 				case StatementType.Choice:
 					group = new Choice(room, string.Join(" ", args));
@@ -174,14 +173,13 @@ namespace ZodiacsTextEngine
 			{
 				throw new FileParseException(ctx, linePos, "Unclosed IF block encountered");
 			}
-			if(keyword == StatementType.OnEnter) room.onEnter = (RoomEvent)group;
-			else if(keyword == StatementType.OnExit) room.onExit = (RoomEvent)group;
+			if(keyword == StatementType.OnEnter) room.onEnter = group;
+			else if(keyword == StatementType.OnExit) room.onExit = group;
 			else if(keyword == StatementType.Choice)
 			{
 				var choice = (Choice)group;
 				if(choice.prompt == "!") room.incorrectChoice = choice;
 				else room.choices.Add((Choice)group);
-
 			}
 			return true;
 		}
@@ -225,23 +223,23 @@ namespace ZodiacsTextEngine
 			while(ctx.lines[linePos][indent] == '\t') indent++;
 			if(keyword == "PLAIN_TEXT")
 			{
-				if(!string.IsNullOrWhiteSpace(content)) return new TextWriter(content);
+				if(!string.IsNullOrWhiteSpace(content)) return new WriteText(content);
 				else
 				{
 					List<string> textLines = GetTextLines(ctx, ref linePos, indent);
 					if(textLines.Count == 0) throw new FileParseException(ctx, startLinePos, "Text component does not contain any text");
-					return new TextWriter(textLines.ToArray());
+					return new WriteText(textLines.ToArray());
 				}
 			}
 			else if(keyword == "TEXT")
 			{
-				if(!string.IsNullOrWhiteSpace(content)) return new RichTextWriter(ParseRichText(ctx, content, linePos));
+				if(!string.IsNullOrWhiteSpace(content)) return new WriteRichText(ParseRichText(ctx, content, linePos));
 				else
 				{
 					int firstTextLinePos = linePos + 1;
 					List<string> textLines = GetTextLines(ctx, ref linePos, indent);
 					if(textLines.Count == 0) throw new FileParseException(ctx, startLinePos, "Text component does not contain any text");
-					return new RichTextWriter(ParseRichText(ctx, string.Join("\n", textLines), firstTextLinePos));
+					return new WriteRichText(ParseRichText(ctx, string.Join("\n", textLines), firstTextLinePos));
 				}
 			}
 			else if(keyword == "GOTO")
@@ -324,6 +322,10 @@ namespace ZodiacsTextEngine
 			else if(keyword == "GAME_OVER")
 			{
 				return new GameOver(content);
+			}
+			else if(keyword == "EXIT")
+			{
+				return new Exit();
 			}
 			else throw new FileParseException(ctx, startLinePos, "Invalid keyword: " + keyword);
 		}

@@ -5,7 +5,7 @@ namespace ZodiacsTextEngine
 {
 	public static class Rooms
 	{
-		
+
 		public static Dictionary<string, Room>.ValueCollection All => TextEngine.GameData.Rooms.Values;
 
 		public static void RegisterRoom(string name, Room room)

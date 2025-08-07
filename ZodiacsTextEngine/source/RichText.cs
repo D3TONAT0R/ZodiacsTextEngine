@@ -72,7 +72,7 @@ namespace ZodiacsTextEngine
 		public override Task Write(ConsoleColor baseForegroundColor, ConsoleColor baseBackgroundColor)
 		{
 			var text = (GameSession.Current.variables.GetString(variableName) ?? defaultValue) ?? "";
-			switch (textCase)
+			switch(textCase)
 			{
 				case Case.Upper:
 					text = text.ToUpperInvariant();

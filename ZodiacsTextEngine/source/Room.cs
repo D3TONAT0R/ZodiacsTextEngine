@@ -8,8 +8,8 @@ namespace ZodiacsTextEngine
 	{
 		public readonly string name;
 
-		public RoomEvent onEnter;
-		public RoomEvent onExit;
+		public EffectGroup onEnter;
+		public EffectGroup onExit;
 		public List<Choice> choices = new List<Choice>();
 		public Choice incorrectChoice;
 

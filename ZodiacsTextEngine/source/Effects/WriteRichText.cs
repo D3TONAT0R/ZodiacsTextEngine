@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 
 namespace ZodiacsTextEngine.Effects
 {
-	public class RichTextWriter : Effect, ITextEffect
+	public class WriteRichText : Effect, ITextEffect
 	{
 		public RichText text;
 
-		public RichTextWriter(RichText text)
+		public WriteRichText(RichText text)
 		{
 			this.text = text;
 		}
