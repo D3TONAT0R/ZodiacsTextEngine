@@ -20,3 +20,6 @@ ELSE
 		+TEXT You are a regular traveler.
 	ENDIF
 ENDIF
+
++WAIT
++EXIT
