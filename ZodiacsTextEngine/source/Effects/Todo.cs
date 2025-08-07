@@ -1,0 +1,26 @@
+﻿using System;
+using System.Threading.Tasks;
+
+namespace ZodiacsTextEngine.Effects
+{
+	public class Todo : Effect
+	{
+		public string info;
+
+		public Todo(string info)
+		{
+			this.info = info;
+		}
+
+		public override Task Execute(EffectGroup g)
+		{
+			TextEngine.Interface.Text("TODO: " + info, ConsoleColor.Magenta);
+			return Task.CompletedTask;
+		}
+
+		public override LogMessage Validate(string site)
+		{
+			return LogMessage.Warning(site, "TODO marker found: " + info);
+		}
+	}
+}
