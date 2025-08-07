@@ -4,7 +4,7 @@ You follow the path north, the trees growing denser. Suddenly, you spot a glint 
 +WAIT
 +SPACE
 +TEXT
-Do you want to try the key or return to the clearing?
+Do you want to <color=yellow>USE KEY<clear> or <color=yellow>RETURN<clear> to the clearing?
 
 >USE KEY
 +VAR_SET has_key 1

@@ -1,6 +1,6 @@
 @ENTER
 +TEXT
-You awaken in a quiet forest clearing, the morning sun filtering through the trees. You remember little of how you arrived here. There is a faint path leading north, and an old cabin to the east.
+You awaken in a quiet forest clearing, the morning sun filtering through the trees. You remember little of how you arrived here. There is a faint path leading <color=yellow>NORTH<clear>, and an old cabin to the <color=yellow>EAST<clear>.
 +WAIT
 +SPACE
 +TEXT

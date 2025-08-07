@@ -4,7 +4,7 @@ The old cabin creaks as you step inside. Dust motes dance in the sunlight. There
 +WAIT
 +SPACE
 +TEXT
-What will you do?
+What will you do? You can try to <color=yellow>OPEN CHEST<clear>, <color=yellow>LOOK WINDOW<clear>, or <color=yellow>LEAVE<clear>.
 
 >OPEN CHEST
 IF has_key == 1

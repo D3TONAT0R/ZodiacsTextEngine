@@ -1,6 +1,6 @@
 @ENTER
 +TEXT
-You remain trapped in the forest, unable to find a way out. Perhaps next time you'll discover the secret.
+You remain trapped in the forest, unable to find a way out. Perhaps next time you'll discover the secret. (You chose <color=yellow>GIVE UP<clear>.)
 +WAIT
 +TEXT
 The End.
