@@ -399,3 +399,5 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/SampleProject/content/sailing_zodiacs
+/SampleProject/content/testing

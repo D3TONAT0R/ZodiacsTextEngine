@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ZodiacsTextEngine
 {
@@ -6,18 +7,29 @@ namespace ZodiacsTextEngine
 	{
 		public enum ConditionalOperator
 		{
+			Equal,
+			NotEqual,
+
+			//Integer specific operators
 			LessThan,
 			LessThanOrEqual,
-			Equal,
 			GreaterThanOrEqual,
 			GreaterThan,
-			NotEqual
+
+			//String specific operators
+			StringContains,
+			StringNotContains,
+			StringStartsWith,
+			StringNotStartsWith,
+			StringEndsWith,
+			StringNotEndsWith
 		}
 
 		public static bool HasFixedVariableNames => fixedVariableNames != null;
 
 		public static List<string> fixedVariableNames = null;
-		private Dictionary<string, int> data;
+		private readonly Dictionary<string, int> ints = new Dictionary<string, int>();
+		private readonly Dictionary<string, string> strings = new Dictionary<string, string>();
 
 		public static void Init(List<string> fixedVariableNames)
 		{
@@ -26,46 +38,62 @@ namespace ZodiacsTextEngine
 
 		public Variables()
 		{
-			data = new Dictionary<string, int>();
+
 		}
 
 		public void Clear()
 		{
-			data.Clear();
+			ints.Clear();
+			strings.Clear();
 		}
 
-		public void Set(string name, int value)
+		public int GetInt(string name)
 		{
-			data[name] = value;
+			if(ints.TryGetValue(name, out var value)) return value;
+			return 0;
 		}
 
-		public int Get(string name)
+		public string GetString(string name)
 		{
-			if(data.ContainsKey(name))
-			{
-				return data[name];
-			}
-			else
-			{
-				return 0;
-			}
+			if(strings.TryGetValue(name, out var value)) return value;
+			return "";
 		}
 
-		public void Add(string name, int value)
+		public bool HasInt(string name)
 		{
-			if(data.ContainsKey(name))
-			{
-				data[name] += value;
-			}
-			else
-			{
-				data[name] = value;
-			}
+			return ints.ContainsKey(name);
 		}
 
-		public bool Check(string name, ConditionalOperator operation, int value)
+		public bool HasString(string name)
 		{
-			var variableValue = Get(name);
+			return strings.ContainsKey(name);
+		}
+
+		public void SetInt(string name, int value)
+		{
+			ints[name] = value;
+		}
+
+		public void SetString(string name, string value)
+		{
+			strings[name] = value;
+		}
+
+		public void AddInt(string name, int value)
+		{
+			if(ints.ContainsKey(name)) ints[name] += value;
+			else ints[name] = value;
+		}
+
+		public void AddString(string name, string value)
+		{
+			if(strings.ContainsKey(name)) strings[name] += value;
+			else strings[name] = value;
+		}
+
+		public bool CheckInt(string varName, ConditionalOperator operation, int value)
+		{
+			var variableValue = GetInt(varName);
 			switch(operation)
 			{
 				case ConditionalOperator.LessThan:
@@ -81,7 +109,35 @@ namespace ZodiacsTextEngine
 				case ConditionalOperator.NotEqual:
 					return variableValue != value;
 				default:
-					return true;
+					return false;
+			}
+		}
+
+		public bool CheckString(string varName, string value, ConditionalOperator comparison, bool ignoreCase = true)
+		{
+			string varValue = GetString(varName) ?? "";
+			value = value ?? "";
+			var sc = ignoreCase ? System.StringComparison.OrdinalIgnoreCase : System.StringComparison.Ordinal;
+			switch(comparison)
+			{
+				case ConditionalOperator.Equal:
+					return varValue.Equals(value, sc);
+				case ConditionalOperator.NotEqual:
+					return !varValue.Equals(value, sc);
+				case ConditionalOperator.StringContains:
+					return varValue.IndexOf(value, sc) >= 0;
+				case ConditionalOperator.StringNotContains:
+					return varValue.IndexOf(value, sc) < 0;
+				case ConditionalOperator.StringStartsWith:
+					return varValue.StartsWith(value, sc);
+				case ConditionalOperator.StringNotStartsWith:
+					return !varValue.StartsWith(value, sc);
+				case ConditionalOperator.StringEndsWith:
+					return varValue.EndsWith(value, sc);
+				case ConditionalOperator.StringNotEndsWith:
+					return !varValue.EndsWith(value, sc);
+				default:
+					return false;
 			}
 		}
 

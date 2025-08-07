@@ -284,13 +284,13 @@ namespace ZodiacsTextEngine
 		}
 	}
 
-	public class ModifyVariable : Effect
+	public class ModifyIntVariable : Effect
 	{
 		public string variableName;
 		public int value;
 		public bool additive;
 
-		public ModifyVariable(string variableName, int value, bool additive)
+		public ModifyIntVariable(string variableName, int value, bool additive)
 		{
 			this.variableName = variableName;
 			this.value = value;
@@ -302,11 +302,48 @@ namespace ZodiacsTextEngine
 			var store = GameSession.Current.variables;
 			if(additive)
 			{
-				store.Add(variableName, value);
+				store.AddInt(variableName, value);
 			}
 			else
 			{
-				store.Set(variableName, value);
+				store.SetInt(variableName, value);
+			}
+			return Task.CompletedTask;
+		}
+
+		public override LogMessage Validate(string site)
+		{
+			if(!Variables.IsDefined(variableName))
+			{
+				return LogMessage.Warning(site, $"Undefined variable '{variableName}'");
+			}
+			return base.Validate(site);
+		}
+	}
+
+	public class ModifyStringVariable : Effect
+	{
+		public string variableName;
+		public string value;
+		public bool additive;
+
+		public ModifyStringVariable(string variableName, string value, bool additive)
+		{
+			this.variableName = variableName;
+			this.value = value;
+			this.additive = additive;
+		}
+
+		public override Task Execute(EffectGroup g)
+		{
+			var store = GameSession.Current.variables;
+			if(additive)
+			{
+				store.AddString(variableName, value);
+			}
+			else
+			{
+				store.SetString(variableName, value);
 			}
 			return Task.CompletedTask;
 		}

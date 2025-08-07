@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy &quot;$(ProjectDir)content&quot; &quot;$(OutDir)content&quot; /E /I /Y" />
+    <Exec Command="rmdir /S /Q &quot;$(OutDir)content&quot;&#xD;&#xA;xcopy &quot;$(ProjectDir)content&quot; &quot;$(OutDir)content&quot; /E /I /Y" />
   </Target>
 
   <ItemGroup>

@@ -1,4 +1,2 @@
-@ENTER
-+TEXT
-You enter a mysterious cave.
-<color=blue>The walls<clear> are covered in glowing runes.
+﻿@ENTER
++FUNC goto_prompt

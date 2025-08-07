@@ -36,7 +36,6 @@ namespace ZodiacsTextEngine
 		private const string ELSE_CONDITION_MARKER = "ELSE";
 		private const string COMMENT_MARKER = "//";
 
-
 		public static Room Parse(string fileName, string content)
 		{
 			var name = Path.GetFileNameWithoutExtension(fileName);
@@ -188,10 +187,9 @@ namespace ZodiacsTextEngine
 		private static Condition ParseCondition(ParserContext ctx, ref int linePos)
 		{
 			var line = ctx.lines[linePos].TrimStart();
-			var args = line.Substring(CONDITION_MARKER.Length).Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+			var args = line.Substring(CONDITION_MARKER.Length).Split(new char[] { ' ' }, 3, StringSplitOptions.RemoveEmptyEntries);
 			if(args.Length < 3) throw new FileParseException(ctx, linePos, "Not enough arguments for IF statement (3 required)");
-			else if(args.Length > 3) throw new FileParseException(ctx, linePos, "Too many arguments for IF statement (3 required)");
-			return new Condition(args[0], ParseConditionalOperator(ctx, linePos, args[1]), int.Parse(args[2]));
+			return new Condition(args[0], ParseConditionalOperator(ctx, linePos, args[1]), args[2]);
 		}
 
 		private static Variables.ConditionalOperator ParseConditionalOperator(ParserContext ctx, int lineIndex, string input)
@@ -204,6 +202,12 @@ namespace ZodiacsTextEngine
 				case ">=": return Variables.ConditionalOperator.GreaterThanOrEqual;
 				case ">": return Variables.ConditionalOperator.GreaterThan;
 				case "!=": return Variables.ConditionalOperator.NotEqual;
+				case "**": return Variables.ConditionalOperator.StringContains;
+				case "!**": return Variables.ConditionalOperator.StringNotContains;
+				case ".*": return Variables.ConditionalOperator.StringStartsWith;
+				case "!.*": return Variables.ConditionalOperator.StringNotStartsWith;
+				case "*.": return Variables.ConditionalOperator.StringEndsWith;
+				case "!*.": return Variables.ConditionalOperator.StringNotEndsWith;
 				default: throw new FileParseException(ctx, lineIndex, "Invalid conditional operator: " + input);
 			}
 		}
@@ -272,12 +276,22 @@ namespace ZodiacsTextEngine
 			else if(keyword == "VAR_SET")
 			{
 				var args = content.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-				return new ModifyVariable(args[0], int.Parse(args[1]), false);
+				return new ModifyIntVariable(args[0], int.Parse(args[1]), false);
 			}
 			else if(keyword == "VAR_ADD")
 			{
 				var args = content.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-				return new ModifyVariable(args[0], int.Parse(args[1]), true);
+				return new ModifyIntVariable(args[0], int.Parse(args[1]), true);
+			}
+			else if(keyword == "SVAR_SET")
+			{
+				var args = content.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+				return new ModifyStringVariable(args[0], args[1], false);
+			}
+			else if(keyword == "SVAR_ADD")
+			{
+				var args = content.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+				return new ModifyStringVariable(args[0], args[1], true);
 			}
 			else if(keyword == "COLOR")
 			{
@@ -449,10 +463,6 @@ namespace ZodiacsTextEngine
 						foregroundColor = null;
 						backgroundColor = null;
 					}
-					else if(matchText == "name")
-					{
-						richText.AddComponent(new PlayerNameComponent());
-					}
 					else if(matchText.StartsWith("var="))
 					{
 						// <var=fuel> or <var=fuel*2.5> or <var=fuel*2.5@3> or <var=fuel@3>
@@ -470,14 +480,43 @@ namespace ZodiacsTextEngine
 						}
 
 						string format = null;
-						//Get anything after a colon as the format
-						Match formatMatch = Regex.Match(varData, @":(.*)");
-						if(formatMatch.Success)
+						//Get the decimal place count defined by @<number> if available
+						Match decimalsFormatMatch = Regex.Match(varData, @"@(\d+)");
+						if(decimalsFormatMatch.Success)
 						{
-							format = formatMatch.Groups[1].Value;
+							int decimals = int.Parse(decimalsFormatMatch.Groups[1].Value);
+							format = "F" + decimals; // Format for fixed-point notation with specified decimal places
+						}
+						else
+						{
+							//Get anything after a colon as the format
+							Match formatMatch = Regex.Match(varData, @":(.*)");
+							if(formatMatch.Success)
+							{
+								format = formatMatch.Groups[1].Value;
+							}
 						}
 
 						richText.AddComponent(new VariableComponent(varName, multiplier, format));
+					}
+					else if(matchText.StartsWith("svar="))
+					{
+						// <svar=name> or <svar=name@U> or <var=name@L>
+						// @U or @L = force upper or lower case
+						var varData = matchText.Split('=')[1];
+						var varName = varData.Split(new char[] { '@' })[0];
+
+						//Get the decimal place count defined by @<number> if available
+						Match caseMatch = Regex.Match(varData, @"@(\d+)");
+						StringVariableComponent.Case textCase = StringVariableComponent.Case.Unchanged;
+						if(caseMatch.Success)
+						{
+							var v = caseMatch.Groups[1].Value.ToUpper();
+							if(v == "U") textCase = StringVariableComponent.Case.Upper;
+							else if(v == "L") textCase = StringVariableComponent.Case.Lower;
+							else throw new FileParseException(ctx, startLine, $"Invalid case specifier: '{v}'");
+						}
+						richText.AddComponent(new StringVariableComponent(varName, null, textCase));
 					}
 					else if(matchText.StartsWith("func"))
 					{
@@ -551,6 +590,7 @@ namespace ZodiacsTextEngine
 			lineNumber = lineIndex + 1;
 			this.message = message;
 			line = lineIndex >= 0 && lineIndex < ctx.lines.Length ? ctx.lines[lineIndex].TrimEnd() : "";
+			if(line.Length > 50) line = line.Substring(0, 47) + "...";
 		}
 	}
 }

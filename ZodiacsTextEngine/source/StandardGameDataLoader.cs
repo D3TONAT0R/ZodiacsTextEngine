@@ -34,7 +34,11 @@ namespace ZodiacsTextEngine
 					}
 					catch(Exception e)
 					{
-						if(DebugMode) Interface.LogError("Failed to load room file: " + e.Message);
+						if(DebugMode)
+						{
+							Interface.LogError("Failed to load room file: " + e.Message);
+							Interface.VerticalSpace();
+						}
 						else throw;
 					}
 				}
@@ -60,7 +64,11 @@ namespace ZodiacsTextEngine
 					}
 					catch(Exception e)
 					{
-						if(DebugMode) Interface.LogError("Failed to load variable file: " + e.Message);
+						if(DebugMode)
+						{
+							Interface.LogError("Failed to load variable file: " + e.Message);
+							Interface.VerticalSpace();
+						}
 						else throw;
 					}
 				}

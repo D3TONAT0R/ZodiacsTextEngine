@@ -10,8 +10,6 @@ namespace ZodiacsTextEngine
 		public Variables variables = new Variables();
 		public Room currentRoom = null;
 
-		public string playerName;
-
 		private GameSession()
 		{
 

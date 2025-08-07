@@ -16,9 +16,19 @@ namespace SampleProject
 				base.LoadContent(ref success);
 
 				//Request player name
-				AddFunction("get_player_name", async _ =>
+				AddFunction("prompt_player_name", async _ =>
 				{
-					GameSession.Current.playerName = await TextEngine.Interface.ReadInput();
+					var name = await TextEngine.Interface.ReadInput();
+					GameSession.Current.variables.SetString("player_name", name);
+					return null;
+				});
+
+				//Quick jump to room
+				AddFunction("goto_prompt", async _ =>
+				{
+					TextEngine.Interface.Write("Go to room: ", true);
+					var nextRoomName = await TextEngine.Interface.ReadInput();
+					await GameSession.Current.GoToRoom(nextRoomName);
 					return null;
 				});
 			}

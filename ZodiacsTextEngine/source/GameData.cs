@@ -25,7 +25,7 @@ namespace ZodiacsTextEngine
 				}
 				else
 				{
-					throw new NullReferenceException($"Could not find start room $'{StartRoomName}'.");
+					throw new NullReferenceException($"Could not find start room '{StartRoomName}'.");
 				}
 			}
 		}

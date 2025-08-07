@@ -26,20 +26,6 @@ namespace ZodiacsTextEngine
 		}
 	}
 
-	public class PlayerNameComponent : RichTextComponent
-	{
-		public PlayerNameComponent() : base(null)
-		{
-
-		}
-
-		public override Task Write(ConsoleColor baseForegroundColor, ConsoleColor baseBackgroundColor)
-		{
-			TextEngine.Interface.Write(GameSession.Current.playerName, false);
-			return Task.CompletedTask;
-		}
-	}
-
 	public class VariableComponent : RichTextComponent
 	{
 		public string variableName;
@@ -56,10 +42,46 @@ namespace ZodiacsTextEngine
 		public override Task Write(ConsoleColor baseForegroundColor, ConsoleColor baseBackgroundColor)
 		{
 			//Get the value of the variable and multiply it by the multiplier, with up to 2 decimal places
-			float variable = GameSession.Current.variables.Get(variableName);
+			float variable = GameSession.Current.variables.GetInt(variableName);
 			//Get value as a string with the given format
 			string value = (variable * multiplier).ToString(format ?? "0.##");
 			TextEngine.Interface.Write(value, false);
+			return Task.CompletedTask;
+		}
+	}
+
+	public class StringVariableComponent : RichTextComponent
+	{
+		public enum Case
+		{
+			Unchanged,
+			Upper,
+			Lower
+		}
+
+		public string variableName;
+		public string defaultValue;
+		public Case textCase;
+
+		public StringVariableComponent(string variableName, string defaultValue = null, Case textCase = Case.Unchanged) : base(null)
+		{
+			this.variableName = variableName;
+			this.textCase = textCase;
+		}
+
+		public override Task Write(ConsoleColor baseForegroundColor, ConsoleColor baseBackgroundColor)
+		{
+			var text = (GameSession.Current.variables.GetString(variableName) ?? defaultValue) ?? "";
+			switch (textCase)
+			{
+				case Case.Upper:
+					text = text.ToUpperInvariant();
+					break;
+				case Case.Lower:
+					text = text.ToLowerInvariant();
+					break;
+			}
+			TextEngine.Interface.Write(text, false);
 			return Task.CompletedTask;
 		}
 	}

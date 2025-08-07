@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
+using static System.Collections.Specialized.BitVector32;
 using static ZodiacsTextEngine.Functions;
 
 namespace ZodiacsTextEngine
@@ -39,6 +41,19 @@ namespace ZodiacsTextEngine
 			if(id.Contains(" ")) throw new ArgumentException($"Function ids cannot contain whitespaces");
 			if(gameData.Functions.ContainsKey(id)) throw new ArgumentException($"A function with id '{id}' already exists.");
 			gameData.Functions.Add(id, func);
+		}
+
+		public void AddFunction(string id, Func<string> func)
+		{
+			AddFunction(id, _ => Task.FromResult(func.Invoke()));
+		}
+
+		public void AddFunction(string id, Action action)
+		{
+			AddFunction(id, _ => {
+				action.Invoke();
+				return Task.FromResult<string>(null);
+			});
 		}
 	}
 }
