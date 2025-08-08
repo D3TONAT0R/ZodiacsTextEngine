@@ -1,0 +1,7 @@
+@ENTER
++TEXT
+You step into the treasure room, gold and jewels glittering in the torchlight. You have found the mansion's secret and can now leave rich beyond your wildest dreams!
++WAIT
++TEXT
+Congratulations! You have found the treasure and escaped the Mystery Mansion.
++GAME_OVER

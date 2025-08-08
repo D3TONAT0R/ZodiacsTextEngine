@@ -1,0 +1,27 @@
+@ENTER
++TEXT
+The dining room is set for a feast, but everything is covered in dust. You see a <color=yellow>KEY<clear> glinting under a plate. There is a door to the <color=yellow>BASEMENT<clear> and a way back to the <color=yellow>ENTRANCE HALL<clear>.
++WAIT
++SPACE
++TEXT
+What will you do?
+
+>TAKE KEY
+IF has_key == 0
+    +VAR_SET has_key 1
+    +TEXT You take the key. It might be useful.
+    +WAIT
+    +SPACE
+    +GOTO dining_room
+ELSE
+    +TEXT You already have the key.
+    +WAIT
+    +SPACE
+    +GOTO dining_room
+ENDIF
+
+>BASEMENT
++GOTO basement
+
+>ENTRANCE HALL
++GOTO entrance_hall

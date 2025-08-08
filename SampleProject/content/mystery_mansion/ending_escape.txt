@@ -1,0 +1,11 @@
+@ENTER
++TEXT
+You try to leave, but the doors slam shut behind you. The mansion will not let you go until its secrets are uncovered. Will you <color=yellow>TRY AGAIN<clear> or <color=yellow>GIVE UP<clear>?
++WAIT
++SPACE
+
+>TRY AGAIN
++GOTO entrance_hall
+
+>GIVE UP
++GOTO ending_trapped

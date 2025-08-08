@@ -1,0 +1,7 @@
+@ENTER
++TEXT
+You wander the mansion endlessly, never finding a way out. The secrets remain hidden, and you are trapped forever in the Mystery Mansion.
++WAIT
++TEXT
+The End.
++GAME_OVER

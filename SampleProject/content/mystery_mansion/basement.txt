@@ -1,0 +1,16 @@
+@ENTER
++TEXT
+The basement is cold and damp. You hear faint whispers. There is a <color=yellow>CHEST<clear> in the corner and stairs back to the <color=yellow>DINING ROOM<clear>.
++WAIT
++SPACE
++TEXT
+What will you do?
+
+>OPEN CHEST
++TEXT The chest is empty, but you feel a chill run down your spine. Maybe you should leave.
++WAIT
++SPACE
++GOTO basement
+
+>DINING ROOM
++GOTO dining_room

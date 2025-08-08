@@ -1,0 +1,32 @@
+@ENTER
++TEXT
+The library is filled with ancient books. A candle flickers on a desk. You notice a suspicious-looking <color=yellow>BOOKSHELF<clear> and a dusty <color=yellow>DIARY<clear> on the table. You can return to the <color=yellow>ENTRANCE HALL<clear>.
++TEXT
+What will you do?
+
+>READ DIARY
++TEXT The diary mentions a secret passage behind the bookshelf and a key hidden in the dining room.
++GOTO library
+
+>SEARCH BOOKSHELF
+IF has_key == 1
+    +TEXT You unlock a hidden latch and reveal a secret passage!
+    +WAIT
+    +SPACE
+    +TEXT
+    The bookshelf slides aside, revealing a <color=yellow>SECRET PASSAGE<clear>. You can also return to the <color=yellow>ENTRANCE HALL<clear>.
+    +TEXT
+    What will you do?
+ELSE
+    +TEXT The bookshelf won't budge. Maybe you need a key.
+ENDIF
+
+>ENTRANCE HALL
++GOTO entrance_hall
+
+
+>SECRET PASSAGE
++GOTO secret_passage
+
+>ENTRANCE HALL
++GOTO entrance_hall

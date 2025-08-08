@@ -1,0 +1,19 @@
+@ENTER
++TEXT
+You step into the grand entrance hall. Dusty portraits line the walls. There are doors to the <color=yellow>LIBRARY<clear> and <color=yellow>DINING ROOM<clear>. A staircase leads up to the <color=yellow>ATTIC<clear>.
++WAIT
++SPACE
++TEXT
+What will you do?
+
+>LIBRARY
++GOTO library
+
+>DINING ROOM
++GOTO dining_room
+
+>ATTIC
++GOTO attic
+
+>LEAVE
++GOTO start

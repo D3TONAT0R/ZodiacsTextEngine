@@ -1,2 +1,2 @@
 ﻿@ENTER
-+FUNC goto_prompt
++GOTO mansion_start

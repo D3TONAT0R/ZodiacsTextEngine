@@ -1,0 +1,22 @@
+@ENTER
++TEXT
+You climb into the attic. Cobwebs hang from the beams. There is an old <color=yellow>TRUNK<clear> and a window overlooking the <color=yellow>GARDEN<clear>. You can go back to the <color=yellow>ENTRANCE HALL<clear>.
++WAIT
++SPACE
++TEXT
+What will you do?
+
+>OPEN TRUNK
++TEXT The trunk contains only moth-eaten clothes. Nothing of interest here.
++WAIT
++SPACE
++GOTO attic
+
+>LOOK WINDOW
++TEXT You see the overgrown garden below. It looks peaceful.
++WAIT
++SPACE
++GOTO attic
+
+>ENTRANCE HALL
++GOTO entrance_hall

@@ -1,0 +1,16 @@
+@ENTER
++TEXT
+The garden is wild and overgrown. You see a <color=yellow>GATE<clear> leading out and a path back to the <color=yellow>ENTRANCE HALL<clear>.
++WAIT
++SPACE
++TEXT
+What will you do?
+
+>OPEN GATE
++TEXT The gate is locked and rusted shut. You cannot leave this way.
++WAIT
++SPACE
++GOTO garden
+
+>ENTRANCE HALL
++GOTO entrance_hall

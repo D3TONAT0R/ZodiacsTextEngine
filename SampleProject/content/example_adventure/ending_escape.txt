@@ -1,7 +1,0 @@
-@ENTER
-+TEXT
-You use the key to unlock the gate and step out of the forest. Freedom at last! The sun feels warm on your face as you walk towards a new adventure.
-+WAIT
-+TEXT
-Congratulations! You have escaped the forest.
-+GAME_OVER
