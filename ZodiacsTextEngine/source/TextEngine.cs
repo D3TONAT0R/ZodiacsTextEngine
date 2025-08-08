@@ -83,7 +83,7 @@ namespace ZodiacsTextEngine
 		{
 			Choice choice = await Interface.RequestChoice(GameSession.Current.currentRoom);
 			if(choice == null) throw new NullReferenceException("Null choice was returned.");
-			Interface.Write("", true);
+			//Interface.Write("", true);
 			await choice.Execute();
 		}
 	}

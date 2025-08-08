@@ -86,6 +86,7 @@ namespace ZodiacsTextEngine
 				}
 			}
 			while(choice == null);
+			Console.WriteLine();
 
 			return choice;
 		}
