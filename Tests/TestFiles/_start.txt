@@ -1,0 +1,6 @@
+@ENTER
++TEXT
+Test start
+
+>TEST_ROOM
++GOTO test_room

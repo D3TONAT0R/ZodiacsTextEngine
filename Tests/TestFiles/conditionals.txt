@@ -1,0 +1,76 @@
+@ENTER
++TEXT x is <var=x>
+
+//Check if greather than 5
+IF x > 5
+	+TEXT >5
+ELSE
+	+TEXT !>5
+ENDIF
+
+//Check if not equal to 7
+IF x != 7
+	+TEXT !=7
+ELSE
+	+TEXT ==7
+ENDIF
+
+IF x == 1
+	+TEXT 1
+ELSE
+	IF x == 0
+		+TEXT 0
+	ELSE
+		IF x < 0
+			+TEXT <0
+		ELSE
+			+TEXT >1
+		ENDIF
+	ENDIF
+ENDIF
+
+
+
+>-2
++VAR_SET x -2
++RETURN
+
+>-1
++VAR_SET x -1
++RETURN
+
+>0
++VAR_SET x 0
++RETURN
+
+>1
++VAR_SET x 1
++RETURN
+
+>2
++VAR_SET x 2
++RETURN
+
+>3
++VAR_SET x 3
++RETURN
+
+>4
++VAR_SET x 4
++RETURN
+
+>5
++VAR_SET x 5
++RETURN
+
+>6
++VAR_SET x 6
++RETURN
+
+>7
++VAR_SET x 7
++RETURN
+
+>8
++VAR_SET x 8
++RETURN

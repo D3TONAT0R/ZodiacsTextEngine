@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZodiacsTextEngine", "Zodiac
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleProject", "SampleProject\SampleProject.csproj", "{F634C351-B3D9-42F5-A95B-B0B39A2F433A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{8F7121E9-7A7A-43ED-B773-DE1C3F4C6785}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{F634C351-B3D9-42F5-A95B-B0B39A2F433A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F634C351-B3D9-42F5-A95B-B0B39A2F433A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F634C351-B3D9-42F5-A95B-B0B39A2F433A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F7121E9-7A7A-43ED-B773-DE1C3F4C6785}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F7121E9-7A7A-43ED-B773-DE1C3F4C6785}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F7121E9-7A7A-43ED-B773-DE1C3F4C6785}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F7121E9-7A7A-43ED-B773-DE1C3F4C6785}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
