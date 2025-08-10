@@ -120,6 +120,7 @@ code, pre, code-block {
     color: var(--code-color);
     border-radius: var(--radius);
     font-family: 'Fira Mono', 'Consolas', monospace;
+    tab-size: 4;
 }
 
 code {
@@ -147,6 +148,9 @@ code-block {
         position: relative;
         padding-left: 3em;
         white-space: pre;
+        word-wrap: break-word;
+        text-wrap: wrap;
+        line-height: 1;
     }
     
     li::before {

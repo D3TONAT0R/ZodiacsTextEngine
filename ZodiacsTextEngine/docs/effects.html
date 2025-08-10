@@ -220,13 +220,13 @@
             <li>+VAR_ADD coins 3</li>
             <li>+TEXT You now have &lt;var=coins&gt; coins.</li>
             <li>IF coins > 5</li>
-            <li> +TEXT You have enough coins to buy a potion (costs 5 coins).</li>
-            <li> +TEXT You buy a potion.</li>
-            <li> +VAR_ADD coins -5</li>
-            <li> +VAR_ADD potions 1</li>
-            <li> +TEXT You now have &lt;var=coins&gt; coins and &lt;var=potions&gt; potions.</li>
+            <li>&#9;+TEXT You have enough coins to buy a potion (costs 5 coins).</li>
+            <li>&#9;+TEXT You buy a potion.</li>
+            <li>&#9;+VAR_ADD coins -5</li>
+            <li>&#9;+VAR_ADD potions 1</li>
+            <li>&#9;+TEXT You now have &lt;var=coins&gt; coins and &lt;var=potions&gt; potion(s).</li>
             <li>ELSE</li>
-            <li> +TEXT You don't have enough coins to buy a potion.</li>
+            <li>&#9;+TEXT You don't have enough coins to buy a potion.</li>
             <li>ENDIF</li>
         </code-block>
         <output-window>
@@ -235,7 +235,7 @@
             You now have 10 coins.<br>
             You have enough coins to buy a potion (costs 5 coins).<br>
             You buy a potion.<br>
-            You now have 5 coins and 1 potion.
+            You now have 5 coins and 1 potion(s).
             <prompt>_</prompt>
         </output-window>
     </div>
@@ -247,17 +247,18 @@
             This effect allows you to modify the value of a string variable.<br>
             String variables can be used to store text information, such as player names or other inputs.<br>
             They can be checked in <code>IF/ELSE</code> blocks to control the flow of the game.<br>
+            Content without double quotes gets interpreted as a variable name.<br>
             NOTE: String variables and numeric variables are separate and cannot be used interchangeably.
         </p>
         <h3>Examples</h3>
         <code-block>
             <li>+TEXT What is your name?</li>
-            <li>+SVAR_SET name Harry</li>
+            <li>+SVAR_SET name "Harry"</li>
             <li>+TEXT Hello, &lt;var=name&gt;! And what is your full name?</li>
-            <li>+SVAR_ADD name Potter</li>
+            <li>+SVAR_ADD name "Potter"</li>
             <li>+TEXT Nice to meet you, &lt;var=name&gt;!</li>
-            <li>IF name == Harry Potter</li>
-            <li> +TEXT You're a wizard, Harry!</li>
+            <li>IF name == "Harry Potter"</li>
+            <li>&#9;+TEXT You're a wizard, Harry!</li>
             <li>ENDIF</li>
         </code-block>
         <output-window>
@@ -267,13 +268,38 @@
             You're a wizard, Harry!
             <prompt>_</prompt>
         </output-window>
+        <code-block>
+            <li>//Define variable house</li>
+            <li>+SVAR_SET house "A house"</li>
+            <li> </li>
+            <li>//Set variable x to string "house"</li>
+            <li>+SVAR_SET x "house"</li>
+            <li>+TEXT &lt;var=x&gt;</li>
+            <li> </li>
+            <li>//Set variable y to the value of variable named house</li>
+            <li>+SVAR_SET y house</li>
+            <li>+TEXT &lt;var=y&gt;</li>
+            <li> </li>
+            <li>//String concatenation</li>
+            <li>+SVAR_SET description "giant"</li>
+            <li>+SVAR_SET z "A "</li>
+            <li>+SVAR_ADD z description</li>
+            <li>+SVAR_ADD z " house."</li>
+        </code-block>
+        <output-window>
+            house<br>
+            A house<br>
+            A giant house.<br>
+            <prompt>_</prompt>
+        </output-window>
     </div>
 
     <div class="group" id="goto">
         <h2 class="effect">+GOTO</h2>
         <p>Goes to the room with the given name.</p>
         <p>
-            The game proceeds immediately to the specified room, any following effects are ignored.
+            The game proceeds immediately to the specified room,
+            any following effects from the current room are skipped.
         </p>
         <h3>Examples</h3>
         <code-block>
@@ -458,10 +484,10 @@
             <li>//C# file</li>
             <li>AddFunction("math_add", parameters =></li>
             <li>{</li>
-            <li> int a = int.Parse(parameters[0]);</li>
-            <li> int b = int.Parse(parameters[1]);</li>
-            <li> int result = a + b;</li>
-            <li> TextEngine.Interface.Write($"Result of {a} + {b} = {result}");</li>
+            <li>&#9;int a = int.Parse(parameters[0]);</li>
+            <li>&#9;int b = int.Parse(parameters[1]);</li>
+            <li>&#9;int result = a + b;</li>
+            <li>&#9;TextEngine.Interface.Write($"Result of {a} + {b} = {result}");</li>
             <li>});</li>
         </code-block>
         <output-window>
