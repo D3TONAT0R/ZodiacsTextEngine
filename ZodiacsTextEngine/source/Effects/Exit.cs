@@ -6,10 +6,9 @@ namespace ZodiacsTextEngine.Effects
 {
 	public class Exit : Effect
 	{
-		public override Task Execute(EffectGroup g)
+		public override async Task Execute(EffectGroup g)
 		{
-			Environment.Exit(0);
-			return Task.CompletedTask;
+			await TextEngine.Interface.Exit();
 		}
 
 		[EffectParser("EXIT")]

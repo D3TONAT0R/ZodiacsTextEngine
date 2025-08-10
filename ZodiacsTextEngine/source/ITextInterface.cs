@@ -47,5 +47,7 @@ namespace ZodiacsTextEngine
 		void ResetColors();
 
 		Task OnGameOver(string text);
+
+		Task Exit();
 	}
 }

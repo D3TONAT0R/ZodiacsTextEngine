@@ -3,6 +3,7 @@ using ZodiacsTextEngine.Parser;
 
 namespace ZodiacsTextEngine.Effects
 {
+	//TODO add support for (var + var) and (var - var)
 	public class ModifyIntVariable : Effect
 	{
 		public string variableName;

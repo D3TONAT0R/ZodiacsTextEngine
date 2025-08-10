@@ -211,6 +211,12 @@ namespace ZodiacsTextEngine
 			await TextEngine.StartGame();
 		}
 
+		public virtual Task Exit()
+		{
+			Environment.Exit(0);
+			return Task.CompletedTask;
+		}
+
 		public virtual void ResetColors()
 		{
 			Console.BackgroundColor = DEFAULT_BACKGROUND_COLOR;
