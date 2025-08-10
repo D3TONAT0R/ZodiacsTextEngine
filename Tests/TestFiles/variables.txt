@@ -1,0 +1,25 @@
+﻿@ENTER
++TEXT hoi
++VAR_SET five 5
++VAR_SET minus_500 -500
++FUNC assert five 5
++FUNC assert minus_500 -500
+
+//Set test to 5
++VAR_SET test five
++FUNC assert test 5
+//Add 5 to test (now 10)
++VAR_ADD test five
++FUNC assert test 10
+
+
++VAR_SET test 1
+//501
++VAR_ADD test -minus_500
+
++FUNC assert test 501
+
++VAR_ADD minus_500 -minus_500
++FUNC assert minus_500 0
+
++EXIT

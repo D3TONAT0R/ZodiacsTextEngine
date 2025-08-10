@@ -20,7 +20,6 @@ namespace SampleProject
 				{
 					var name = await TextEngine.Interface.ReadInput();
 					GameSession.Current.variables.SetString("player_name", name);
-					return null;
 				});
 
 				//Quick jump to room
@@ -29,7 +28,6 @@ namespace SampleProject
 					TextEngine.Interface.Write("Go to room: ", true);
 					var nextRoomName = await TextEngine.Interface.ReadInput();
 					await GameSession.Current.GoToRoom(nextRoomName);
-					return null;
 				});
 			}
 		}

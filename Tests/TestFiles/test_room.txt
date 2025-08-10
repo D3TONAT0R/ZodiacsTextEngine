@@ -9,3 +9,6 @@ A
 >TEST 2
 +TEXT
 B
+
+>EXIT
++EXIT

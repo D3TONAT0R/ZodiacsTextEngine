@@ -137,4 +137,11 @@ public class TestTextInterface : ITextInterface
 		Text("Game Over");
 		return Task.CompletedTask;
 	}
+
+	public Task Exit()
+	{
+		//Pass the test if exit is called
+		Assert.Pass();
+		return Task.CompletedTask;
+	}
 }

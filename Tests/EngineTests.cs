@@ -26,12 +26,12 @@ namespace Tests
 		#region Test cases
 
 		[Test]
-		public void Test1()
+		public void BasicRoomTest()
 		{
 			RunTest(
 				SingleFile("test_room"),
 				//Inputs
-				["test"],
+				["test", "exit"],
 				//Expected output
 				["Test room", "A"]
 			);
@@ -48,7 +48,8 @@ namespace Tests
 					"3",
 					"7",
 					"-1",
-					"8"
+					"8",
+					"exit"
 				],
 				//Expected output
 				[
@@ -61,7 +62,27 @@ namespace Tests
 			);
 		}
 
+		[Test]
+		public void TestVariables()
+		{
+			RunTest(
+				SingleFile("variables"),
+				//Inputs
+				null,
+				//Expected output
+				null
+			);
+		}
+
 		#endregion
+
+		public static Task<string> AssertFunc(string[] args)
+		{
+			string var = args[0];
+			int expected = int.Parse(args[1]);
+			Assert.That(GameSession.Current.variables.GetInt(var), Is.EqualTo(expected), $"Variable '{var}' should be {expected}");
+			return Task.FromResult($"Assertion passed ({var} == {expected})");
+		}
 
 		private SingleFileGameDataLoader SingleFile(string path)
 		{
@@ -73,14 +94,14 @@ namespace Tests
 			return new StandardGameDataLoader(Path.Combine(BaseDirectory, path), start);
 		}
 
-
-		private void RunTest(GameDataLoader gameData, List<string> inputs, List<string> expectedOutput)
+		private void RunTest(GameDataLoader gameData, List<string>? inputs, List<string>? expectedOutput)
 		{
-			_ = TextEngine.Initialize(console, gameData, false);
-			console.SetInputs(inputs.ToArray());
+			// Run synchronously
+			TextEngine.Initialize(console, gameData, false).GetAwaiter().GetResult();
+			if(inputs != null) console.SetInputs(inputs.ToArray());
 			//expectedOutput.Insert(0, "Test start");
-			_ = TextEngine.StartGame();
-			CheckOutput(expectedOutput.ToArray());
+			TextEngine.StartGame().GetAwaiter().GetResult();
+			if(expectedOutput != null) CheckOutput(expectedOutput.ToArray());
 		}
 
 		private void CheckOutput(params string[] expectedOutput)

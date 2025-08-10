@@ -74,3 +74,6 @@ ENDIF
 >8
 +VAR_SET x 8
 +RETURN
+
+>EXIT
++EXIT
