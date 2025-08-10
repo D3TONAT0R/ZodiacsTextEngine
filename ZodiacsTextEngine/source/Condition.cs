@@ -1,14 +1,11 @@
-﻿using System.Collections.Generic;
-
-namespace ZodiacsTextEngine
+﻿namespace ZodiacsTextEngine
 {
 	public class Condition
 	{
-		public static List<Condition> AllConditions = new List<Condition>();
-
 		public string variableName;
 		public Variables.ConditionalOperator operation;
-		public string compareValue;
+		//TODO: throw exception when comparing to a non-existing variable
+		public Value compareValue;
 		public bool ignoreCase = true;
 		public bool Inverted { get; private set; }
 
@@ -16,19 +13,11 @@ namespace ZodiacsTextEngine
 
 		public bool? outcome = false;
 
-		public Condition(string variableName, Variables.ConditionalOperator operation, string compareValue)
+		public Condition(string variableName, Variables.ConditionalOperator operation, Value compareValue)
 		{
 			this.variableName = variableName;
 			this.operation = operation;
 			this.compareValue = compareValue;
-		}
-
-		public static void CheckAll()
-		{
-			foreach(var c in AllConditions)
-			{
-				c.outcome = c.Check();
-			}
 		}
 
 		public Condition Invert()
@@ -52,16 +41,16 @@ namespace ZodiacsTextEngine
 			{
 				//Target can be either int or string, check string first
 				result = vars.HasString(variableName)
-					? vars.CheckString(variableName, compareValue, operation, ignoreCase)
-					: vars.CheckInt(variableName, operation, int.Parse(compareValue));
+					? vars.CheckString(variableName, compareValue.GetString(), operation, ignoreCase)
+					: vars.CheckInt(variableName, operation, compareValue.GetInt());
 			}
 			else if(type == typeof(int))
 			{
-				result = vars.CheckInt(variableName, operation, int.Parse(compareValue));
+				result = vars.CheckInt(variableName, operation, compareValue.GetInt());
 			}
 			else
 			{
-				result = vars.CheckString(variableName, compareValue, operation, ignoreCase);
+				result = vars.CheckString(variableName, compareValue.GetString(), operation, ignoreCase);
 			}
 			return Inverted ? !result : result;
 		}

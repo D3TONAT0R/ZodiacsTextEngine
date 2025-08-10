@@ -1,4 +1,6 @@
 @ENTER
++VAR_SET one 1
++VAR_SET seven 7
 +TEXT x is <var=x>
 
 //Check if greather than 5
@@ -9,13 +11,13 @@ ELSE
 ENDIF
 
 //Check if not equal to 7
-IF x != 7
+IF x != seven
 	+TEXT !=7
 ELSE
 	+TEXT ==7
 ENDIF
 
-IF x == 1
+IF x == one
 	+TEXT 1
 ELSE
 	IF x == 0

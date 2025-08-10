@@ -17,6 +17,6 @@ public class SingleFileGameDataLoader : GameDataLoader
 		AddRoom(room);
 		SetStartRoom(room.name);
 		AddFunction("assert", EngineTests.AssertFunc);
-		AddFunction("fail", Assert.Fail);
+		AddFunction("fail", EngineTests.FailFunc);
 	}
 }

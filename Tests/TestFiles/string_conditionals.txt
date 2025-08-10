@@ -1,0 +1,32 @@
+@ENTER
++SVAR_SET _ou "ou"
+
++SVAR_SET var "house"
+IF var == "house"
+	+TEXT var is house
+ELSE
+	+FUNC fail "house" check failed
+ENDIF
+
+IF var ** _ou
+	+TEXT house contains ou
+ELSE
+	+FUNC fail contains ou check failed
+ENDIF
+
+IF var !.* "abc"
+	+TEXT house does not start with abc
+ELSE
+	+FUNC fail does not start with abc check failed
+ENDIF
+
+//Append s
++SVAR_ADD var "s"
+
+IF var *. ses
+	+TEXT houses ends with ses
+ELSE
+	+FUNC fail ends with ses check failed
+ENDIF
+
++EXIT

@@ -13,6 +13,6 @@ public class MultiFileGameDataLoader : StandardGameDataLoader
 	{
 		base.LoadContent(ref success);
 		AddFunction("assert", EngineTests.AssertFunc);
-		AddFunction("fail", Assert.Fail);
+		AddFunction("fail", EngineTests.FailFunc);
 	}
 }

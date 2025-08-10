@@ -3,14 +3,13 @@ using ZodiacsTextEngine.Parser;
 
 namespace ZodiacsTextEngine.Effects
 {
-	//TODO add support for (var + var) and (var - var)
 	public class ModifyIntVariable : Effect
 	{
 		public string variableName;
-		public IValue value;
+		public Value value;
 		public bool additive;
 
-		public ModifyIntVariable(string variableName, IValue value, bool additive)
+		public ModifyIntVariable(string variableName, Value value, bool additive)
 		{
 			this.variableName = variableName;
 			this.value = value;
@@ -22,11 +21,11 @@ namespace ZodiacsTextEngine.Effects
 			var store = GameSession.Current.variables;
 			if(additive)
 			{
-				store.AddInt(variableName, value.GetValue());
+				store.AddInt(variableName, value.GetInt());
 			}
 			else
 			{
-				store.SetInt(variableName, value.GetValue());
+				store.SetInt(variableName, value.GetInt());
 			}
 			return Task.CompletedTask;
 		}
@@ -44,29 +43,14 @@ namespace ZodiacsTextEngine.Effects
 		public static ModifyIntVariable ParseSet(EffectParseContext ctx)
 		{
 			var args = ctx.GetArguments();
-			return new ModifyIntVariable(args[0], ParseValue(args[1]), false);
+			return new ModifyIntVariable(args[0], Value.Parse(args[1], false), false);
 		}
 
 		[EffectParser("VAR_ADD")]
 		public static ModifyIntVariable ParseAdd(EffectParseContext ctx)
 		{
 			var args = ctx.GetArguments();
-			return new ModifyIntVariable(args[0], ParseValue(args[1]), true);
-		}
-
-		private static IValue ParseValue(string value)
-		{
-			if(value.Length > 1 && value[0] == '-' && (char.IsLetter(value[1]) || value[1] == '_'))
-			{
-				//Negative variable reference
-				return new VariableRef(value.Substring(1), false);
-			}
-			if(char.IsLetter(value[0]) || value[0] == '_')
-			{
-				//Parse variable reference
-				return new VariableRef(value, true);
-			}
-			return new Constant(int.Parse(value));
+			return new ModifyIntVariable(args[0], Value.Parse(args[1], false), true);
 		}
 	}
 }

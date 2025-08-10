@@ -7,10 +7,10 @@ namespace ZodiacsTextEngine.Effects
 	public class ModifyStringVariable : Effect
 	{
 		public string variableName;
-		public string value;
+		public Value value;
 		public bool additive;
 
-		public ModifyStringVariable(string variableName, string value, bool additive)
+		public ModifyStringVariable(string variableName, Value value, bool additive)
 		{
 			this.variableName = variableName;
 			this.value = value;
@@ -22,11 +22,11 @@ namespace ZodiacsTextEngine.Effects
 			var store = GameSession.Current.variables;
 			if(additive)
 			{
-				store.AddString(variableName, value);
+				store.AddString(variableName, value.GetString());
 			}
 			else
 			{
-				store.SetString(variableName, value);
+				store.SetString(variableName, value.GetString());
 			}
 			return Task.CompletedTask;
 		}
@@ -44,14 +44,25 @@ namespace ZodiacsTextEngine.Effects
 		public static ModifyStringVariable ParseSet(EffectParseContext ctx)
 		{
 			var args = ctx.GetArguments();
-			return new ModifyStringVariable(args[0], args[1], false);
+			return new ModifyStringVariable(args[0], Value.Parse(ctx.content.Substring(args[0].Length).Trim(), true), false);
 		}
 
 		[EffectParser("SVAR_ADD")]
 		public static ModifyStringVariable ParseAdd(EffectParseContext ctx)
 		{
 			var args = ctx.GetArguments();
-			return new ModifyStringVariable(args[0], args[1], true);
+			return new ModifyStringVariable(args[0], Value.Parse(ctx.content.Substring(args[0].Length).Trim(), true), true);
+		}
+
+		private static string GetStringInQuotes(EffectParseContext ctx, string text)
+		{
+			//Return string between quotes via regex
+			var match = System.Text.RegularExpressions.Regex.Match(text, "\"([^\"]*)\"");
+			if(!match.Success)
+			{
+				throw new FileParseException(ctx.parserContext, ctx.startLinePos, "No valid string found");
+			}
+			return "\"" + match.Groups[1].Value + "\"";
 		}
 	}
 }

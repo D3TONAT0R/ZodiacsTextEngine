@@ -228,7 +228,7 @@ namespace ZodiacsTextEngine.Parser
 			var line = ctx.lines[linePos].TrimStart();
 			var args = line.Substring(CONDITION_MARKER.Length).Split(new char[] { ' ' }, 3, StringSplitOptions.RemoveEmptyEntries);
 			if(args.Length < 3) throw new FileParseException(ctx, linePos, "Not enough arguments for IF statement (3 required)");
-			return new Condition(args[0], ParseConditionalOperator(ctx, linePos, args[1]), args[2]);
+			return new Condition(args[0], ParseConditionalOperator(ctx, linePos, args[1]), Value.Parse(args[2], true));
 		}
 
 		private static Variables.ConditionalOperator ParseConditionalOperator(ParserContext ctx, int lineIndex, string input)

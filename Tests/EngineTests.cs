@@ -63,6 +63,18 @@ namespace Tests
 		}
 
 		[Test]
+		public void TestStringConditionals()
+		{
+			RunTest(
+				SingleFile("string_conditionals"),
+				//Inputs
+				null,
+				//Expected output
+				null
+			);
+		}
+
+		[Test]
 		public void TestVariables()
 		{
 			RunTest(
@@ -84,6 +96,12 @@ namespace Tests
 			return Task.FromResult($"Assertion passed ({var} == {expected})");
 		}
 
+		public static Task<string> FailFunc(string[] args)
+		{
+			Assert.Fail(string.Join(' ', args));
+			return Task.FromResult<string>(null);
+		}
+
 		private SingleFileGameDataLoader SingleFile(string path)
 		{
 			return new SingleFileGameDataLoader(Path.Combine(BaseDirectory, path + ".txt"));
@@ -100,7 +118,14 @@ namespace Tests
 			TextEngine.Initialize(console, gameData, false).GetAwaiter().GetResult();
 			if(inputs != null) console.SetInputs(inputs.ToArray());
 			//expectedOutput.Insert(0, "Test start");
-			TextEngine.StartGame().GetAwaiter().GetResult();
+			try
+			{
+				TextEngine.StartGame().GetAwaiter().GetResult();
+			}
+			catch(SuccessException)
+			{
+				//Game exited successfully
+			}
 			if(expectedOutput != null) CheckOutput(expectedOutput.ToArray());
 		}
 

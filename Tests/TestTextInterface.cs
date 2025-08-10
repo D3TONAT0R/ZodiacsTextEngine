@@ -71,6 +71,7 @@ public class TestTextInterface : ITextInterface
 	public void Write(string text, bool lineBreak, bool wordWrap = true)
 	{
 		//Write to test console
+		if(Output[^1].Length == 0) TestContext.Out.Write((Output.Count - 1).ToString().PadLeft(3) + ": ");
 		Output[^1] += text;
 		TestContext.Out.Write(text);
 		if(lineBreak)

@@ -1,5 +1,4 @@
 ﻿@ENTER
-+TEXT hoi
 +VAR_SET five 5
 +VAR_SET minus_500 -500
 +FUNC assert five 5
