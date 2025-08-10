@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Blank Page</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>Effects</h1>
+    <p>A comprehensive list of all available effects in the ZodiacsTextEngine.</p>
+    <div class="group">
+        <h2 class="effect">+TEXT</h2>
+        <p>Writes text to the output window.</p>
+        <p>
+            The text effect can be used to display single-line or multi-line text.
+            It supports rich text tags which can change the color of the text or display the value of a variable.
+        </p>
+        <h3>Examples</h3>
+        <code-block>
+            <li>//Single line text</li>
+            <li>+TEXT Hello, World!</li>
+            <li> </li>
+            <li>//Multi-line text</li>
+            <li>+TEXT</li>
+            <li>This is a multi-line text effect.</li>
+            <li>It can span multiple lines.</li>
+            <li> </li>
+            <li>It can also contain blank lines.</li>
+            <li> </li>
+            <li>//Rich text tags</li>
+            <li>+TEXT</li>
+            <li>This text is &lt;color=red&gt;red&lt;reset&gt;.</li>
+            <li>This text has a &lt;background=blue&gt;blue background&lt;reset&gt;.</li>
+            <li>You have &lt;var=hitpoints&gt; left.</li>
+        </code-block>
+        <output-window>
+            Hello, World!<br>
+            This is a multi-line text effect.<br>
+            It can span multiple lines.<br>
+            <br>
+            It can also contain blank lines.<br>
+            This text is <span style="color: red;">red</span>.<br>
+            This text has a <span style="background: blue;">blue background</span>.<br>
+            You have 73 hitpoints left.
+        </output-window>
+    </div>
+    <div class="group">
+        <h2 class="effect">+PLAIN_TEXT</h2>
+        <p>Writes text to the output window without any formatting.</p>
+        <p>
+            This effect works the same as <code>+TEXT</code>, but it does not process rich text tags.
+            This allows you to display special characters that would otherwise be interpreted as tags.
+        </p>
+        <h3>Examples</h3>
+        <code-block>
+            <li>+PLAIN_TEXT Hello, World!</li>
+            <li>+PLAIN_TEXT</li>
+            <li>This effect is similar to +TEXT</li>
+            <li>but it does not process &lt;color=yellow&gt;rich text tags&lt;reset&gt;</li>
+            <li> </li>
+            <li>+TEXT &lt; Welcome, traveler! &gt;</li>
+        </code-block>
+        <output-window>
+            Hello, World!<br>
+            This effect is similar to +TEXT<br>
+            but it does not process &lt;color=yellow&gt;rich text tags&lt;reset&gt;<br>
+            &lt; Welcome, traveler! &gt;
+        </output-window>
+    </div>
+    <div class="group">
+        <h2 class="effect">+TEMPLATE</h2>
+        <p>Short description</p>
+        <p>
+            Long description
+        </p>
+        <h3>Examples</h3>
+        <code-block>
+            <li>//Example usage</li>
+        </code-block>
+        <output-window>
+            Output
+        </output-window>
+    </div>
+    <footer>
+        <p>&copy; 2024 ZodiacsTextEngine. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>
