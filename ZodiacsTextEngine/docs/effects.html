@@ -44,6 +44,7 @@
             This text is <span style="color: red;">red</span>.<br>
             This text has a <span style="background: blue;">blue background</span>.<br>
             You have 73 hitpoints left.
+            <prompt>_</prompt>
         </output-window>
     </div>
 
@@ -51,7 +52,7 @@
         <h2 class="effect">+PLAIN_TEXT</h2>
         <p>Writes text to the output window without any formatting.</p>
         <p>
-            This effect works the same as <code>+TEXT</code>, but it does not process rich text tags.
+            This effect works the same as <code><a href="#text">+TEXT</a></code>, but it does not process rich text tags.
             This allows you to display special characters that would otherwise be interpreted as tags.
         </p>
         <h3>Examples</h3>
@@ -68,6 +69,7 @@
             This effect is similar to +TEXT<br>
             but it does not process &lt;color=yellow&gt;rich text tags&lt;reset&gt;<br>
             &lt; Welcome, traveler! &gt;
+            <prompt>_</prompt>
         </output-window>
     </div>
 
@@ -94,6 +96,7 @@
             <br>
             <br>
             This line is separated by three blank lines.
+            <prompt>_</prompt>
         </output-window>
     </div>
 
@@ -115,6 +118,7 @@
         </code-block>
         <output-window>
             Welcome to the ZodiacsTextEngine!
+            <prompt>_</prompt>
         </output-window>
     </div>
 
@@ -124,7 +128,7 @@
         <p>
             This effect allows you to change the color of the text in the output window.
             It affects all subsequent text until the color is changed again or reset.<br>
-            This effect can be combined with the <code>+BACKGROUND</code> effect and rich text tags.<br>
+            This effect can be combined with the <code><a href="#background">+BACKGROUND</a></code> effect and rich text tags.<br>
             The rich text tag <code>&lt;reset&gt;</code> defaults back to this color.
         </p>
         <h3>Examples</h3>
@@ -143,6 +147,7 @@
             <span style="color: red;">This text is red.</span><br>
             <span style="color: blue;">This text is blue.</span><br>
             This text is back to normal.
+            <prompt>_</prompt>
         </output-window>
     </div>
 
@@ -152,7 +157,7 @@
         <p>
             This effect allows you to change the background color of the text in the output window.
             It affects all subsequent text until the background is changed again or reset.<br>
-            This effect can be combined with the <code>+COLOR</code> effect and rich text tags.<br>
+            This effect can be combined with the <code><a href="#color">+COLOR</a></code> effect and rich text tags.<br>
             The rich text tag <code>&lt;reset&gt;</code> defaults back to this color.
         </p>
         <h3>Examples</h3>
@@ -171,6 +176,7 @@
             <span style="background: red;">This text has a red background.</span><br>
             <span style="background: blue;">This text has a blue background.</span><br>
             This text is back to normal.
+            <prompt>_</prompt>
         </output-window>
     </div>
 
@@ -194,6 +200,7 @@
             <span style="color: yellow;">This text is yellow.</span><br>
             <span style="color: yellow; background: gray;">This text is yellow with a gray background.</span><br>
             This text is back to normal.
+            <prompt>_</prompt>
         </output-window>
     </div>
 
@@ -213,13 +220,13 @@
             <li>+VAR_ADD coins 3</li>
             <li>+TEXT You now have &lt;var=coins&gt; coins.</li>
             <li>IF coins > 5</li>
-            <li>    +TEXT You have enough coins to buy a potion (costs 5 coins).</li>
-            <li>    +TEXT You buy a potion.</li>
-            <li>    +VAR_ADD coins -5</li>
-            <li>    +VAR_ADD potions 1</li>
-            <li>    +TEXT You now have &lt;var=coins&gt; coins and &lt;var=potions&gt; potions.</li>
+            <li> +TEXT You have enough coins to buy a potion (costs 5 coins).</li>
+            <li> +TEXT You buy a potion.</li>
+            <li> +VAR_ADD coins -5</li>
+            <li> +VAR_ADD potions 1</li>
+            <li> +TEXT You now have &lt;var=coins&gt; coins and &lt;var=potions&gt; potions.</li>
             <li>ELSE</li>
-            <li>    +TEXT You don't have enough coins to buy a potion.</li>
+            <li> +TEXT You don't have enough coins to buy a potion.</li>
             <li>ENDIF</li>
         </code-block>
         <output-window>
@@ -229,6 +236,7 @@
             You have enough coins to buy a potion (costs 5 coins).<br>
             You buy a potion.<br>
             You now have 5 coins and 1 potion.
+            <prompt>_</prompt>
         </output-window>
     </div>
 
@@ -249,7 +257,7 @@
             <li>+SVAR_ADD name Potter</li>
             <li>+TEXT Nice to meet you, &lt;var=name&gt;!</li>
             <li>IF name == Harry Potter</li>
-            <li>    +TEXT You're a wizard, Harry!</li>
+            <li> +TEXT You're a wizard, Harry!</li>
             <li>ENDIF</li>
         </code-block>
         <output-window>
@@ -257,6 +265,7 @@
             Hello, Harry! And what is your full name?<br>
             Nice to meet you, Harry Potter!<br>
             You're a wizard, Harry!
+            <prompt>_</prompt>
         </output-window>
     </div>
 
@@ -296,9 +305,10 @@
             You can LOOK through the window or go through the DOOR.<br>
             <br>
             What will you do?<br>
-            <span style="color: gray;">&gt; DOOR</span><br>
+            <prompt>DOOR</prompt>
             Curious, you open the door and step outside.<br>
             <span style="color: green;">You enter a beautiful garden.</span>
+            <prompt>_</prompt>
         </output-window>
     </div>
 
@@ -306,7 +316,7 @@
         <h2 class="effect">+RETURN</h2>
         <p>Returns to the same room.</p>
         <p>
-            This is equivalent to <code>+GOTO (name of current room)</code>,
+            This is equivalent to <code><a href="#goto">+GOTO</a> (name of current room)</code>,
             causing the room's enter event to be triggered again.<br>
             This effect must be used cautiously when used within an <code>@ENTER</code> event,
             as it can lead to an infinite loop if not handled properly.
@@ -323,17 +333,20 @@
         </code-block>
         <output-window>
             You are in front of a pile of coins. You have 0 coins.<br>
-            <span style="color: gray;">&gt; TAKE COIN</span><br>
+            <prompt>TAKE COIN</prompt>
             You take a coin.<br>
             You are in front of a pile of coins. You have 1 coins.<br>
-            <span style="color: gray;">&gt; TAKE COIN</span><br>
+            <prompt>TAKE COIN</prompt>
             You take a coin.<br>
             You are in front of a pile of coins. You have 2 coins.<br>
-            <span style="color: gray;">&gt; TAKE COIN</span><br>
+            <prompt>TAKE COIN</prompt>
             You take a coin.<br>
             You are in front of a pile of coins. You have 3 coins.
+            <prompt>_</prompt>
         </output-window>
-        </h2>
+    </div>
+    <div class="group" id="gameover">
+        <h2 class="effect">+GAMEOVER</h2>
         <p>Triggers a game over state.</p>
         <p>
             This effect is used to indicate that the game has ended,
@@ -360,7 +373,7 @@
         <p>Closes the game window.</p>
         <p>
             This terminates the game process immediately.
-            To end the game normally, it is recommended to use <code>+GAMEOVER</code> instead.<br>
+            To end the game normally, it is recommended to use <code><a href="#gameover">+GAMEOVER</a></code> instead.<br>
             The behaviour of the exit effect can be overriden using a custom text interface.
         </p>
         <h3>Examples</h3>
@@ -399,6 +412,7 @@
             You pressed a key!<br>
             <span style="color: gray;">[Further user input required]</span><br>
             Welcome aboard.
+            <prompt>_</prompt>
         </output-window>
     </div>
 
@@ -421,6 +435,7 @@
         <output-window>
             Big Man goes live.<br>
             He threatens to destroy the earth with his portable thermonuclear bomb or even several.
+            <prompt>_</prompt>
         </output-window>
     </div>
 
@@ -453,6 +468,7 @@
             Result of 1 + 1 =: 2<br>
             Result of 5 + 7 = 12<br>
             Result of -5 + 32 = 27
+            <prompt>_</prompt>
         </output-window>
     </div>
 

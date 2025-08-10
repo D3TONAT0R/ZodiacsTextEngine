@@ -124,6 +124,10 @@ code, pre, code-block {
 
 code {
     padding: 0.2em 0.4em;
+
+    a {
+        text-decoration: underline;
+    }
 }
 
 code-block {
@@ -169,6 +173,15 @@ output-window {
     margin-top: 32px;
     margin-bottom: 32px;
     max-width: 60em;
+
+    prompt {
+        display: block;
+        opacity: 0.5;
+    }
+
+    prompt::before {
+        content: "> ";
+    }
 }
 
 output-window::before {
@@ -182,12 +195,6 @@ output-window::before {
     font-weight: bold;
     white-space: pre;
     padding: 0px 0px 4px;
-}
-
-output-window::after {
-    display: block;
-    opacity: 0.5;
-    content: "> _";
 }
 
 pre {
