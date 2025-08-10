@@ -6,7 +6,7 @@
     --surface-color: #232526;
     --primary-color: #4f8cff;
     --accent-color: #ffb86c;
-    --code-color: #d3b89a;
+    --code-color: #e0d1c0;
     --line-num-color: #808286;
     --text-color: #eaeaea;
     --muted-text: #b0b3b8;
@@ -168,11 +168,12 @@ output-window {
     line-height: 1.5;
     margin-top: 32px;
     margin-bottom: 32px;
+    max-width: 60em;
 }
 
 output-window::before {
     display: block;
-    color: var(--accent-color);
+    color: var(--text-color);
     background-color: #444;
     transform: translate(-1em, -1em);
     width: calc(100% + 2em);
