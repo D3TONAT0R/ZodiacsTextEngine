@@ -167,6 +167,13 @@ code-block {
     }
 }
 
+code-block i {
+    font-style: italic;
+    opacity: 0.6;
+    font-size: 80%;
+    background-color: #383838;
+}
+
 output-window {
     display: block;
     background-color: black;

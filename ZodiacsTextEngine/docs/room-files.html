@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ZodiacsTextEngine | Room Files</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>Room File Structure</h1>
+    <p>
+        The general structure of a single room file is as follows:
+    </p>
+    <code-block>
+        <li>@ENTER <i>Required</i></li>
+        <li>+EFFECT <i>Effects to execute when entering the room</i></li>
+        <li> </li>
+        <li>@EXIT <i>Optional</i></li>
+        <li>+EFFECT <i>Effects to execute when exiting the room</i></li>
+        <li> </li>
+        <li>&gt;(Choice 1)</li>
+        <li>+EFFECT <i>Invoked when inputting Choice 1</i></li>
+        <li> </li>
+        <li>&gt;(Choice 2)</li>
+        <li>+EFFECT <i>Invoked when inputting Choice 2</i></li>
+        <li> </li>
+        <li><i>Add more choices as required</i></li>
+    </code-block>
+    <p>
+        The <code>@ENTER</code> tag is mandatory and should be the first line in the room file. 
+        It indicates the start of the room's content. The <code>@EXIT</code> block is optional
+        and can be used to define effects that occur when leaving the room.
+    </p>
+    <p>
+        Upon reaching the end of a block, the engine will await input from the player.
+        The player can then input their choice, which then triggers the corresponding choice.
+        In case the input does not match any available choices, an "Unknown option" message will be displayed,
+        and the engine will prompt the player to try again.
+    </p>
+    <p>
+        Using the <code>+GOTO</code> effect, the game can transition to another room file. In this case,
+        the current room's <code>@EXIT</code> effect will be executed (if present), followed by the
+        <code>@ENTER</code> block of the new room.
+    </p>
+    <p>
+        An example is provided below:
+    </p>
+    <code-block>
+        <li>@ENTER</li>
+        <li>+TEXT You enter a mysterious room.</li>
+        <li>+TEXT There is a sturdy DOOR to the right and a dark PASSAGE to the left.</li>
+        <li>+TEXT What will you do?</li>
+        <li> </li>
+        <li>&gt;DOOR</li>
+        <li>+TEXT You step towards the door and turn the knob.</li>
+        <li>IF key == 1</li>
+        <li>&#9;+TEXT Turning the key, the door slowly gives way.</li>
+        <li>&#9;+GOTO secret_room</li>
+        <li>ELSE</li>
+        <li>&#9;+TEXT The door is locked. You need a key.</li>
+        <li>ENDIF</li>
+        <li> </li>
+        <li>&gt;PASSAGE</li>
+        <li>+TEXT You approach the passage cautiously. It is cold and damp.</li>
+        <li>+GOTO dark_passage</li>
+    </code-block>
+</body>
+
+</html>
