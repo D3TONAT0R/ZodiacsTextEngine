@@ -7,6 +7,7 @@
     --primary-color: #4f8cff;
     --accent-color: #ffb86c;
     --code-color: #e0d1c0;
+    --highlight-color: #f78d37;
     --line-num-color: #808286;
     --text-color: #eaeaea;
     --muted-text: #b0b3b8;
@@ -16,6 +17,7 @@
     --radius: 0px;
     --shadow: 4px 4px 0px rgba(0,0,0,0.4);
     --font-main: 'Segoe UI', 'Roboto', Arial, sans-serif;
+    --font-mono: 'Fira Mono', 'Consolas', monospace;
 }
 
 body {
@@ -132,11 +134,11 @@ code {
 }
 
 code-block {
+    position: relative;
     line-height: 0.75;
     display: block;
     margin: 16px 0 16px;
     border: var(--border);
-    border-left: 4px solid var(--code-color);
     white-space: pre-line;
     padding-left: 0em;
     
@@ -162,9 +164,18 @@ code-block {
         width: 2em;
         padding-right: 0.5em;
         user-select: none;
-        border-right: var(--border);
         height: 200%;
     }
+}
+
+code-block::after {
+    position: absolute;
+    content: "";
+    inset: 0;
+    right: auto;
+    width: 2.2em;
+    border-left: 4px solid var(--code-color);
+    border-right: var(--border);
 }
 
 code-block i {
@@ -172,6 +183,20 @@ code-block i {
     opacity: 0.6;
     font-size: 80%;
     background-color: #383838;
+}
+
+code-block em {
+    font-weight: bold;
+    font-style: normal;
+    position: relative;
+}
+
+code-block em::after {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border: 1px solid var(--primary-color);
+    opacity: 0.3;
 }
 
 output-window {
@@ -200,12 +225,39 @@ output-window::before {
     color: var(--text-color);
     background-color: #444;
     transform: translate(-1em, -1em);
-    width: calc(100% + 2em);
-    content: " Output";
-    font: var(--font-main);
+    width: calc(100% + 1em);
+    content: "Output";
+    font-family: var(--font-main);
     font-weight: bold;
     white-space: pre;
-    padding: 0px 0px 4px;
+    padding: 0px 8px 4px;
+}
+
+.remark {
+    position: relative;
+    border: var(--border);
+    padding: 16px 24px 16px;
+    font-weight: bold;
+    background: var(--surface-color);
+}
+
+.remark::before {
+    content: "i";
+    font-family: var(--font-mono);
+    display: inline-block;
+    width: 1.8em;
+    height: 1.8em;
+    text-align: center;
+    border: var(--border);
+    margin-right: 10px;
+}
+
+.remark::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-left: 4px solid var(--primary-color);
+    pointer-events: none;
 }
 
 pre {
