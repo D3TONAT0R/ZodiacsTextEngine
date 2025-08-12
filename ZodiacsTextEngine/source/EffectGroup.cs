@@ -39,6 +39,14 @@ namespace ZodiacsTextEngine
 				return state;
 			}
 		}
+
+		public void ListAllEffects(List<Effect> list)
+		{
+			foreach(var e in effects)
+			{
+				e.ListEffectsAndChildren(list);
+			}
+		}
 	}
 
 	public class Choice : EffectGroup

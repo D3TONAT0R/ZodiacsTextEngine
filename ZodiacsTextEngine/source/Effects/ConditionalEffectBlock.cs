@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 namespace ZodiacsTextEngine.Effects
 {
 	//TODO: word counter breaks
-	public class ConditionalEffectBlock : Effect, ITextEffect
+	public class ConditionalEffectBlock : Effect, IEffectParent
 	{
 		public Condition condition;
 		//public bool inverted;
@@ -65,6 +65,21 @@ namespace ZodiacsTextEngine.Effects
 				foreach(var e in invertedChildEffects)
 				{
 					await e.Execute(g);
+				}
+			}
+		}
+
+		public IEnumerable<Effect> GetChildEffects()
+		{
+			foreach(var e in childEffects)
+			{
+				yield return e;
+			}
+			if(invertedChildEffects != null)
+			{
+				foreach(var e in invertedChildEffects)
+				{
+					yield return e;
 				}
 			}
 		}

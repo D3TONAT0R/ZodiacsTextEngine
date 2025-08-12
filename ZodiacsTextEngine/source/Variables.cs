@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ZodiacsTextEngine
 {
@@ -6,16 +7,17 @@ namespace ZodiacsTextEngine
 	{
 		public enum ConditionalOperator
 		{
+			//Integer specific operators
 			Equal,
 			NotEqual,
-
-			//Integer specific operators
 			LessThan,
 			LessThanOrEqual,
 			GreaterThanOrEqual,
 			GreaterThan,
 
 			//String specific operators
+			StringEquals,
+			StringNotEquals,
 			StringContains,
 			StringNotContains,
 			StringStartsWith,
@@ -108,20 +110,20 @@ namespace ZodiacsTextEngine
 				case ConditionalOperator.NotEqual:
 					return variableValue != value;
 				default:
-					return false;
+					throw new ArgumentException("Unsupported operator for integers " + operation);
 			}
 		}
 
-		public bool CheckString(string varName, string value, ConditionalOperator comparison, bool ignoreCase = true)
+		public bool CheckString(string varName, string value, ConditionalOperator operation, bool ignoreCase = true)
 		{
 			string varValue = GetString(varName) ?? "";
 			value = value ?? "";
 			var sc = ignoreCase ? System.StringComparison.OrdinalIgnoreCase : System.StringComparison.Ordinal;
-			switch(comparison)
+			switch(operation)
 			{
-				case ConditionalOperator.Equal:
+				case ConditionalOperator.StringEquals:
 					return varValue.Equals(value, sc);
-				case ConditionalOperator.NotEqual:
+				case ConditionalOperator.StringNotEquals:
 					return !varValue.Equals(value, sc);
 				case ConditionalOperator.StringContains:
 					return varValue.IndexOf(value, sc) >= 0;
@@ -136,7 +138,7 @@ namespace ZodiacsTextEngine
 				case ConditionalOperator.StringNotEndsWith:
 					return !varValue.EndsWith(value, sc);
 				default:
-					return false;
+					throw new ArgumentException("Unsupported operator for strings " + operation);
 			}
 		}
 

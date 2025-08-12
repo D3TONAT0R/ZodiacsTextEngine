@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using ZodiacsTextEngine.Effects;
 using ZodiacsTextEngine.Parser;
 
 namespace ZodiacsTextEngine
@@ -45,6 +46,18 @@ namespace ZodiacsTextEngine
 			{
 				yield return c;
 			}
+		}
+
+		public List<Effect> ListAllEffects()
+		{
+			var effects = new List<Effect>();
+			onEnter?.ListAllEffects(effects);
+			onExit?.ListAllEffects(effects);
+			foreach(var choice in choices)
+			{
+				choice.ListAllEffects(effects);
+			}
+			return effects;
 		}
 	}
 }

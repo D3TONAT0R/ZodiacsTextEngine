@@ -2,19 +2,19 @@
 +SVAR_SET _ou "ou"
 
 +SVAR_SET var "house"
-IF var == "house"
+IF var IS "house"
 	+TEXT var is house
 ELSE
 	+FUNC fail "house" check failed
 ENDIF
 
-IF var ** _ou
+IF var CONTAINS _ou
 	+TEXT house contains ou
 ELSE
 	+FUNC fail contains ou check failed
 ENDIF
 
-IF var !.* "abc"
+IF var !STARTSWITH "abc"
 	+TEXT house does not start with abc
 ELSE
 	+FUNC fail does not start with abc check failed
@@ -23,7 +23,7 @@ ENDIF
 //Append s
 +SVAR_ADD var "s"
 
-IF var *. ses
+IF var ENDSWITH ses
 	+TEXT houses ends with ses
 ELSE
 	+FUNC fail ends with ses check failed

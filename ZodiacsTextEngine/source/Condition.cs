@@ -1,4 +1,6 @@
-﻿namespace ZodiacsTextEngine
+﻿using System;
+
+namespace ZodiacsTextEngine
 {
 	public class Condition
 	{
@@ -8,6 +10,8 @@
 		public Value compareValue;
 		public bool ignoreCase = true;
 		public bool Inverted { get; private set; }
+
+		public VariableType VariableType => GetVariableTargetType(operation);
 
 		//public Condition parentCondition;
 
@@ -37,14 +41,7 @@
 			var type = GetVariableTargetType(operation);
 			var vars = GameSession.Current.variables;
 			bool result;
-			if(type == null)
-			{
-				//Target can be either int or string, check string first
-				result = vars.HasString(variableName)
-					? vars.CheckString(variableName, compareValue.GetString(), operation, ignoreCase)
-					: vars.CheckInt(variableName, operation, compareValue.GetInt());
-			}
-			else if(type == typeof(int))
+			if(type == VariableType.Int)
 			{
 				result = vars.CheckInt(variableName, operation, compareValue.GetInt());
 			}
@@ -82,17 +79,28 @@
 			}
 		}
 
-		private static System.Type GetVariableTargetType(Variables.ConditionalOperator op)
+		private static VariableType GetVariableTargetType(Variables.ConditionalOperator op)
 		{
-			if(op == Variables.ConditionalOperator.Equal || op == Variables.ConditionalOperator.NotEqual) return null;
-			if(op == Variables.ConditionalOperator.LessThan || op == Variables.ConditionalOperator.LessThanOrEqual ||
-			   op == Variables.ConditionalOperator.GreaterThan || op == Variables.ConditionalOperator.GreaterThanOrEqual)
+			switch (op)
 			{
-				return typeof(int);
-			}
-			else
-			{
-				return typeof(string);
+				case Variables.ConditionalOperator.Equal:
+				case Variables.ConditionalOperator.NotEqual:
+				case Variables.ConditionalOperator.LessThan:
+				case Variables.ConditionalOperator.LessThanOrEqual:
+				case Variables.ConditionalOperator.GreaterThan:
+				case Variables.ConditionalOperator.GreaterThanOrEqual:
+					return VariableType.Int;
+				case Variables.ConditionalOperator.StringEquals:
+				case Variables.ConditionalOperator.StringNotEquals:
+				case Variables.ConditionalOperator.StringContains:
+				case Variables.ConditionalOperator.StringNotContains:
+				case Variables.ConditionalOperator.StringStartsWith:
+				case Variables.ConditionalOperator.StringNotStartsWith:
+				case Variables.ConditionalOperator.StringEndsWith:
+				case Variables.ConditionalOperator.StringNotEndsWith:
+					return VariableType.String;
+				default:
+					throw new ArgumentException($"Unknown conditional operator: {op}");
 			}
 		}
 

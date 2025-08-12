@@ -241,12 +241,17 @@ namespace ZodiacsTextEngine.Parser
 				case ">=": return Variables.ConditionalOperator.GreaterThanOrEqual;
 				case ">": return Variables.ConditionalOperator.GreaterThan;
 				case "!=": return Variables.ConditionalOperator.NotEqual;
-				case "**": return Variables.ConditionalOperator.StringContains;
-				case "!**": return Variables.ConditionalOperator.StringNotContains;
-				case ".*": return Variables.ConditionalOperator.StringStartsWith;
-				case "!.*": return Variables.ConditionalOperator.StringNotStartsWith;
-				case "*.": return Variables.ConditionalOperator.StringEndsWith;
-				case "!*.": return Variables.ConditionalOperator.StringNotEndsWith;
+
+				case "IS": return Variables.ConditionalOperator.StringEquals;
+				case "NOT":
+				case "ISNOT":
+				case "!IS": return Variables.ConditionalOperator.StringNotEquals;
+				case "CONTAINS": return Variables.ConditionalOperator.StringContains;
+				case "!CONTAINS": return Variables.ConditionalOperator.StringNotContains;
+				case "STARTSWITH": return Variables.ConditionalOperator.StringStartsWith;
+				case "!STARTSWITH": return Variables.ConditionalOperator.StringNotStartsWith;
+				case "ENDSWITH": return Variables.ConditionalOperator.StringEndsWith;
+				case "!ENDSWITH": return Variables.ConditionalOperator.StringNotEndsWith;
 				default: throw new FileParseException(ctx, lineIndex, "Invalid conditional operator: " + input);
 			}
 		}

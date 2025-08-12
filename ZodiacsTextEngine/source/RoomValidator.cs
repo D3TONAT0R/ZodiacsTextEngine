@@ -42,33 +42,35 @@ namespace ZodiacsTextEngine
 	public static class RoomValidator
 	{
 
-		public static bool Validate(Room room, out List<LogMessage> log)
+		public static bool Validate(RoomValidationContext ctx, out List<LogMessage> log)
 		{
 			log = new List<LogMessage>();
-			if(room.onEnter != null && room.onEnter.effects.Count > 0)
+			if(ctx.room.onEnter != null && ctx.room.onEnter.effects.Count > 0)
 			{
-				log.AddRange(ValidateEffectGroup(room.onEnter));
+				log.AddRange(ValidateEffectGroup(ctx.room.onEnter, ctx));
 			}
 			else
 			{
-				log.Add(LogMessage.Error(room.name, "Room has no onEnter event (or is empty)"));
+				log.Add(LogMessage.Error(ctx.room.name, "Room has no onEnter event (or is empty)"));
 			}
-			if(room.onExit != null) log.AddRange(ValidateEffectGroup(room.onExit));
+			if(ctx.room.onExit != null) log.AddRange(ValidateEffectGroup(ctx.room.onExit, ctx));
 
-			foreach(var choice in room.choices)
+			foreach(var choice in ctx.room.choices)
 			{
-				log.AddRange(ValidateEffectGroup(choice));
+				log.AddRange(ValidateEffectGroup(choice, ctx));
 			}
 
 			return log.Count == 0;
 		}
 
-		public static IEnumerable<LogMessage> ValidateEffectGroup(EffectGroup effectGroup)
+		public static IEnumerable<LogMessage> ValidateEffectGroup(EffectGroup effectGroup, RoomValidationContext ctx)
 		{
 			bool hasColor = false;
 			bool ended = false;
 			bool hasUnreachableEffects = false;
-			for(int i = 0; i < effectGroup.effects.Count; i++)
+			var list = new List<Effect>();
+			effectGroup.ListAllEffects(list);
+			foreach(var e in list) 
 			{
 				if(ended)
 				{
@@ -76,11 +78,74 @@ namespace ZodiacsTextEngine
 					//while(effectGroup.effects.Count > i) effectGroup.effects.RemoveAt(i);
 					//break;
 				}
-				var e = effectGroup.effects[i];
 
-				if(effectGroup.effects[i] == null)
+				if(e == null)
 				{
-					yield return LogMessage.Error(effectGroup.identifier, "Null effect at index " + i);
+					yield return LogMessage.Error(effectGroup.identifier, "Null effect found in effect group " + effectGroup.identifier);
+				}
+
+				//Check for unused variables
+				if(e is WriteRichText w)
+				{
+					foreach(var comp in w.text.components)
+					{
+						if(comp is VariableComponent vr)
+						{
+							if(!ctx.definedVars.Contains(vr.variableName))
+							{
+								yield return LogMessage.Error(effectGroup.identifier, $"Use of undefined variable '{vr.variableName}' in Rich Text");
+							}
+						}
+						else if(comp is StringVariableComponent sv)
+						{
+							if(!ctx.definedSVars.Contains(sv.variableName))
+							{
+								yield return LogMessage.Error(effectGroup.identifier, $"Use of undefined string variable '{sv.variableName}' in Rich Text");
+							}
+						}
+					}
+				}
+				if(e is ModifyIntVariable mv)
+				{
+					if(mv.value is VariableRef vr && !ctx.definedVars.Contains(vr.variableName))
+					{
+						yield return LogMessage.Error(effectGroup.identifier, $"Use of undefined variable '{mv.variableName}' in VAR Effect");
+					}
+				}
+				else if(e is ModifyStringVariable msv)
+				{
+					if(msv.value is VariableRef vr && !ctx.definedSVars.Contains(vr.variableName))
+					{
+						yield return LogMessage.Error(effectGroup.identifier, $"Use of undefined string variable '{msv.variableName}' in SVAR Effect");
+					}
+				}
+				if(e is ConditionalEffectBlock conditional)
+				{
+					var cond = conditional.condition;
+					if(cond.VariableType == VariableType.Int)
+					{
+						//Check if int variable is defined
+						if(!ctx.definedVars.Contains(cond.variableName))
+						{
+							yield return LogMessage.Error(effectGroup.identifier, $"Use of undefined variable '{cond.variableName}' in condition");
+						}
+						if(cond.compareValue is VariableRef vr && !ctx.definedVars.Contains(vr.variableName))
+						{
+							yield return LogMessage.Error(effectGroup.identifier, $"Use of undefined variable '{vr.variableName}' in condition");
+						}
+					}
+					else if(cond.VariableType == VariableType.String)
+					{
+						//Check if string variable is defined
+						if(!ctx.definedSVars.Contains(cond.variableName))
+						{
+							yield return LogMessage.Error(effectGroup.identifier, $"Use of undefined string variable '{cond.variableName}' in condition");
+						}
+						if(cond.compareValue is VariableRef sv && !ctx.definedSVars.Contains(sv.variableName))
+						{
+							yield return LogMessage.Error(effectGroup.identifier, $"Use of undefined string variable '{sv.variableName}' in condition");
+						}
+					}
 				}
 
 				//Validate effect
@@ -105,9 +170,10 @@ namespace ZodiacsTextEngine
 					if(hasColor)
 					{
 						yield return LogMessage.Warning(effectGroup.identifier, "Color is not reset before leaving the room");
-						effectGroup.effects.Insert(i, new ResetColor());
+						//TODO: Reintroduce automatic color reset fix?
+						//effectGroup.effects.Insert(i, new ResetColor());
+						//i++;
 						hasColor = false;
-						i++;
 					}
 				}
 			}

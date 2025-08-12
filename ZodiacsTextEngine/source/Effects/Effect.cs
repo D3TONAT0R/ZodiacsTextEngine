@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ZodiacsTextEngine.Effects
 {
@@ -16,6 +17,19 @@ namespace ZodiacsTextEngine.Effects
 		public override string ToString()
 		{
 			return GetType().Name;
+		}
+
+
+		public void ListEffectsAndChildren(List<Effect> effects)
+		{
+			effects.Add(this);
+			if(this is IEffectParent p)
+			{
+				foreach(var c in p.GetChildEffects())
+				{
+					c.ListEffectsAndChildren(effects);
+				}
+			}
 		}
 	}
 }
