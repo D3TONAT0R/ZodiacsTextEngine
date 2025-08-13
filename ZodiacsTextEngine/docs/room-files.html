@@ -9,20 +9,22 @@
 
 <body>
     <nav>
-        <h2>ZodiacsTextEngine</h2>
+        <a href="index.html" class="title">ZodiacsTextEngine</a>
+        <a href="getting-started.html">Getting Started</a>
         <a href="room-files.html">Room File Structure</a>
         <a href="effects.html">Effects</a>
+        <a href="variables.html">Variables</a>
     </nav>
     <main>
         <h1>Room File Structure</h1>
         <p>
             Each room must be defined in its own file. The name of the file (without the extension)
             determines the name of the room as referenced by the engine and by effects such as
-            <code>+GOTO</code>. For example, a file named <code>secret_room.txt</code> will be
+            <code>+GOTO</code>. For example, a file named <code>secret_room.room</code> will be
             registered as a room called <code>secret_room</code>.
         </p>
         <div class="remark">
-            Room file names should not contain any special characters or spaces and must be unique across the game.:
+            Room file names should not contain any special characters or spaces and must be unique across the game.
         </div>
         <p>
             The general structure of a single room file is as follows:
@@ -69,13 +71,15 @@
             An example is provided below:
         </p>
         <code-block>
+            <li>//An example room file</li>
             <li>@ENTER</li>
             <li>+TEXT You enter a mysterious room.</li>
             <li>+TEXT There is a sturdy DOOR to the right and a dark PASSAGE to the left.</li>
             <li>+TEXT What will you do?</li>
             <li> </li>
             <li>&gt;DOOR</li>
-            <li>+TEXT You step towards the door and turn the knob.</li>
+            <li>+TEXT You step towards the door.</li>
+            <li>//A key is needed to proceed</li>
             <li>IF key == 1</li>
             <li>&#9;+TEXT Turning the key, the door slowly gives way.</li>
             <li>&#9;+GOTO secret_room</li>
@@ -85,14 +89,16 @@
             <li> </li>
             <li>&gt;PASSAGE</li>
             <li>+TEXT You approach the passage cautiously. It is cold and damp.</li>
+            <li>//Go to another room</li>
             <li>+GOTO dark_passage</li>
         </code-block>
         <h2>Choices</h2>
         <p>
-            Choices represent the different options a player can pick in the a room.
+            Choices represent the different options a player can pick in a room.
             Each choice has its own effects and may forward the player to another room.
-            If the player is not sent to another room, they will be prompted to make another choice.
-            Choices are case-insensitive.
+            If the player is not sent to another room, they will be prompted to make a choice again.
+            Choices are case-insensitive and leading and trailing spaces are ignored, which means that
+            "gold", "GOLD", and "&nbsp;&nbsp;&nbsp;Gold&nbsp;&nbsp;&nbsp;" all refer to the same choice.
         </p>
         <code-block>
             <li><em>&gt;GOLD</em></li>
@@ -110,16 +116,19 @@
         <p>
             The Anti-Choice <code>&gt;!</code> is a special type of choice that executes
             when the player performs an input that does not match any of the defined choices in the room file.
+            The user's choice is stored in the string variable <code>input</code>,
+            which contains the text of the last given input.
         </p>
         <code-block>
             <li>&gt;RED</li>
-            <li>+TEXT You chose the red pill.</li>
+            <li>+TEXT You choose the red pill.</li>
             <li> </li>
             <li>&gt;BLUE</li>
-            <li>+TEXT You chose the blue pill.</li>
+            <li>+TEXT You choose the blue pill.</li>
             <li> </li>
             <li><em>&gt;!</em></li>
-            <li>+TEXT You chose neither the red pill nor the blue pill.</li>
+            <li>+TEXT You choose neither the red pill nor the blue pill.</li>
+            <li>+TEXT Instead, you choose &lt;svar=input&gt;.</li>
         </code-block>
     </main>
 </body>

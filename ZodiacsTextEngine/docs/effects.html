@@ -8,529 +8,541 @@
 </head>
 
 <body>
-    <h1>Effects</h1>
-    <p>A comprehensive list of all available effects in the ZodiacsTextEngine.</p>
-    <div class="group" id="text">
-        <h2 class="effect">+TEXT</h2>
-        <p>Writes text to the output window.</p>
-        <p>
-            The text effect can be used to display single-line or multi-line text.
-            It supports rich text tags which can change the color of the text or display the value of a variable.
-        </p>
-        <h3>Examples</h3>
-        <code-block>
-            <li>//Single line text</li>
-            <li>+TEXT Hello, World!</li>
-            <li> </li>
-            <li>//Multi-line text</li>
-            <li>+TEXT</li>
-            <li>This is a multi-line text effect.</li>
-            <li>It can span multiple lines.</li>
-            <li> </li>
-            <li>It can also contain blank lines.</li>
-            <li> </li>
-            <li>//Rich text tags</li>
-            <li>+TEXT</li>
-            <li>This text is &lt;color=red&gt;red&lt;reset&gt;.</li>
-            <li>This text has a &lt;background=blue&gt;blue background&lt;reset&gt;.</li>
-            <li>You have &lt;var=hitpoints&gt; left.</li>
-        </code-block>
-        <output-window>
-            Hello, World!<br>
-            This is a multi-line text effect.<br>
-            It can span multiple lines.<br>
-            <br>
-            It can also contain blank lines.<br>
-            This text is <span style="color: red;">red</span>.<br>
-            This text has a <span style="background: blue;">blue background</span>.<br>
-            You have 73 hitpoints left.
-            <prompt>_</prompt>
-        </output-window>
-    </div>
+    <nav>
+        <a href="index.html" class="title">ZodiacsTextEngine</a>
+        <a href="getting-started.html">Getting Started</a>
+        <a href="room-files.html">Room File Structure</a>
+        <a href="effects.html">Effects</a>
+        <a href="variables.html">Variables</a>
+    </nav>
+    <main>
+        <h1>Effects</h1>
+        <p>A comprehensive list of all available effects in the ZodiacsTextEngine.</p>
+        <div class="group" id="text">
+            <h2 class="effect">+TEXT</h2>
+            <p>Writes text to the output window.</p>
+            <p>
+                The text effect can be used to display single-line or multi-line text.
+                It supports rich text tags which can change the color of the text or display the value of a variable.
+            </p>
+            <h3>Examples</h3>
+            <code-block>
+                <li>//Single line text</li>
+                <li>+TEXT Hello, World!</li>
+                <li> </li>
+                <li>//Multi-line text</li>
+                <li>+TEXT</li>
+                <li>This is a multi-line text effect.</li>
+                <li>It can span multiple lines.</li>
+                <li> </li>
+                <li>It can also contain blank lines.</li>
+                <li> </li>
+                <li>//Rich text tags</li>
+                <li>+TEXT</li>
+                <li>This text is &lt;color=red&gt;red&lt;reset&gt;.</li>
+                <li>This text has a &lt;background=blue&gt;blue background&lt;reset&gt;.</li>
+                <li>You have &lt;var=hitpoints&gt; left.</li>
+            </code-block>
+            <output-window>
+                Hello, World!<br>
+                This is a multi-line text effect.<br>
+                It can span multiple lines.<br>
+                <br>
+                It can also contain blank lines.<br>
+                This text is <span style="color: red;">red</span>.<br>
+                This text has a <span style="background: blue;">blue background</span>.<br>
+                You have 73 hitpoints left.
+                <prompt>_</prompt>
+            </output-window>
+        </div>
 
-    <div class="group" id="plain_text">
-        <h2 class="effect">+PLAIN_TEXT</h2>
-        <p>Writes text to the output window without any formatting.</p>
-        <p>
-            This effect works the same as <code><a href="#text">+TEXT</a></code>, but it does not process rich text tags.
-            This allows you to display special characters that would otherwise be interpreted as tags.
-        </p>
-        <h3>Examples</h3>
-        <code-block>
-            <li>+PLAIN_TEXT Hello, World!</li>
-            <li>+PLAIN_TEXT</li>
-            <li>This effect is similar to +TEXT</li>
-            <li>but it does not process &lt;color=yellow&gt;rich text tags&lt;reset&gt;</li>
-            <li> </li>
-            <li>+TEXT &lt; Welcome, traveler! &gt;</li>
-        </code-block>
-        <output-window>
-            Hello, World!<br>
-            This effect is similar to +TEXT<br>
-            but it does not process &lt;color=yellow&gt;rich text tags&lt;reset&gt;<br>
-            &lt; Welcome, traveler! &gt;
-            <prompt>_</prompt>
-        </output-window>
-    </div>
+        <div class="group" id="plain_text">
+            <h2 class="effect">+PLAIN_TEXT</h2>
+            <p>Writes text to the output window without any formatting.</p>
+            <p>
+                This effect works the same as <code><a href="#text">+TEXT</a></code>, but it does not process rich text
+                tags.
+                This allows you to display special characters that would otherwise be interpreted as tags.
+            </p>
+            <h3>Examples</h3>
+            <code-block>
+                <li>+PLAIN_TEXT Hello, World!</li>
+                <li>+PLAIN_TEXT</li>
+                <li>This effect is similar to +TEXT</li>
+                <li>but it does not process &lt;color=yellow&gt;rich text tags&lt;reset&gt;</li>
+                <li> </li>
+                <li>+TEXT &lt; Welcome, traveler! &gt;</li>
+            </code-block>
+            <output-window>
+                Hello, World!<br>
+                This effect is similar to +TEXT<br>
+                but it does not process &lt;color=yellow&gt;rich text tags&lt;reset&gt;<br>
+                &lt; Welcome, traveler! &gt;
+                <prompt>_</prompt>
+            </output-window>
+        </div>
 
-    <div class="group" id="space">
-        <h2 class="effect">+SPACE</h2>
-        <p>Writes blank lines to the output.</p>
-        <p>
-            This effect can be used to create space between text elements in the output window.<br>
-            The number of blank lines can be specified as an argument, defaulting to 1 if not provided.
-        </p>
-        <h3>Examples</h3>
-        <code-block>
-            <li>+TEXT This is a line of text.</li>
-            <li><em>+SPACE</em></li>
-            <li>+TEXT This is another line of text.</li>
-            <li><em>+SPACE 3</em></li>
-            <li>+TEXT This line is separated by three blank lines.</li>
-        </code-block>
-        <output-window>
-            This is a line of text.<br>
-            <br>
-            This is another line of text.<br>
-            <br>
-            <br>
-            <br>
-            This line is separated by three blank lines.
-            <prompt>_</prompt>
-        </output-window>
-    </div>
+        <div class="group" id="space">
+            <h2 class="effect">+SPACE</h2>
+            <p>Writes blank lines to the output.</p>
+            <p>
+                This effect can be used to create space between text elements in the output window.<br>
+                The number of blank lines can be specified as an argument, defaulting to 1 if not provided.
+            </p>
+            <h3>Examples</h3>
+            <code-block>
+                <li>+TEXT This is a line of text.</li>
+                <li><em>+SPACE</em></li>
+                <li>+TEXT This is another line of text.</li>
+                <li><em>+SPACE 3</em></li>
+                <li>+TEXT This line is separated by three blank lines.</li>
+            </code-block>
+            <output-window>
+                This is a line of text.<br>
+                <br>
+                This is another line of text.<br>
+                <br>
+                <br>
+                <br>
+                This line is separated by three blank lines.
+                <prompt>_</prompt>
+            </output-window>
+        </div>
 
-    <div class="group" id="clear">
-        <h2 class="effect">+CLEAR</h2>
-        <p>Clears the output window.</p>
-        <p>
-            This effect removes all text from the output window.
-            It is useful for resetting the display before showing new content.
-        </p>
-        <h3>Examples</h3>
-        <code-block>
-            <li>+TEXT Hello, World!</li>
-            <li>//Clear the output window</li>
-            <li><em>+CLEAR</em></li>
-            <li> </li>
-            <li>//Display new content</li>
-            <li>+TEXT Welcome to the ZodiacsTextEngine!</li>
-        </code-block>
-        <output-window>
-            Welcome to the ZodiacsTextEngine!
-            <prompt>_</prompt>
-        </output-window>
-    </div>
+        <div class="group" id="clear">
+            <h2 class="effect">+CLEAR</h2>
+            <p>Clears the output window.</p>
+            <p>
+                This effect removes all text from the output window.
+                It is useful for resetting the display before showing new content.
+            </p>
+            <h3>Examples</h3>
+            <code-block>
+                <li>+TEXT Hello, World!</li>
+                <li>//Clear the output window</li>
+                <li><em>+CLEAR</em></li>
+                <li> </li>
+                <li>//Display new content</li>
+                <li>+TEXT Welcome to the ZodiacsTextEngine!</li>
+            </code-block>
+            <output-window>
+                Welcome to the ZodiacsTextEngine!
+                <prompt>_</prompt>
+            </output-window>
+        </div>
 
-    <div class="group" id="color">
-        <h2 class="effect">+COLOR</h2>
-        <p>Changes the color of the text.</p>
-        <p>
-            This effect allows you to change the color of the text in the output window.
-            It affects all subsequent text until the color is changed again or reset.<br>
-            This effect can be combined with the <code><a href="#background">+BACKGROUND</a></code> effect and rich text tags.<br>
-            The rich text tag <code>&lt;reset&gt;</code> defaults back to this color.
-        </p>
-        <h3>Examples</h3>
-        <code-block>
-            <li>//Example usage</li>
-            <li>+TEXT Normal text</li>
-            <li><em>+COLOR red</em></li>
-            <li>+TEXT This text is red.</li>
-            <li><em>+COLOR blue</em></li>
-            <li>+TEXT This text is blue.</li>
-            <li>+RESET</li>
-            <li>+TEXT This text is back to normal.</li>
-        </code-block>
-        <output-window>
-            Normal text<br>
-            <span style="color: red;">This text is red.</span><br>
-            <span style="color: blue;">This text is blue.</span><br>
-            This text is back to normal.
-            <prompt>_</prompt>
-        </output-window>
-    </div>
+        <div class="group" id="color">
+            <h2 class="effect">+COLOR</h2>
+            <p>Changes the color of the text.</p>
+            <p>
+                This effect allows you to change the color of the text in the output window.
+                It affects all subsequent text until the color is changed again or reset.<br>
+                This effect can be combined with the <code><a href="#background">+BACKGROUND</a></code> effect and rich
+                text tags.<br>
+                The rich text tag <code>&lt;reset&gt;</code> defaults back to this color.
+            </p>
+            <h3>Examples</h3>
+            <code-block>
+                <li>//Example usage</li>
+                <li>+TEXT Normal text</li>
+                <li><em>+COLOR red</em></li>
+                <li>+TEXT This text is red.</li>
+                <li><em>+COLOR blue</em></li>
+                <li>+TEXT This text is blue.</li>
+                <li>+RESET</li>
+                <li>+TEXT This text is back to normal.</li>
+            </code-block>
+            <output-window>
+                Normal text<br>
+                <span style="color: red;">This text is red.</span><br>
+                <span style="color: blue;">This text is blue.</span><br>
+                This text is back to normal.
+                <prompt>_</prompt>
+            </output-window>
+        </div>
 
-    <div class="group" id="background">
-        <h2 class="effect">+BACKGROUND</h2>
-        <p>Changes the background color of the text.</p>
-        <p>
-            This effect allows you to change the background color of the text in the output window.
-            It affects all subsequent text until the background is changed again or reset.<br>
-            This effect can be combined with the <code><a href="#color">+COLOR</a></code> effect and rich text tags.<br>
-            The rich text tag <code>&lt;reset&gt;</code> defaults back to this color.
-        </p>
-        <h3>Examples</h3>
-        <code-block>
-            <li>//Example usage</li>
-            <li>+TEXT Normal text</li>
-            <li><em>+BACKGROUND red</em></li>
-            <li>+TEXT This text has a red background.</li>
-            <li><em>+BACKGROUND blue</em></li>
-            <li>+TEXT This text has a blue background.</li>
-            <li>+RESET</li>
-            <li>+TEXT This text is back to normal.</li>
-        </code-block>
-        <output-window>
-            Normal text<br>
-            <span style="background: red;">This text has a red background.</span><br>
-            <span style="background: blue;">This text has a blue background.</span><br>
-            This text is back to normal.
-            <prompt>_</prompt>
-        </output-window>
-    </div>
+        <div class="group" id="background">
+            <h2 class="effect">+BACKGROUND</h2>
+            <p>Changes the background color of the text.</p>
+            <p>
+                This effect allows you to change the background color of the text in the output window.
+                It affects all subsequent text until the background is changed again or reset.<br>
+                This effect can be combined with the <code><a href="#color">+COLOR</a></code> effect and rich text
+                tags.<br>
+                The rich text tag <code>&lt;reset&gt;</code> defaults back to this color.
+            </p>
+            <h3>Examples</h3>
+            <code-block>
+                <li>//Example usage</li>
+                <li>+TEXT Normal text</li>
+                <li><em>+BACKGROUND red</em></li>
+                <li>+TEXT This text has a red background.</li>
+                <li><em>+BACKGROUND blue</em></li>
+                <li>+TEXT This text has a blue background.</li>
+                <li>+RESET</li>
+                <li>+TEXT This text is back to normal.</li>
+            </code-block>
+            <output-window>
+                Normal text<br>
+                <span style="background: red;">This text has a red background.</span><br>
+                <span style="background: blue;">This text has a blue background.</span><br>
+                This text is back to normal.
+                <prompt>_</prompt>
+            </output-window>
+        </div>
 
-    <div class="group" id="reset">
-        <h2 class="effect">+RESET</h2>
-        <p>Resets all text formatting to the default.</p>
-        <p>
-            This effect clears all styles, including text and background color,
-            returning to the default text appearance.
-        </p>
-        <h3>Examples</h3>
-        <code-block>
-            <li>+COLOR yellow</li>
-            <li>+TEXT This text is yellow.</li>
-            <li>+BACKGROUND gray</li>
-            <li>+TEXT This text is yellow with a gray background.</li>
-            <li><em>+RESET</em></li>
-            <li>+TEXT This text is back to normal.</li>
-        </code-block>
-        <output-window>
-            <span style="color: yellow;">This text is yellow.</span><br>
-            <span style="color: yellow; background: gray;">This text is yellow with a gray background.</span><br>
-            This text is back to normal.
-            <prompt>_</prompt>
-        </output-window>
-    </div>
+        <div class="group" id="reset">
+            <h2 class="effect">+RESET</h2>
+            <p>Resets all text formatting to the default.</p>
+            <p>
+                This effect clears all styles, including text and background color,
+                returning to the default text appearance.
+            </p>
+            <h3>Examples</h3>
+            <code-block>
+                <li>+COLOR yellow</li>
+                <li>+TEXT This text is yellow.</li>
+                <li>+BACKGROUND gray</li>
+                <li>+TEXT This text is yellow with a gray background.</li>
+                <li><em>+RESET</em></li>
+                <li>+TEXT This text is back to normal.</li>
+            </code-block>
+            <output-window>
+                <span style="color: yellow;">This text is yellow.</span><br>
+                <span style="color: yellow; background: gray;">This text is yellow with a gray background.</span><br>
+                This text is back to normal.
+                <prompt>_</prompt>
+            </output-window>
+        </div>
 
-    <div class="group" id="var">
-        <h2 class="effect">+VAR_SET / +VAR_ADD</h2>
-        <p>Sets or adds to a variable.</p>
-        <p>
-            This effect allows you to modify the value of a variable.<br>
-            Variables can be used to store game state information, such as player inventory or health.<br>
-            They can be checked in <code>IF/ELSE</code> blocks to control the flow of the game.
-        </p>
-        <h3>Examples</h3>
-        <code-block>
-            <li><em>+VAR_SET coins 7</em></li>
-            <li>+TEXT You are in front of a pile of coins. You have &lt;var=coins&gt; coins.</li>
-            <li>+TEXT You take three coins.</li>
-            <li><em>+VAR_ADD coins 3</em></li>
-            <li>+TEXT You now have &lt;var=coins&gt; coins.</li>
-            <li>IF coins > 5</li>
-            <li>&#9;+TEXT You have enough coins to buy a potion (costs 5 coins).</li>
-            <li>&#9;+TEXT You buy a potion.</li>
-            <li>&#9;<em>+VAR_ADD coins -5</em></li>
-            <li>&#9;<em>+VAR_ADD potions 1</em></li>
-            <li>&#9;+TEXT You now have &lt;var=coins&gt; coins and &lt;var=potions&gt; potion(s).</li>
-            <li>ELSE</li>
-            <li>&#9;+TEXT You don't have enough coins to buy a potion.</li>
-            <li>ENDIF</li>
-        </code-block>
-        <output-window>
-            You are in front of a pile of coins. You have 7 coins.<br>
-            You take three coins.<br>
-            You now have 10 coins.<br>
-            You have enough coins to buy a potion (costs 5 coins).<br>
-            You buy a potion.<br>
-            You now have 5 coins and 1 potion(s).
-            <prompt>_</prompt>
-        </output-window>
-    </div>
+        <div class="group" id="var">
+            <h2 class="effect">+VAR_SET / +VAR_ADD</h2>
+            <p>Sets or adds to a variable.</p>
+            <p>
+                This effect allows you to modify the value of a variable.<br>
+                Variables can be used to store game state information, such as player inventory or health.<br>
+                They can be checked in <code>IF/ELSE</code> blocks to control the flow of the game.
+            </p>
+            <h3>Examples</h3>
+            <code-block>
+                <li><em>+VAR_SET coins 7</em></li>
+                <li>+TEXT You are in front of a pile of coins. You have &lt;var=coins&gt; coins.</li>
+                <li>+TEXT You take three coins.</li>
+                <li><em>+VAR_ADD coins 3</em></li>
+                <li>+TEXT You now have &lt;var=coins&gt; coins.</li>
+                <li>IF coins > 5</li>
+                <li>&#9;+TEXT You have enough coins to buy a potion (costs 5 coins).</li>
+                <li>&#9;+TEXT You buy a potion.</li>
+                <li>&#9;<em>+VAR_ADD coins -5</em></li>
+                <li>&#9;<em>+VAR_ADD potions 1</em></li>
+                <li>&#9;+TEXT You now have &lt;var=coins&gt; coins and &lt;var=potions&gt; potion(s).</li>
+                <li>ELSE</li>
+                <li>&#9;+TEXT You don't have enough coins to buy a potion.</li>
+                <li>ENDIF</li>
+            </code-block>
+            <output-window>
+                You are in front of a pile of coins. You have 7 coins.<br>
+                You take three coins.<br>
+                You now have 10 coins.<br>
+                You have enough coins to buy a potion (costs 5 coins).<br>
+                You buy a potion.<br>
+                You now have 5 coins and 1 potion(s).
+                <prompt>_</prompt>
+            </output-window>
+        </div>
 
-    <div class="group" id="svar">
-        <h2 class="effect">+SVAR_SET / +SVAR_ADD</h2>
-        <p>Sets or adds to a string variable.</p>
-        <p>
-            This effect allows you to modify the value of a string variable.<br>
-            String variables can be used to store text information, such as player names or other inputs.<br>
-            They can be checked in <code>IF/ELSE</code> blocks to control the flow of the game.<br>
-            Content without double quotes gets interpreted as a variable name.<br>
-            NOTE: String variables and numeric variables are separate and cannot be used interchangeably.
-        </p>
-        <h3>Examples</h3>
-        <code-block>
-            <li>+TEXT What is your name?</li>
-            <li><em>+SVAR_SET name "Harry"</em></li>
-            <li>+TEXT Hello, &lt;var=name&gt;! And what is your full name?</li>
-            <li><em>+SVAR_ADD name "Potter"</em></li>
-            <li>+TEXT Nice to meet you, &lt;var=name&gt;!</li>
-            <li>IF name IS "Harry Potter"</li>
-            <li>&#9;+TEXT You're a wizard, Harry!</li>
-            <li>ENDIF</li>
-        </code-block>
-        <output-window>
-            What is your name?<br>
-            Hello, Harry! And what is your full name?<br>
-            Nice to meet you, Harry Potter!<br>
-            You're a wizard, Harry!
-            <prompt>_</prompt>
-        </output-window>
-        <code-block>
-            <li>//Define variable house</li>
-            <li><em>+SVAR_SET house "A house"</em></li>
-            <li> </li>
-            <li>//Set variable x to string "house"</li>
-            <li><em>+SVAR_SET x "house"</em></li>
-            <li>+TEXT &lt;var=x&gt;</li>
-            <li> </li>
-            <li>//Set variable y to the value of variable named house</li>
-            <li><em>+SVAR_SET y house</em></li>
-            <li>+TEXT &lt;var=y&gt;</li>
-            <li> </li>
-            <li>//String concatenation</li>
-            <li><em>+SVAR_SET description "giant"</em></li>
-            <li><em>+SVAR_SET z "A "</em></li>
-            <li><em>+SVAR_ADD z description</em></li>
-            <li><em>+SVAR_ADD z " house."</em></li>
-            <li>+TEXT &lt;var=z&gt;</li>
-        </code-block>
-        <output-window>
-            house<br>
-            A house<br>
-            A giant house.<br>
-            <prompt>_</prompt>
-        </output-window>
-    </div>
+        <div class="group" id="svar">
+            <h2 class="effect">+SVAR_SET / +SVAR_ADD</h2>
+            <p>Sets or adds to a string variable.</p>
+            <p>
+                This effect allows you to modify the value of a string variable.<br>
+                String variables can be used to store text information, such as player names or other inputs.<br>
+                They can be checked in <code>IF/ELSE</code> blocks to control the flow of the game.<br>
+                Content without double quotes gets interpreted as a variable name.<br>
+                NOTE: String variables and numeric variables are separate and cannot be used interchangeably.
+            </p>
+            <h3>Examples</h3>
+            <code-block>
+                <li>+TEXT What is your name?</li>
+                <li><em>+SVAR_SET name "Harry"</em></li>
+                <li>+TEXT Hello, &lt;var=name&gt;! And what is your full name?</li>
+                <li><em>+SVAR_ADD name "Potter"</em></li>
+                <li>+TEXT Nice to meet you, &lt;var=name&gt;!</li>
+                <li>IF name IS "Harry Potter"</li>
+                <li>&#9;+TEXT You're a wizard, Harry!</li>
+                <li>ENDIF</li>
+            </code-block>
+            <output-window>
+                What is your name?<br>
+                Hello, Harry! And what is your full name?<br>
+                Nice to meet you, Harry Potter!<br>
+                You're a wizard, Harry!
+                <prompt>_</prompt>
+            </output-window>
+            <code-block>
+                <li>//Define variable house</li>
+                <li><em>+SVAR_SET house "A house"</em></li>
+                <li> </li>
+                <li>//Set variable x to string "house"</li>
+                <li><em>+SVAR_SET x "house"</em></li>
+                <li>+TEXT &lt;var=x&gt;</li>
+                <li> </li>
+                <li>//Set variable y to the value of variable named house</li>
+                <li><em>+SVAR_SET y house</em></li>
+                <li>+TEXT &lt;var=y&gt;</li>
+                <li> </li>
+                <li>//String concatenation</li>
+                <li><em>+SVAR_SET description "giant"</em></li>
+                <li><em>+SVAR_SET z "A "</em></li>
+                <li><em>+SVAR_ADD z description</em></li>
+                <li><em>+SVAR_ADD z " house."</em></li>
+                <li>+TEXT &lt;var=z&gt;</li>
+            </code-block>
+            <output-window>
+                house<br>
+                A house<br>
+                A giant house.<br>
+                <prompt>_</prompt>
+            </output-window>
+        </div>
 
-    <div class="group" id="goto">
-        <h2 class="effect">+GOTO</h2>
-        <p>Goes to the room with the given name.</p>
-        <p>
-            The game proceeds immediately to the specified room,
-            any following effects from the current room are skipped.
-        </p>
-        <h3>Examples</h3>
-        <code-block>
-            <li>//house.txt</li>
-            <li>@ENTER</li>
-            <li>+TEXT</li>
-            <li>There is a door leading to the back of the house.</li>
-            <li>You can LOOK through the window or go through the DOOR.</li>
-            <li> </li>
-            <li>What will you do?</li>
-            <li> </li>
-            <li>//Choice that is executed when the user types 'DOOR'</li>
-            <li>&gt;DOOR</li>
-            <li>+TEXT Curious, you open the door and step outside.</li>
-            <li><em>+GOTO garden.txt</em></li>
-            <li> </li>
-            <li>&gt;WINDOW</li>
-            <li>+TEXT You look through the window and see a beautiful garden.</li>
-        </code-block>
-        <code-block>
-            <li>//garden.txt</li>
-            <li>@ENTER</li>
-            <li>+COLOR green</li>
-            <li>+TEXT</li>
-            <li>You enter a beautiful garden.</li>
-        </code-block>
-        <output-window>
-            There is a door leading to the back of the house.<br>
-            You can LOOK through the window or go through the DOOR.<br>
-            <br>
-            What will you do?<br>
-            <prompt>DOOR</prompt>
-            Curious, you open the door and step outside.<br>
-            <span style="color: green;">You enter a beautiful garden.</span>
-            <prompt>_</prompt>
-        </output-window>
-    </div>
+        <div class="group" id="goto">
+            <h2 class="effect">+GOTO</h2>
+            <p>Goes to the room with the given name.</p>
+            <p>
+                The game proceeds immediately to the specified room,
+                any following effects from the current room are skipped.
+            </p>
+            <h3>Examples</h3>
+            <code-block>
+                <li>//house.txt</li>
+                <li>@ENTER</li>
+                <li>+TEXT</li>
+                <li>There is a door leading to the back of the house.</li>
+                <li>You can LOOK through the window or go through the DOOR.</li>
+                <li> </li>
+                <li>What will you do?</li>
+                <li> </li>
+                <li>//Choice that is executed when the user types 'DOOR'</li>
+                <li>&gt;DOOR</li>
+                <li>+TEXT Curious, you open the door and step outside.</li>
+                <li><em>+GOTO garden.txt</em></li>
+                <li> </li>
+                <li>&gt;WINDOW</li>
+                <li>+TEXT You look through the window and see a beautiful garden.</li>
+            </code-block>
+            <code-block>
+                <li>//garden.txt</li>
+                <li>@ENTER</li>
+                <li>+COLOR green</li>
+                <li>+TEXT</li>
+                <li>You enter a beautiful garden.</li>
+            </code-block>
+            <output-window>
+                There is a door leading to the back of the house.<br>
+                You can LOOK through the window or go through the DOOR.<br>
+                <br>
+                What will you do?<br>
+                <prompt>DOOR</prompt>
+                Curious, you open the door and step outside.<br>
+                <span style="color: green;">You enter a beautiful garden.</span>
+                <prompt>_</prompt>
+            </output-window>
+        </div>
 
-    <div class="group" id="return">
-        <h2 class="effect">+RETURN</h2>
-        <p>Returns to the same room.</p>
-        <p>
-            This is equivalent to <code><a href="#goto">+GOTO</a> (name of current room)</code>,
-            causing the room's enter event to be triggered again.<br>
-            This effect must be used cautiously when used within an <code>@ENTER</code> event,
-            as it can lead to an infinite loop if not handled properly.
-        </p>
-        <h3>Examples</h3>
-        <code-block>
-            <li>@ENTER</li>
-            <li>+TEXT You are in front of a pile of coins. You have &lt;var=coins&gt; coins.</li>
-            <li> </li>
-            <li>&gt;TAKE COIN</li>
-            <li>+TEXT You take a coin.</li>
-            <li>+VAR_ADD coins 1</li>
-            <li><em>+RETURN</em></li>
-        </code-block>
-        <output-window>
-            You are in front of a pile of coins. You have 0 coins.<br>
-            <prompt>TAKE COIN</prompt>
-            You take a coin.<br>
-            You are in front of a pile of coins. You have 1 coins.<br>
-            <prompt>TAKE COIN</prompt>
-            You take a coin.<br>
-            You are in front of a pile of coins. You have 2 coins.<br>
-            <prompt>TAKE COIN</prompt>
-            You take a coin.<br>
-            You are in front of a pile of coins. You have 3 coins.
-            <prompt>_</prompt>
-        </output-window>
-    </div>
-    <div class="group" id="gameover">
-        <h2 class="effect">+GAMEOVER</h2>
-        <p>Triggers a game over state.</p>
-        <p>
-            This effect is used to indicate that the game has ended,
-            either due to a player loss or reaching the end of the story.<br>
-            Depending on the behaviour of the text interface, the game may either restart,
-            return to a main menu, or exit altogether.
-        </p>
-        <h3>Examples</h3>
-        <code-block>
-            <li>+TEXT You have escaped!</li>
-            <li><em>+GAMEOVER</em></li>
-        </code-block>
-        <output-window>
-            You have escaped!<br>
-            ---------<br>
-            Game Over<br>
-            ---------<br>
-            <span style="color: gray;">[Press any key to restart]</span><br>
-        </output-window>
-    </div>
+        <div class="group" id="return">
+            <h2 class="effect">+RETURN</h2>
+            <p>Returns to the same room.</p>
+            <p>
+                This is equivalent to <code><a href="#goto">+GOTO</a> (name of current room)</code>,
+                causing the room's enter event to be triggered again.<br>
+                This effect must be used cautiously when used within an <code>@ENTER</code> event,
+                as it can lead to an infinite loop if not handled properly.
+            </p>
+            <h3>Examples</h3>
+            <code-block>
+                <li>@ENTER</li>
+                <li>+TEXT You are in front of a pile of coins. You have &lt;var=coins&gt; coins.</li>
+                <li> </li>
+                <li>&gt;TAKE COIN</li>
+                <li>+TEXT You take a coin.</li>
+                <li>+VAR_ADD coins 1</li>
+                <li><em>+RETURN</em></li>
+            </code-block>
+            <output-window>
+                You are in front of a pile of coins. You have 0 coins.<br>
+                <prompt>TAKE COIN</prompt>
+                You take a coin.<br>
+                You are in front of a pile of coins. You have 1 coins.<br>
+                <prompt>TAKE COIN</prompt>
+                You take a coin.<br>
+                You are in front of a pile of coins. You have 2 coins.<br>
+                <prompt>TAKE COIN</prompt>
+                You take a coin.<br>
+                You are in front of a pile of coins. You have 3 coins.
+                <prompt>_</prompt>
+            </output-window>
+        </div>
+        <div class="group" id="gameover">
+            <h2 class="effect">+GAMEOVER</h2>
+            <p>Triggers a game over state.</p>
+            <p>
+                This effect is used to indicate that the game has ended,
+                either due to a player loss or reaching the end of the story.<br>
+                Depending on the behaviour of the text interface, the game may either restart,
+                return to a main menu, or exit altogether.
+            </p>
+            <h3>Examples</h3>
+            <code-block>
+                <li>+TEXT You have escaped!</li>
+                <li><em>+GAMEOVER</em></li>
+            </code-block>
+            <output-window>
+                You have escaped!<br>
+                ---------<br>
+                Game Over<br>
+                ---------<br>
+                <span style="color: gray;">[Press any key to restart]</span><br>
+            </output-window>
+        </div>
 
-    <div class="group" id="exit">
-        <h2 class="effect">+EXIT</h2>
-        <p>Closes the game window.</p>
-        <p>
-            This terminates the game process immediately.
-            To end the game normally, it is recommended to use <code><a href="#gameover">+GAMEOVER</a></code> instead.<br>
-            The behaviour of the exit effect can be overriden using a custom text interface.
-        </p>
-        <h3>Examples</h3>
-        <code-block>
-            <li>+TEXT To quit the game, type "QUIT"</li>
-            <li> </li>
-            <li>&gt; QUIT</li>
-            <li><em>+EXIT</em></li>
-        </code-block>
-        <output-window>
-            To quit the game, type "QUIT"<br>
-            <span style="color: gray;">&gt; QUIT</span><br>
-        </output-window>
-    </div>
+        <div class="group" id="exit">
+            <h2 class="effect">+EXIT</h2>
+            <p>Closes the game window.</p>
+            <p>
+                This terminates the game process immediately.
+                To end the game normally, it is recommended to use <code><a href="#gameover">+GAMEOVER</a></code>
+                instead.<br>
+                The behaviour of the exit effect can be overriden using a custom text interface.
+            </p>
+            <h3>Examples</h3>
+            <code-block>
+                <li>+TEXT To quit the game, type "QUIT"</li>
+                <li> </li>
+                <li>&gt; QUIT</li>
+                <li><em>+EXIT</em></li>
+            </code-block>
+            <output-window>
+                To quit the game, type "QUIT"<br>
+                <span style="color: gray;">&gt; QUIT</span><br>
+            </output-window>
+        </div>
 
-    <div class="group" id="wait">
-        <h2 class="effect">+WAIT</h2>
-        <p>Waits for the user to press any key.</p>
-        <p>
-            This effect pauses further execution until the user presses a key.
-            It is useful for allowing the player to read text before continuing.<br>
-            The prompt can be customized with a custom message, otherwise it will revert
-            to the default message <code>[Press any key to continue]</code>.
-        </p>
-        <h3>Examples</h3>
-        <code-block>
-            <li>+TEXT Hello, World!</li>
-            <li><em>+WAIT</em></li>
-            <li>+TEXT You pressed a key!</li>
-            <li><em>+WAIT Further user input required</em></li>
-            <li>+TEXT Welcome aboard.</li>
-        </code-block>
-        <output-window>
-            Hello, World!<br>
-            <span style="color: gray;">[Press any key to continue]</span><br>
-            You pressed a key!<br>
-            <span style="color: gray;">[Further user input required]</span><br>
-            Welcome aboard.
-            <prompt>_</prompt>
-        </output-window>
-    </div>
+        <div class="group" id="wait">
+            <h2 class="effect">+WAIT</h2>
+            <p>Waits for the user to press any key.</p>
+            <p>
+                This effect pauses further execution until the user presses a key.
+                It is useful for allowing the player to read text before continuing.<br>
+                The prompt can be customized with a custom message, otherwise it will revert
+                to the default message <code>[Press any key to continue]</code>.
+            </p>
+            <h3>Examples</h3>
+            <code-block>
+                <li>+TEXT Hello, World!</li>
+                <li><em>+WAIT</em></li>
+                <li>+TEXT You pressed a key!</li>
+                <li><em>+WAIT Further user input required</em></li>
+                <li>+TEXT Welcome aboard.</li>
+            </code-block>
+            <output-window>
+                Hello, World!<br>
+                <span style="color: gray;">[Press any key to continue]</span><br>
+                You pressed a key!<br>
+                <span style="color: gray;">[Further user input required]</span><br>
+                Welcome aboard.
+                <prompt>_</prompt>
+            </output-window>
+        </div>
 
-    <div class="group" id="delay">
-        <h2 class="effect">+DELAY</h2>
-        <p>Waits a specific amount of seconds before continuing.</p>
-        <p>
-            This effect pauses execution for a specified number of seconds.
-            It is useful for creating timed pauses in the text flow.<br>
-            The delay can be specified in seconds, and it can be a decimal value for more precise timing.<br>
-            During the delay, no user input is accepted, and the output window remains unchanged.
-        </p>
-        <h3>Examples</h3>
-        <code-block>
-            <li><em>+DELAY 0.5</em></li>
-            <li>+TEXT Big Man goes live.</li>
-            <li><em>+DELAY 2</em></li>
-            <li>+TEXT He threatens to destroy the earth with his portable thermonuclear bomb or even several.</li>
-        </code-block>
-        <output-window>
-            Big Man goes live.<br>
-            He threatens to destroy the earth with his portable thermonuclear bomb or even several.
-            <prompt>_</prompt>
-        </output-window>
-    </div>
+        <div class="group" id="delay">
+            <h2 class="effect">+DELAY</h2>
+            <p>Waits a specific amount of seconds before continuing.</p>
+            <p>
+                This effect pauses execution for a specified number of seconds.
+                It is useful for creating timed pauses in the text flow.<br>
+                The delay can be specified in seconds, and it can be a decimal value for more precise timing.<br>
+                During the delay, no user input is accepted, and the output window remains unchanged.
+            </p>
+            <h3>Examples</h3>
+            <code-block>
+                <li><em>+DELAY 0.5</em></li>
+                <li>+TEXT Big Man goes live.</li>
+                <li><em>+DELAY 2</em></li>
+                <li>+TEXT He threatens to destroy the earth with his portable thermonuclear bomb or even several.</li>
+            </code-block>
+            <output-window>
+                Big Man goes live.<br>
+                He threatens to destroy the earth with his portable thermonuclear bomb or even several.
+                <prompt>_</prompt>
+            </output-window>
+        </div>
 
-    <div class="group" id="template">
-        <h2 class="effect">+FUNC</h2>
-        <p>Executes a custom C# function.</p>
-        <p>
-            Use this effect to invoke a custom function declared in the project.<br>
-            The function accepts any number of parameters, which are passed as individual strings.<br>
-            With custom functions, you can implement complex logic that is not covered by the built-in effects.<br>
-        </p>
-        <h3>Examples</h3>
-        <code-block>
-            <li>//Room file</li>
-            <li><em>+FUNC math_add 1 1</em></li>
-            <li><em>+FUNC math_add 5 7</em></li>
-            <li><em>+FUNC math_add -5 32</em></li>
-        </code-block>
-        <code-block>
-            <li>//C# file</li>
-            <li>AddFunction("math_add", parameters =></li>
-            <li>{</li>
-            <li>&#9;int a = int.Parse(parameters[0]);</li>
-            <li>&#9;int b = int.Parse(parameters[1]);</li>
-            <li>&#9;int result = a + b;</li>
-            <li>&#9;TextEngine.Interface.Write($"Result of {a} + {b} = {result}");</li>
-            <li>});</li>
-        </code-block>
-        <output-window>
-            Result of 1 + 1 =: 2<br>
-            Result of 5 + 7 = 12<br>
-            Result of -5 + 32 = 27
-            <prompt>_</prompt>
-        </output-window>
-    </div>
+        <div class="group" id="template">
+            <h2 class="effect">+FUNC</h2>
+            <p>Executes a custom C# function.</p>
+            <p>
+                Use this effect to invoke a custom function declared in the project.<br>
+                The function accepts any number of parameters, which are passed as individual strings.<br>
+                With custom functions, you can implement complex logic that is not covered by the built-in effects.<br>
+            </p>
+            <h3>Examples</h3>
+            <code-block>
+                <li>//Room file</li>
+                <li><em>+FUNC math_add 1 1</em></li>
+                <li><em>+FUNC math_add 5 7</em></li>
+                <li><em>+FUNC math_add -5 32</em></li>
+            </code-block>
+            <code-block>
+                <li>//C# file</li>
+                <li>AddFunction("math_add", parameters =></li>
+                <li>{</li>
+                <li>&#9;int a = int.Parse(parameters[0]);</li>
+                <li>&#9;int b = int.Parse(parameters[1]);</li>
+                <li>&#9;int result = a + b;</li>
+                <li>&#9;TextEngine.Interface.Write($"Result of {a} + {b} = {result}");</li>
+                <li>});</li>
+            </code-block>
+            <output-window>
+                Result of 1 + 1 =: 2<br>
+                Result of 5 + 7 = 12<br>
+                Result of -5 + 32 = 27
+                <prompt>_</prompt>
+            </output-window>
+        </div>
 
 
-    <div class="group" id="todo">
-        <h2 class="effect">+TODO</h2>
-        <p>A comment indicating that something is work in progress.</p>
-        <p>
-            This effect can be used to mark a specific location that is work in progress.
-            All TODOs will be reported at the start of the game when running in debug mode.<br>
-            During gameplay, this effect does nothing.
-        </p>
-        <h3>Examples</h3>
-        <code-block>
-            <li>//This will be reported every time when running the game with debug mode on</li>
-            <li><em>+TODO Write more text</em></li>
-        </code-block>
-    </div>
+        <div class="group" id="todo">
+            <h2 class="effect">+TODO</h2>
+            <p>A comment indicating that something is work in progress.</p>
+            <p>
+                This effect can be used to mark a specific location that is work in progress.
+                All TODOs will be reported at the start of the game when running in debug mode.<br>
+                During gameplay, this effect does nothing.
+            </p>
+            <h3>Examples</h3>
+            <code-block>
+                <li>//This will be reported every time when running the game with debug mode on</li>
+                <li><em>+TODO Write more text</em></li>
+            </code-block>
+        </div>
 
-    <div class="group" id="breakpoint">
-        <h2 class="effect">+BREAKPOINT</h2>
-        <p>Triggers a breakpoint in the debugger.</p>
-        <p>
-            When running in a debugging environment, this effect invokes
-            <code>System.Diagnostics.Debugger.Break()</code>,
-            halting execution and allowing the developer to inspect the current state.<br>
-            The effect itself does not produce any output.
-        </p>
-        <h3>Examples</h3>
-        <code-block>
-            <li>//Triggers a breakpoint when reaching this line</li>
-            <li><em>+BREAKPOINT</em></li>
-        </code-block>
-    </div>
-
+        <div class="group" id="breakpoint">
+            <h2 class="effect">+BREAKPOINT</h2>
+            <p>Triggers a breakpoint in the debugger.</p>
+            <p>
+                When running in a debugging environment, this effect invokes
+                <code>System.Diagnostics.Debugger.Break()</code>,
+                halting execution and allowing the developer to inspect the current state.<br>
+                The effect itself does not produce any output.
+            </p>
+            <h3>Examples</h3>
+            <code-block>
+                <li>//Triggers a breakpoint when reaching this line</li>
+                <li><em>+BREAKPOINT</em></li>
+            </code-block>
+        </div>
+    </main>
     <footer>
         <p>ZodiacsTextEngine | 2025</p>
     </footer>
