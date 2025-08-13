@@ -21,7 +21,7 @@ namespace ZodiacsTextEngine
 		{
 			bool headerPrinted = false;
 			List<string> writeVars = new List<string>();
-			List<string> writeSVars = new List<string>();
+			List<string> writeSVars = new List<string>() { "input" }; //input is automatically set by the engine
 			//Gather all variables used in the room
 			foreach(var room in gameData.Rooms.Values)
 			{

@@ -52,7 +52,8 @@ public class TestTextInterface : ITextInterface
 
 	public Task<Choice> RequestChoice(Room room)
 	{
-		return Task.FromResult(room.GetChoice(ReadInput().Result));
+		var input = TextEngine.RequestInput().Result;
+		return Task.FromResult(room.GetChoice(input));
 	}
 
 	public void ListChoices(List<Choice> choices)

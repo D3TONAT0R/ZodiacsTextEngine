@@ -18,7 +18,7 @@ namespace SampleProject
 				//Request player name
 				AddFunction("prompt_player_name", async _ =>
 				{
-					var name = await TextEngine.Interface.ReadInput();
+					var name = await TextEngine.RequestInput();
 					GameSession.Current.variables.SetString("player_name", name);
 					return null;
 				});
@@ -27,7 +27,7 @@ namespace SampleProject
 				AddFunction("goto_prompt", async _ =>
 				{
 					TextEngine.Interface.Write("Go to room: ", true);
-					var nextRoomName = await TextEngine.Interface.ReadInput();
+					var nextRoomName = await TextEngine.RequestInput();
 					await GameSession.Current.GoToRoom(nextRoomName);
 					return null;
 				});
