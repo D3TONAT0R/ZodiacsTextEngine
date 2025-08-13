@@ -11,12 +11,14 @@ namespace ZodiacsTextEngine.Parser
 	{
 		public class ParserContext
 		{
+			public GameData gameData;
 			public string currentFileName;
 			public string[] lines;
 			public ConditionalEffectBlock currentBlock = null;
 
-			public ParserContext(string fileName, string[] lines)
+			public ParserContext(GameData gameData, string fileName, string[] lines)
 			{
+				this.gameData = gameData;
 				currentFileName = fileName;
 				this.lines = lines;
 			}
@@ -76,11 +78,11 @@ namespace ZodiacsTextEngine.Parser
 			}
 		}
 
-		public static Room Parse(string fileName, string content)
+		public static Room Parse(GameData gameData, string fileName, string content)
 		{
 			var name = Path.GetFileNameWithoutExtension(fileName);
 			var lines = content.Replace("\r", "").Split('\n');
-			var ctx = new ParserContext(name, lines);
+			var ctx = new ParserContext(gameData, name, lines);
 
 			int linePos = 0;
 			Room room = new Room(ctx.currentFileName);
@@ -292,13 +294,13 @@ namespace ZodiacsTextEngine.Parser
 			else
 			{
 				//Search custom functions
-				if(Functions.Exists(keyword))
+				if(ctx.gameData.Functions.ContainsKey(keyword.ToLower()))
 				{
 					return new FunctionRef(keyword, content.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
 				}
 				else
 				{
-					throw new FileParseException(ctx, startLinePos, "Invalid keyword: " + keyword);
+					throw new FileParseException(ctx, startLinePos, "Invalid effect keyword and not a function: " + keyword);
 				}
 			}
 		}

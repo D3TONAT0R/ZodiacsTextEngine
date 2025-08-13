@@ -89,6 +89,19 @@ namespace Tests
 		[Test]
 		public void TestCustomFunctions()
 		{
+			RunTest(
+				SingleFile("custom_functions"),
+				//Inputs
+				null,
+				//Expected output
+				[
+					"Test Function",
+					"Test Function",
+					"A 1, B 2, C 3",
+					"Hello My custom function",
+					"Rich text with Test Function."
+				]
+			);
 
 		}
 

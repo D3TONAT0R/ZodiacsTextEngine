@@ -3,3 +3,6 @@
 +TEST_FUNC
 +TEST_FUNC_WITH_PARAMS 1 2 3
 +MY_FUNCTION My custom function
++TEXT Rich text with <func=test_func>.
++MY_NONEXISTENT_FUNCTION
++EXIT

@@ -11,7 +11,9 @@ namespace ZodiacsTextEngine
 		{
 			if(TryGet(id, out var func))
 			{
-				return await func.Invoke(arguments ?? Array.Empty<string>());
+				var task = func.Invoke(arguments ?? Array.Empty<string>());
+				if(task != null) return await task;
+				return Task.FromResult<string>(null).Result; // If the function returns null, return null
 			}
 			else
 			{
@@ -20,7 +22,7 @@ namespace ZodiacsTextEngine
 				{
 					await TextEngine.Interface.WaitForInput(true);
 				}
-				return null;
+				return Task.FromResult<string>(null).Result; // Return null if the function does not exist
 			}
 		}
 
@@ -31,7 +33,7 @@ namespace ZodiacsTextEngine
 
 		public static bool TryGet(string id, out FunctionDelegate function)
 		{
-			return TextEngine.GameData.Functions.TryGetValue(id.ToLower(), out function))
+			return TextEngine.GameData.Functions.TryGetValue(id.ToLower(), out function);
 		}
 
 		public static bool Exists(string id)

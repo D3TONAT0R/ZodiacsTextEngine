@@ -21,10 +21,10 @@ namespace ZodiacsTextEngine
 			name = id;
 		}
 
-		public static Room FromFile(string filename)
+		public static Room FromFile(GameData gameData, string filename)
 		{
 			var content = File.ReadAllText(filename);
-			return RoomParser.Parse(filename, content);
+			return RoomParser.Parse(gameData, filename, content);
 		}
 
 		public Choice GetChoice(string input)

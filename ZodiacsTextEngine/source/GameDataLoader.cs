@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using static ZodiacsTextEngine.Functions;
 
@@ -11,11 +12,35 @@ namespace ZodiacsTextEngine
 		public GameData Load(ref bool success)
 		{
 			gameData = new GameData();
-			LoadContent(ref success);
+			Begin();
+			foreach(var func in LoadFunctions())
+			{
+				AddFunction(func);
+			}
+			foreach(var room in LoadRooms())
+			{
+				AddRoom(room);
+			}
+			Complete();
 			return gameData;
 		}
 
-		protected abstract void LoadContent(ref bool success);
+		protected virtual void Begin()
+		{
+
+		}
+
+		protected virtual IEnumerable<(string, FunctionDelegate)> LoadFunctions()
+		{
+			yield break;
+		}
+
+		protected abstract IEnumerable<Room> LoadRooms();
+
+		protected virtual void Complete()
+		{
+
+		}
 
 		public virtual void AddRoom(Room room)
 		{
@@ -32,9 +57,10 @@ namespace ZodiacsTextEngine
 			gameData.VariableNames.Add(name);
 		}
 
-
-		public virtual void AddFunction(string id, FunctionDelegate func)
+		public virtual void AddFunction((string, FunctionDelegate) function)
 		{
+			string id = function.Item1.ToLower();
+			FunctionDelegate func = function.Item2;
 			if(id.Contains(" ")) throw new ArgumentException($"Function names cannot contain whitespaces.");
 			foreach(var c in id)
 			{
@@ -47,18 +73,53 @@ namespace ZodiacsTextEngine
 			gameData.Functions.Add(id, func);
 		}
 
-		public void AddFunction(string id, Func<string> func)
+		public (string, FunctionDelegate) CreateFunction(string id, Action func)
 		{
-			AddFunction(id, _ => Task.FromResult(func.Invoke()));
+			return (id, _ =>
+			{
+				func.Invoke();
+				return Task.FromResult<string>(null);
+			}
+			);
 		}
 
-		public void AddFunction(string id, Action action)
+		public (string, FunctionDelegate) CreateFunction(string id, Func<string> func)
 		{
-			AddFunction(id, _ =>
+			return (id, _ => Task.FromResult(func.Invoke()));
+		}
+
+		public (string, FunctionDelegate) CreateFunction(string id, Func<Task<string>> func)
+		{
+			return (id, async _ =>
 			{
-				action.Invoke();
+				await func.Invoke();
+				return null;
+			}
+			);
+		}
+
+		public (string, FunctionDelegate) CreateFunction(string id, Action<string[]> func)
+		{
+			return (id, args =>
+			{
+				func.Invoke(args);
 				return Task.FromResult<string>(null);
-			});
+			}
+			);
+		}
+
+		public (string, FunctionDelegate) CreateFunction(string id, Func<string[], string> func)
+		{
+			return (id, args =>
+			{
+				return Task.FromResult(func.Invoke(args));
+			}
+			);
+		}
+
+		public (string, FunctionDelegate) CreateFunction(string id, FunctionDelegate func)
+		{
+			return (id, func);
 		}
 	}
 }

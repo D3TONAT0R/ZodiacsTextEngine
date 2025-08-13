@@ -11,12 +11,10 @@ namespace SampleProject
 				// Set the root directory to "content" and the starting room to "start"
 			}
 
-			protected override void LoadContent(ref bool success)
+			protected override IEnumerable<(string, Functions.FunctionDelegate)> LoadFunctions()
 			{
-				base.LoadContent(ref success);
-
 				//Request player name
-				AddFunction("prompt_player_name", async _ =>
+				yield return ("prompt_player_name", async _ =>
 				{
 					var name = await TextEngine.RequestInput();
 					GameSession.Current.variables.SetString("player_name", name);
@@ -24,7 +22,7 @@ namespace SampleProject
 				});
 
 				//Quick jump to room
-				AddFunction("goto_prompt", async _ =>
+				yield return ("goto_prompt", async _ =>
 				{
 					TextEngine.Interface.Write("Go to room: ", true);
 					var nextRoomName = await TextEngine.RequestInput();
