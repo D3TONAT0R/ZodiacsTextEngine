@@ -8,107 +8,120 @@
 </head>
 
 <body>
-    <h1>Room File Structure</h1>
-    <p>
-        Each room must be defined in its own file. The name of the file (without the extension)
-        determines the name of the room as referenced by the engine and by effects such as
-        <code>+GOTO</code>. For example, a file named <code>secret_room.txt</code> will be
-        registered as a room called <code>secret_room</code>.
-    </p>
-    <div class="remark">
-        Room file names should not contain any special characters or spaces and must be unique across the game.:
-    </div>
-    <p>
-        The general structure of a single room file is as follows:
-    </p>
-    <code-block>
-        <li>@ENTER <i>Required</i></li>
-        <li>+EFFECT <i>Effects to execute when entering the room</i></li>
-        <li> </li>
-        <li>@EXIT <i>Optional</i></li>
-        <li>+EFFECT <i>Effects to execute when exiting the room</i></li>
-        <li> </li>
-        <li>&gt;Choice 1</li>
-        <li>+EFFECT <i>Invoked when inputting "Choice 1"</i></li>
-        <li> </li>
-        <li>&gt;Choice 2</li>
-        <li>+EFFECT <i>Invoked when inputting "Choice 2"</i></li>
-        <li> </li>
-        <li><i>Add more choices as required</i></li>
-    </code-block>
-    <p>
-        The <code>@ENTER</code> tag is mandatory and should be the (aside from comments) first line in the room file. 
-        It indicates the start of the room's content. The <code>@EXIT</code> block is optional
-        and can be used to define effects that occur when leaving the room. Room files do not necessarily need to include choices if the <code>@ENTER</code> event forwards
-        the player to another room.
-    </p>
-    <p>
-        Upon reaching the end of a block, the engine will await input from the player.
-        The player can then input their choice, which then triggers the corresponding choice.
-        In case the input does not match any available choices, an "Unknown option" message will be displayed,
-        and the engine will prompt the player to try again.
-    </p>
-    <p>
-        Using the <code>+GOTO</code> effect, the game can transition to another room file. In this case,
-        the current room's <code>@EXIT</code> effect will be executed (if present), followed by the
-        <code>@ENTER</code> block of the new room.
-    </p>
-    <p>
-        An example is provided below:
-    </p>
-    <code-block>
-        <li>@ENTER</li>
-        <li>+TEXT You enter a mysterious room.</li>
-        <li>+TEXT There is a sturdy DOOR to the right and a dark PASSAGE to the left.</li>
-        <li>+TEXT What will you do?</li>
-        <li> </li>
-        <li>&gt;DOOR</li>
-        <li>+TEXT You step towards the door and turn the knob.</li>
-        <li>IF key == 1</li>
-        <li>&#9;+TEXT Turning the key, the door slowly gives way.</li>
-        <li>&#9;+GOTO secret_room</li>
-        <li>ELSE</li>
-        <li>&#9;+TEXT The door is locked. You need a key.</li>
-        <li>ENDIF</li>
-        <li> </li>
-        <li>&gt;PASSAGE</li>
-        <li>+TEXT You approach the passage cautiously. It is cold and damp.</li>
-        <li>+GOTO dark_passage</li>
-    </code-block>
-    <h2>Choices</h2>
-    <p>
-        Choices represent the different options a player can pick in the a room.
-        Each choice has its own effects and may forward the player to another room.
-        If the player is not sent to another room, they will be prompted to make another choice.
-        Choices are case-insensitive.
-    </p>
-    <code-block>
-        <li><em>&gt;GOLD</em></li>
-        <li>+TEXT You take the gold. A trap springs into action. The floor gives way beneath you!</li>
-        <li>+GOTO dungeon</li>
-        <li> </li>
-        <li><em>&gt;LEAVE</em></li>
-        <li>+TEXT You leave the room without taking any gold.</li>
-        <li>+GOTO outside</li>
-        <li> </li>
-        <li><em>&gt;WAIT</em></li>
-        <li>+TEXT You wait patiently. Nothing happens.</li>
-    </code-block>
-    <h2>The Anti-Choice</h2>
-    <p>
-        The Anti-Choice <code>&gt;!</code> is a special type of choice that executes
-        when the player performs an input that does not match any of the defined choices in the room file.
-    </p>
-    <code-block>
-        <li>&gt;RED</li>
-        <li>+TEXT You chose the red pill.</li>
-        <li> </li>
-        <li>&gt;BLUE</li>
-        <li>+TEXT You chose the blue pill.</li>
-        <li> </li>
-        <li><em>&gt;!</em></li>
-        <li>+TEXT You chose neither the red pill nor the blue pill.</li>
-    </code-block>
+    <nav>
+        <h2>ZodiacsTextEngine</h2>
+        <a href="room-files.html">Room File Structure</a>
+        <a href="effects.html">Effects</a>
+    </nav>
+    <main>
+        <h1>Room File Structure</h1>
+        <p>
+            Each room must be defined in its own file. The name of the file (without the extension)
+            determines the name of the room as referenced by the engine and by effects such as
+            <code>+GOTO</code>. For example, a file named <code>secret_room.txt</code> will be
+            registered as a room called <code>secret_room</code>.
+        </p>
+        <div class="remark">
+            Room file names should not contain any special characters or spaces and must be unique across the game.:
+        </div>
+        <p>
+            The general structure of a single room file is as follows:
+        </p>
+        <code-block>
+            <li>@ENTER <i>Required</i></li>
+            <li>+EFFECT <i>Effects to execute when entering the room</i></li>
+            <li> </li>
+            <li>@EXIT <i>Optional</i></li>
+            <li>+EFFECT <i>Effects to execute when exiting the room</i></li>
+            <li> </li>
+            <li>&gt;Choice 1</li>
+            <li>+EFFECT <i>Invoked when inputting "Choice 1"</i></li>
+            <li> </li>
+            <li>&gt;Choice 2</li>
+            <li>+EFFECT <i>Invoked when inputting "Choice 2"</i></li>
+            <li> </li>
+            <li><i>Add more choices as required</i></li>
+        </code-block>
+        <p>
+            The <code>@ENTER</code> tag is mandatory and should be the (aside from comments) first line in the room
+            file.
+            It indicates the start of the room's content. The <code>@EXIT</code> block is optional
+            and can be used to define effects that occur when leaving the room. Room files do not necessarily need to
+            include choices if the <code>@ENTER</code> event forwards
+            the player to another room.
+        </p>
+        <p>
+            Upon reaching the end of a block, the engine will await input from the player.
+            The player can then input their choice, which then triggers the corresponding choice.
+            In case the input does not match any available choices, an "Unknown option" message will be displayed,
+            and the engine will prompt the player to try again.
+        </p>
+        <p>
+            Using the <code>+GOTO</code> effect, the game can transition to another room file. In this case,
+            the current room's <code>@EXIT</code> effect will be executed (if present), followed by the
+            <code>@ENTER</code> block of the new room.
+        </p>
+        <p>
+            Comments can be written using the prefix <code>//</code> and can be placed anywhere in the file
+            except in text blocks, where they will be interpreted as part of the text.
+        </p>
+        <p>
+            An example is provided below:
+        </p>
+        <code-block>
+            <li>@ENTER</li>
+            <li>+TEXT You enter a mysterious room.</li>
+            <li>+TEXT There is a sturdy DOOR to the right and a dark PASSAGE to the left.</li>
+            <li>+TEXT What will you do?</li>
+            <li> </li>
+            <li>&gt;DOOR</li>
+            <li>+TEXT You step towards the door and turn the knob.</li>
+            <li>IF key == 1</li>
+            <li>&#9;+TEXT Turning the key, the door slowly gives way.</li>
+            <li>&#9;+GOTO secret_room</li>
+            <li>ELSE</li>
+            <li>&#9;+TEXT The door is locked. You need a key.</li>
+            <li>ENDIF</li>
+            <li> </li>
+            <li>&gt;PASSAGE</li>
+            <li>+TEXT You approach the passage cautiously. It is cold and damp.</li>
+            <li>+GOTO dark_passage</li>
+        </code-block>
+        <h2>Choices</h2>
+        <p>
+            Choices represent the different options a player can pick in the a room.
+            Each choice has its own effects and may forward the player to another room.
+            If the player is not sent to another room, they will be prompted to make another choice.
+            Choices are case-insensitive.
+        </p>
+        <code-block>
+            <li><em>&gt;GOLD</em></li>
+            <li>+TEXT You take the gold. A trap springs into action. The floor gives way beneath you!</li>
+            <li>+GOTO dungeon</li>
+            <li> </li>
+            <li><em>&gt;LEAVE</em></li>
+            <li>+TEXT You leave the room without taking any gold.</li>
+            <li>+GOTO outside</li>
+            <li> </li>
+            <li><em>&gt;WAIT</em></li>
+            <li>+TEXT You wait patiently. Nothing happens.</li>
+        </code-block>
+        <h2>The Anti-Choice</h2>
+        <p>
+            The Anti-Choice <code>&gt;!</code> is a special type of choice that executes
+            when the player performs an input that does not match any of the defined choices in the room file.
+        </p>
+        <code-block>
+            <li>&gt;RED</li>
+            <li>+TEXT You chose the red pill.</li>
+            <li> </li>
+            <li>&gt;BLUE</li>
+            <li>+TEXT You chose the blue pill.</li>
+            <li> </li>
+            <li><em>&gt;!</em></li>
+            <li>+TEXT You chose neither the red pill nor the blue pill.</li>
+        </code-block>
+    </main>
 </body>
 
 </html>
