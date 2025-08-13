@@ -37,7 +37,7 @@ namespace ZodiacsTextEngine.Parser
 		private const string ELSE_CONDITION_MARKER = "ELSE";
 		private const string COMMENT_MARKER = "//";
 
-		private static readonly Dictionary<string, MethodInfo> effectParsers = new Dictionary<string, MethodInfo>();
+		private static readonly Dictionary<string, EffectParserDelegate> effectParsers = new Dictionary<string, EffectParserDelegate>();
 
 		static RoomParser()
 		{
@@ -63,9 +63,9 @@ namespace ZodiacsTextEngine.Parser
 							var id = attr.identifier.ToUpper();
 							if(effectParsers.ContainsKey(id))
 							{
-								throw new InvalidOperationException($"Duplicate effect parser identifier '{id}' found in {method.DeclaringType.Name} and {effectParsers[id].DeclaringType.Name}.");
+								throw new InvalidOperationException($"Duplicate effect parser identifier '{id}' found in {method.DeclaringType.Name} and in {effectParsers[id].Method.DeclaringType.Name}.");
 							}
-							effectParsers[attr.identifier.ToUpper()] = method;
+							effectParsers[attr.identifier.ToUpper()] = (EffectParserDelegate)Delegate.CreateDelegate(typeof(EffectParserDelegate), method);
 						}
 					}
 					catch(Exception e)
@@ -265,9 +265,9 @@ namespace ZodiacsTextEngine.Parser
 			//Count number of tabs to determine indent
 			int indent = 0;
 			while(ctx.lines[linePos][indent] == '\t') indent++;
-			if(effectParsers.TryGetValue(keyword, out var method))
+			if(effectParsers.TryGetValue(keyword, out var parser))
 			{
-				var attr = method.GetCustomAttribute<EffectParserAttribute>();
+				var attr = parser.Method.GetCustomAttribute<EffectParserAttribute>();
 				bool allowMultiline = attr.multiline;
 				var parseContext = new EffectParseContext(ctx, startLinePos);
 				if(allowMultiline)
@@ -281,7 +281,7 @@ namespace ZodiacsTextEngine.Parser
 				}
 				try
 				{
-					var effect = (Effect)method.Invoke(null, new object[] { parseContext });
+					var effect = parser.Invoke(parseContext);
 					return effect;
 				}
 				catch(Exception e)
@@ -291,7 +291,15 @@ namespace ZodiacsTextEngine.Parser
 			}
 			else
 			{
-				throw new FileParseException(ctx, startLinePos, "Invalid keyword: " + keyword);
+				//Search custom functions
+				if(Functions.Exists(keyword))
+				{
+					return new FunctionRef(keyword, content.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
+				}
+				else
+				{
+					throw new FileParseException(ctx, startLinePos, "Invalid keyword: " + keyword);
+				}
 			}
 		}
 

@@ -18,5 +18,20 @@ public class SingleFileGameDataLoader : GameDataLoader
 		SetStartRoom(room.name);
 		AddFunction("assert", EngineTests.AssertFunc);
 		AddFunction("fail", EngineTests.FailFunc);
+
+		AddFunction("test_func", () =>
+		{
+			TextEngine.Interface.Write("Test Function", true);
+		});
+		AddFunction("test_func_with_params", (args) =>
+		{
+			TextEngine.Interface.Write($"Argument 0 {args[0]}, Argument 1 {args[1]}, Argument 2 {args[2]}", true);
+			return null;
+		});
+		AddFunction("test_func_with_params", (args) =>
+		{
+			TextEngine.Interface.Write($"Argument 0 {args[0]}, Argument 1 {args[1]}, Argument 2 {args[2]}", true);
+			return null;
+		});
 	}
 }

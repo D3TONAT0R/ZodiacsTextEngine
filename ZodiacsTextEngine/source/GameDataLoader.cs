@@ -35,8 +35,15 @@ namespace ZodiacsTextEngine
 
 		public virtual void AddFunction(string id, FunctionDelegate func)
 		{
-			if(id.Contains(" ")) throw new ArgumentException($"Function ids cannot contain whitespaces");
-			if(gameData.Functions.ContainsKey(id)) throw new ArgumentException($"A function with id '{id}' already exists.");
+			if(id.Contains(" ")) throw new ArgumentException($"Function names cannot contain whitespaces.");
+			foreach(var c in id)
+			{
+				if(!char.IsLetterOrDigit(c) && c != '_' && c != '-')
+				{
+					throw new ArgumentException($"Function names may only contain letters, digits, '-', and '_'.");
+				}
+			}
+			if(gameData.Functions.ContainsKey(id)) throw new ArgumentException($"A function with name '{id}' already exists.");
 			gameData.Functions.Add(id, func);
 		}
 

@@ -9,7 +9,7 @@ namespace ZodiacsTextEngine
 
 		public static async Task<string> Execute(string id, string[] arguments)
 		{
-			if(TextEngine.GameData.Functions.TryGetValue(id, out var func))
+			if(TryGet(id, out var func))
 			{
 				return await func.Invoke(arguments ?? Array.Empty<string>());
 			}
@@ -24,9 +24,19 @@ namespace ZodiacsTextEngine
 			}
 		}
 
+		public static FunctionDelegate Get(string id)
+		{
+			return TextEngine.GameData.Functions[id.ToLower()];
+		}
+
+		public static bool TryGet(string id, out FunctionDelegate function)
+		{
+			return TextEngine.GameData.Functions.TryGetValue(id.ToLower(), out function))
+		}
+
 		public static bool Exists(string id)
 		{
-			return TextEngine.GameData.Functions.ContainsKey(id);
+			return TextEngine.GameData.Functions.ContainsKey(id.ToLower());
 		}
 	}
 }

@@ -1,7 +1,10 @@
 ﻿using System;
+using ZodiacsTextEngine.Effects;
 
 namespace ZodiacsTextEngine.Parser
 {
+	public delegate Effect EffectParserDelegate(EffectParseContext context);
+
 	public class EffectParserAttribute : Attribute
 	{
 		public readonly string identifier;

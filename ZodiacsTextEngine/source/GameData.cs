@@ -31,7 +31,7 @@ namespace ZodiacsTextEngine
 
 		public List<string> VariableNames { get; } = new List<string>();
 
-		public Dictionary<string, FunctionDelegate> Functions { get; } = new Dictionary<string, FunctionDelegate>();
+		internal Dictionary<string, FunctionDelegate> Functions { get; } = new Dictionary<string, FunctionDelegate>();
 
 		public GameData(Dictionary<string, Room> rooms, string startRoomName, List<string> variableNames)
 		{

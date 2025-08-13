@@ -86,6 +86,12 @@ namespace Tests
 			);
 		}
 
+		[Test]
+		public void TestCustomFunctions()
+		{
+
+		}
+
 		#endregion
 
 		public static Task<string> AssertFunc(string[] args)
