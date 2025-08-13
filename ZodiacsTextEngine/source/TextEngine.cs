@@ -86,5 +86,12 @@ namespace ZodiacsTextEngine
 			//Interface.Write("", true);
 			await choice.Execute();
 		}
+
+		public static async Task<string> RequestInput()
+		{
+			var input = await Interface.ReadInput();
+			GameSession.Current.variables.SetString("input", input);
+			return input;
+		}
 	}
 }

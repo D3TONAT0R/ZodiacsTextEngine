@@ -68,7 +68,7 @@ namespace ZodiacsTextEngine
 			{
 				LineBreak();
 				Console.Write("> ");
-				string input = await ReadInput();
+				string input = await TextEngine.RequestInput();
 
 				if(DebugMode)
 				{

@@ -217,7 +217,7 @@ namespace ZodiacsTextEngine.Parser
 			else if(keyword == StatementType.Choice)
 			{
 				var choice = (Choice)group;
-				if(choice.prompt == "!") room.incorrectChoice = choice;
+				if(choice.prompt == "!") room.antiChoice = choice;
 				else room.choices.Add((Choice)group);
 			}
 			return true;

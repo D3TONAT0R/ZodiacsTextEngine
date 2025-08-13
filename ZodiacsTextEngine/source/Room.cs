@@ -13,7 +13,7 @@ namespace ZodiacsTextEngine
 		public EffectGroup onEnter;
 		public EffectGroup onExit;
 		public List<Choice> choices = new List<Choice>();
-		public Choice incorrectChoice;
+		public Choice antiChoice;
 
 		public Room(string id)
 		{
@@ -34,7 +34,7 @@ namespace ZodiacsTextEngine
 			{
 				if(input.Equals(c.prompt, StringComparison.OrdinalIgnoreCase)) return c;
 			}
-			if(incorrectChoice != null) return incorrectChoice;
+			if(antiChoice != null) return antiChoice;
 			return null;
 		}
 
