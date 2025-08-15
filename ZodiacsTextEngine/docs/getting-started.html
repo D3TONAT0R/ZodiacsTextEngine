@@ -19,6 +19,65 @@
     </nav>
     <main>
         <h1>Getting Started</h1>
+        <h2>Prerequisites</h2>
+        <p>To get started writing your story using the provided console application, you will need:</p>
+        <ul>
+            <li>A text editor for writing your story.</li>
+            <li>A copy of the ZodiacsTextEngine console application.</li>
+        </ul>
+        <p>If you intend to write custom functions or integrate it into another environment, you'll also need:</p>
+        <ul>
+            <li>An IDE capable of creating .NET applications, such as Visual Studio, Visual Studio Code, or JetBrains
+                Rider.</li>
+            <li>A copy of the ZodiacsTextEngine package.</li>
+            <li>A .NET project to integrate the ZodiacsTextEngine into.</li>
+        </ul>
+        <div class="remark">
+            For more information how to setup the engine in a .NET project, refer to <a href="library-usage.html">Using
+                ZodiacsTextEngine in a custom Application</a>.
+        </div>
+        <h2>Writing Content</h2>
+        <p>
+            When using the provided console application, the game content files need to be placed in a folder named
+            <code>content</code> next to the executable.
+        </p>
+        <p>
+            The ZodiacsTextEngine follows a file structure where each section is defined in its own file (called a
+            "room").
+            The engine runs through the content of a room file sequentially, executing effects and displaying text until
+            the end, where it awaits user input. Depending on user input, the story can branch into different rooms,
+            execute other effects (e.g. adding an item to the player's inventory), or simply provide flavour text.
+        </p>
+        <p>
+            By default, the ZodiacsTextEngine uses the file named <code>start.room</code> as the starting point for the
+            game.
+        </p>
+        <p>The folder structure can look like this:</p>
+        <div class="file-structure">
+            <div class="folder">Game Directory
+                <div class="file">game.exe</div>
+                <div class="folder">content
+                    <div class="file"><em>start.room</em></div>
+                    <div class="file">entrance.room</div>
+                    <div class="file">hallway.room</div>
+                    <div class="folder">dungeon
+                        <div class="file">dungeon_entrance.room</div>
+                        <div class="file">dungeon_trap.room</div>
+                    </div>
+                    <div class="file">...</div>
+                </div>
+            </div>
+        </div>
+        <div class="remark">
+            The required file structure and name of the start room can be customized when writing a custom application.
+        </div>
+        <p>
+            Room files can be grouped into subfolders without restrictions,
+            the subfolders have no effect on how the room files are processed.
+        </p>
+        <p>
+            See <a href="room-files.html">Room File Structure</a> for detailed information on how to write room files.
+        </p>
     </main>
 </body>
 

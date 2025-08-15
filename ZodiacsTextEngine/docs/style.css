@@ -89,6 +89,10 @@ nav a.title {
 
 h1, h2, h3, h4, h5, h6 {
     color: var(--primary-color);
+    margin-top: 2em;
+}
+
+h1:first-child, h2:first-child, h3:first-child, h4:first-child, h5:first-child, h6:first-child {
     margin-top: 0;
 }
 
@@ -267,6 +271,7 @@ output-window::before {
     padding: 16px 24px 16px;
     font-weight: bold;
     background: var(--surface-color);
+    margin: 1em 0 1em;
 }
 
 .remark::before {
@@ -324,4 +329,30 @@ h1.ascii {
 
 .effect {
     font-family: 'Fira Mono', 'Consolas', monospace;
+}
+
+.file-structure {
+    border: var(--border);
+    padding-top: 1em;
+    padding-bottom: 1em;
+
+    div {
+        padding-left: 1.5em;
+    }
+
+    margin: 1em 0 1em;
+}
+
+.file-structure>div {
+    padding-left: 1em;
+}
+
+.folder::before {
+    content: "📁";
+    margin-right: 0.5em;
+}
+
+.file::before {
+    content: "📄";
+    margin-right: 0.5em;
 }
