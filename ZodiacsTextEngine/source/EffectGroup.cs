@@ -20,8 +20,9 @@ namespace ZodiacsTextEngine
 		public async Task Execute()
 		{
 			conditionStates.Clear();
-			foreach(var e in effects)
+			for (var i = 0; i < effects.Count; i++)
 			{
+				var e = effects[i];
 				await e.Execute(this);
 			}
 		}

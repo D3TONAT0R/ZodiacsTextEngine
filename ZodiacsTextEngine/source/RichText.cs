@@ -87,7 +87,7 @@ namespace ZodiacsTextEngine
 	public class VariableComponent : RichTextComponent
 	{
 		public string variableName;
-		public float multiplier = 1;
+		public float multiplier;
 		public string format;
 
 		public VariableComponent(string variableName, float multiplier = 1, string format = null) : base(null)

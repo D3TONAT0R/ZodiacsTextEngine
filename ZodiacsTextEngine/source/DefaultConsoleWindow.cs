@@ -38,6 +38,9 @@ namespace ZodiacsTextEngine
 		{
 			DebugMode = debug;
 			Console.CancelKeyPress += (sender, e) => e.Cancel = true;
+			Console.BackgroundColor = ConsoleColor.Black;
+			Console.ForegroundColor = ConsoleColor.Gray;
+			Console.Clear();
 		}
 
 		public virtual void OnLoadError()
@@ -73,6 +76,8 @@ namespace ZodiacsTextEngine
 
 		public virtual void Clear()
 		{
+			ForegroundColor = TextEngine.GameData.DefaultForegroundColor.ToColor();
+			BackgroundColor = TextEngine.GameData.DefaultBackgroundColor.ToColor();
 			Console.Clear();
 		}
 
@@ -127,22 +132,22 @@ namespace ZodiacsTextEngine
 
 		public virtual void Text(string text, Color? color = null, Color? background = null)
 		{
-			if(color.HasValue) Console.ForegroundColor = color.Value.ToConsoleColor();
-			if(background.HasValue) Console.BackgroundColor = background.Value.ToConsoleColor();
+			if(color.HasValue) ForegroundColor = color.Value;
+			if(background.HasValue) BackgroundColor = background.Value;
 			Write(text, true);
-			if(color.HasValue) Console.ForegroundColor = ForegroundColor.ToConsoleColor();
-			if(background.HasValue) Console.BackgroundColor = BackgroundColor.ToConsoleColor();
 		}
 
 		public virtual void LineBreak()
 		{
-			var foregroundColor = Console.ForegroundColor;
-			var backgroundColor = Console.BackgroundColor;
-			Console.ForegroundColor = ForegroundColor.ToConsoleColor();
-			Console.BackgroundColor = BackgroundColor.ToConsoleColor();
 			Console.WriteLine();
-			Console.ForegroundColor = foregroundColor;
-			Console.BackgroundColor = backgroundColor;
+			return;
+			var foregroundColor = ForegroundColor;
+			var backgroundColor = BackgroundColor;
+			Console.ForegroundColor = TextEngine.GameData?.DefaultForegroundColor ?? Console.ForegroundColor;
+			Console.BackgroundColor = TextEngine.GameData?.DefaultBackgroundColor ?? Console.BackgroundColor;
+			Console.WriteLine();
+			ForegroundColor = foregroundColor;
+			BackgroundColor = backgroundColor;
 		}
 
 		public virtual void Write(string text, bool lineBreak, bool wordWrap = true)
@@ -179,7 +184,11 @@ namespace ZodiacsTextEngine
 
 		public virtual void Hint(string text)
 		{
+			var foregroundColor = ForegroundColor;
+			var backgroundColor = BackgroundColor;
 			Text(text, Color.HintForeground, Color.HintBackground);
+			ForegroundColor = foregroundColor;
+			BackgroundColor = backgroundColor;
 		}
 
 		public virtual void VerticalSpace(int count = 1)

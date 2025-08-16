@@ -31,6 +31,30 @@ namespace ZodiacsTextEngine
 
 	public static class ColorExtensions
 	{
+		public static Color ToColor(this ConsoleColor color)
+		{
+			switch(color)
+			{
+				case ConsoleColor.Black: return Color.Black;
+				case ConsoleColor.DarkBlue: return Color.DarkBlue;
+				case ConsoleColor.DarkGreen: return Color.DarkGreen;
+				case ConsoleColor.DarkCyan: return Color.DarkCyan;
+				case ConsoleColor.DarkRed: return Color.DarkRed;
+				case ConsoleColor.DarkMagenta: return Color.DarkMagenta;
+				case ConsoleColor.DarkYellow: return Color.DarkYellow;
+				case ConsoleColor.Gray: return Color.Gray;
+				case ConsoleColor.DarkGray: return Color.DarkGray;
+				case ConsoleColor.Blue: return Color.Blue;
+				case ConsoleColor.Green: return Color.Green;
+				case ConsoleColor.Cyan: return Color.Cyan;
+				case ConsoleColor.Red: return Color.Red;
+				case ConsoleColor.Magenta: return Color.Magenta;
+				case ConsoleColor.Yellow: return Color.Yellow;
+				case ConsoleColor.White: return Color.White;
+				default: throw new ArgumentOutOfRangeException(nameof(color), color, null);
+			}
+		}
+
 		public static ConsoleColor ToConsoleColor(this Color color)
 		{
 			switch(color)
@@ -60,8 +84,12 @@ namespace ZodiacsTextEngine
 				case Color.HighlightBackground: return TextEngine.GameData?.HighlightBackgroundColor
 						?? TextEngine.GameData?.DefaultBackgroundColor
 						?? ConsoleColor.Black;
-				case Color.HintForeground: return TextEngine.GameData?.HintForegroundColor ?? ConsoleColor.DarkGray;
-				case Color.HintBackground: return TextEngine.GameData?.HintBackgroundColor ?? ConsoleColor.Black;
+				case Color.HintForeground: return TextEngine.GameData?.HintForegroundColor
+						?? TextEngine.GameData?.DefaultForegroundColor
+						?? ConsoleColor.DarkGray;
+				case Color.HintBackground: return TextEngine.GameData?.HintBackgroundColor
+						?? TextEngine.GameData?.DefaultBackgroundColor
+						?? ConsoleColor.Black;
 				default: throw new ArgumentOutOfRangeException(nameof(color), color, null);
 			}
 		}

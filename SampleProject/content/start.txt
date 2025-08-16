@@ -1,2 +1,9 @@
 ﻿@ENTER
++COLOR_SETTING foreground dark_yellow
++COLOR_SETTING background black
++COLOR_SETTING highlight_foreground white
++COLOR_SETTING highlight_background none
++COLOR_SETTING hint_foreground dark_gray
++COLOR_SETTING hint_background none
++CLEAR_OUTPUT
 +GOTO mansion_start

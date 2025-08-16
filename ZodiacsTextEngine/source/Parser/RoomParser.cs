@@ -409,29 +409,53 @@ namespace ZodiacsTextEngine.Parser
 
 		public static Color ParseColor(ParserContext ctx, string input, int linePos)
 		{
-			switch(input.ToUpper())
+			switch(input.ToLower())
 			{
-				case "BLACK": return Color.Black;
-				case "BLUE": return Color.Blue;
-				case "CYAN": return Color.Cyan;
-				case "DARK_BLUE": return Color.DarkBlue;
-				case "DARK_CYAN": return Color.DarkCyan;
-				case "DARK_GRAY": return Color.DarkGray;
-				case "DARK_GREEN": return Color.DarkGreen;
-				case "DARK_MAGENTA": return Color.DarkMagenta;
-				case "DARK_RED": return Color.DarkRed;
-				case "DARK_YELLOW": return Color.DarkYellow;
-				case "GRAY": return Color.Gray;
-				case "GREEN": return Color.Green;
-				case "MAGENTA": return Color.Magenta;
-				case "RED": return Color.Red;
-				case "WHITE": return Color.White;
-				case "YELLOW": return Color.Yellow;
-				case "TEXT": return Color.DefaultForeground;
-				case "BACKGROUND": return Color.DefaultBackground;
-				case "HIGHLIGHT_TEXT": return Color.HighlightForeground;
-				case "HIGHLIGHT_BACKGROUND": return Color.HighlightBackground;
+				case "black": return Color.Black;
+				case "blue": return Color.Blue;
+				case "cyan": return Color.Cyan;
+				case "dark_blue": return Color.DarkBlue;
+				case "dark_cyan": return Color.DarkCyan;
+				case "dark_gray": return Color.DarkGray;
+				case "dark_green": return Color.DarkGreen;
+				case "dark_magenta": return Color.DarkMagenta;
+				case "dark_red": return Color.DarkRed;
+				case "dark_yellow": return Color.DarkYellow;
+				case "gray": return Color.Gray;
+				case "green": return Color.Green;
+				case "magenta": return Color.Magenta;
+				case "red": return Color.Red;
+				case "white": return Color.White;
+				case "yellow": return Color.Yellow;
+				case "text": return Color.DefaultForeground;
+				case "background": return Color.DefaultBackground;
+				case "highlight_text": return Color.HighlightForeground;
+				case "highlight_background": return Color.HighlightBackground;
 				default: throw new FileParseException(ctx, linePos, "Invalid input for color: " + input);
+			}
+		}
+
+		public static ConsoleColor ParseConsoleColor(ParserContext ctx, string input, int linePos)
+		{
+			switch(input.ToLower())
+			{
+				case "black": return ConsoleColor.Black;
+				case "blue": return ConsoleColor.Blue;
+				case "cyan": return ConsoleColor.Cyan;
+				case "dark_blue": return ConsoleColor.DarkBlue;
+				case "dark_cyan": return ConsoleColor.DarkCyan;
+				case "dark_gray": return ConsoleColor.DarkGray;
+				case "dark_green": return ConsoleColor.DarkGreen;
+				case "dark_magenta": return ConsoleColor.DarkMagenta;
+				case "dark_red": return ConsoleColor.DarkRed;
+				case "dark_yellow": return ConsoleColor.DarkYellow;
+				case "gray": return ConsoleColor.Gray;
+				case "green": return ConsoleColor.Green;
+				case "magenta": return ConsoleColor.Magenta;
+				case "red": return ConsoleColor.Red;
+				case "white": return ConsoleColor.White;
+				case "yellow": return ConsoleColor.Yellow;
+				default: throw new FileParseException(ctx, linePos, "Invalid input for console color: " + input);
 			}
 		}
 	}
