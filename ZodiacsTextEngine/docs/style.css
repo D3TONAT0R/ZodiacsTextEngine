@@ -2,9 +2,9 @@
 
 :root {
     --bg-color: #181a1b;
-    --group-color: #18191a;
+    --group-color: #1e2020;
     --surface-color: #232526;
-    --primary-color: #4f8cff;
+    --primary-color: #5e8ee9;
     --accent-color: #ffb86c;
     --code-color: #e0d1c0;
     --highlight-color: #f78d37;
@@ -338,7 +338,24 @@ h1.ascii {
 
     div {
         padding-left: 1.5em;
+        position: relative;
     }
+
+    /*
+    div::after {
+        position: absolute;
+        content: "";
+        inset: 0;
+        left: 0.5em;
+        right: auto;
+        bottom: 0.7em;
+        width: 0.7em;
+        background-color: rgba(200, 200, 200, 0.0);
+        border: 1px solid blue;
+        border-right: none;
+        border-top: none;
+    }
+    */
 
     margin: 1em 0 1em;
 }
@@ -355,4 +372,26 @@ h1.ascii {
 .file::before {
     content: "📄";
     margin-right: 0.5em;
+}
+
+.file em, .folder em {
+    font-style: normal;
+    font-weight: bold;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1em 0;
+
+    th, td {
+        border: 1px solid var(--border-color);
+        padding: 0.3em 0.3em;
+        text-align: left;
+    }
+
+    th {
+        background-color: var(--group-color);
+        font-weight: bold;
+    }
 }

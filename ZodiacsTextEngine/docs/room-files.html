@@ -94,6 +94,25 @@
             <li>//Go to another room</li>
             <li>+GOTO dark_passage</li>
         </code-block>
+        <h2>Special Characters</h2>
+        <p>
+            The following characters have special meanings in room files when placed at the start of a line:
+        </p>
+        <ul>
+            <li><code>@</code> Denotes the start of a room event block (such as <code>@ENTER</code> or
+                <code>@EXIT</code>).
+            </li>
+            <li><code>+</code> Denotes an effect to be executed.</li>
+            <li><code>&gt;</code> Denotes the start of a choice block.</li>
+            <li><code>//</code> Denotes a comment. Comments are not processed in any way and have no
+                effect on the output.</li>
+            <li><code>IF</code> Denotes the start of an IF block. Must be closed by an
+                <code>ENDIF</code> or <code>ELSE</code> block.
+            </li>
+            <li><code>ELSE</code> Denotes the start of an ELSE block. Must be preceded by an <code>IF</code> block
+                and closed by an <code>ENDIF</code> block.</li>
+            <li><code>ENDIF</code> Denotes the end of an IF block.
+        </ul>
         <h2>Choices</h2>
         <p>
             Choices represent the different options a player can pick in a room.
@@ -133,6 +152,9 @@
             <li>+TEXT Instead, you choose &lt;svar=input&gt;.</li>
         </code-block>
     </main>
+    <footer>
+        <p>ZodiacsTextEngine Documentation | 2025 | By <a href="https://github.com/D3TONAT0R">D3TONAT0R</a></p>
+    </footer>
 </body>
 
 </html>
