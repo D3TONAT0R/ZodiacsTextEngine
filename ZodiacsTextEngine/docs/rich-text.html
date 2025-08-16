@@ -21,52 +21,96 @@
         <h1>Rich Text</h1>
         <p>
             Rich Text is a text format used by the <a href="effects.html#text"><code>+TEXT</code></a> effect
-             that uses tags to apply different effects to parts of a text,
+            that uses tags to apply different effects to parts of a text,
             such as styling, displaying a variable, or showing the output of a custom function.
         </p>
-        <h2>Example</h2>
+        <h2 id="example">Example</h2>
         <code>
-            The &lt;color=yellow&gt;quick brown fox&lt;clear&gt; jumps &lt;background=blue&gt;&lt;color=red&gt;over&lt;clear&gt; &lt;var=dogs&gt; lazy dogs.
+            The &lt;color=yellow&gt;quick brown fox&lt;clear&gt; jumps &lt;background=cyan&gt;&lt;color=red&gt;over&lt;clear&gt; &lt;var=dogs&gt; lazy dogs.
         </code>
         <output-window>
-            The <span style="color: yellow;">quick brown fox</span> jumps <span style="background: blue;"><span style="color: red;">over</span></span> 3 lazy dogs.
+            The <span style="color: yellow;">quick brown fox</span> jumps <span style="background: cyan;"><span
+                    style="color: red;">over</span></span> 3 lazy dogs.
         </output-window>
-        <h2>Available Tags</h2>
-        <p>
-            <table>
-                <tr>
-                    <th>Tag</th>
-                    <th>Effect</th>
-                </tr>
-                <tr>
-                    <td><code>&lt;color=COLOR&gt;</code></td>
-                    <td>Changes the text color. Available colors are: red, green, blue, yellow, magenta, cyan, and white.</td>
-                </tr>
-                <tr>
-                    <td><code>&lt;background=COLOR&gt;</code></td>
-                    <td>Changes the background color. Available colors are the same as for text color.</td>
-                </tr>
-                <tr>
-                    <td><code>&lt;clear&gt;</code></td>
-                    <td>Resets all styles to default.</td>
-                </tr>
-                <tr>
-                    <td><code>&lt;var=VARIABLE_NAME&gt;</code></td>
-                    <td>Displays the value of a variable.</td>
-                </tr>
-                <tr>
-                    <td><code>&lt;svar=VARIABLE_NAME&gt;</code></td>
-                    <td>Displays the value of a string variable.</td>
-                </tr>
-                <tr>
-                    <td><code>&lt;func=FUNCTION_NAME&gt;</code></td>
-                    <td>Calls a custom function and displays its output.
-                        Parameters can be passed by appending them in parentheses directly after the function name,
-                        separated by commas.<br>e.g. <code>&lt;func=FUNCTION_NAME(1,2,3)&gt;</code>
-                    </td>
-            </table>
-        </p>
+        <div class="remark">
+            The text inside a tag (between '<code>&lt;</code>' and '<code>&gt;</code>') must not contain any spaces,
+            otherwise it will not be parsed.
+        </div>
+        <h2 id="available-tags">Available Tags</h2>
+        <table>
+            <tr>
+                <th>Tag</th>
+                <th>Effect</th>
+            </tr>
+            <tr>
+                <td><code>&lt;color=COLOR&gt;</code></td>
+                <td>Changes the text color. See below for a list of available colors.
+                </td>
+            </tr>
+            <tr>
+                <td><code>&lt;background=COLOR&gt;</code></td>
+                <td>Changes the background color. See below for a list of available colors.</td>
+            </tr>
+            <tr>
+                <td><code>&lt;reset&gt;</code></td>
+                <td>Resets all styles to default.</td>
+            </tr>
+            <tr>
+                <td><code>&lt;var=VARIABLE_NAME&gt;</code></td>
+                <td>Displays the value of a variable. The value can be optionally be formatted in the following
+                    ways:<br>
+                    Appending <code>*x</code> will multiply the output value by <i>x</i>.<br>
+                    Appending <code>@x</code> will format the output to <i>x</i> decimal places.<br>
+                    Appending <code>:x</code> will format the output using
+                    <a href="https://learn.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings"
+                        target="_blank">
+                        .NET numeric formats
+                    </a>, where <i>x</i> is the format specifier.<br>
+                    (<code>@x</code> and <code>:x</code> are mutually exclusive)<br>
+                    <br>
+                    Example: <code>&lt;var=score*12.345@2&gt;</code> will display the value of the variable <i>score</i>
+                    multiplied by <i>12.345</i> and formatted to <i>2</i> decimal places.
+            </tr>
+            <tr>
+                <td><code>&lt;svar=VARIABLE_NAME&gt;</code></td>
+                <td>Displays the value of a string variable. The case of the output can be changed by:<br>
+                    Appending <code>@U</code> will convert the output to uppercase.<br>
+                    Appending <code>@L</code> will convert the output to lowercase.
+                </td>
+            </tr>
+            <tr>
+                <td><code>&lt;func=FUNCTION_NAME&gt;</code></td>
+                <td>Calls a custom function and displays its output.
+                    Parameters can be passed by appending them in parentheses directly after the function name,
+                    separated by commas.<br>e.g. <code>&lt;func=FUNCTION_NAME(1,2,3)&gt;</code> will invoke the function
+                    with three parameters: <i>1</i>, <i>2</i>, and <i>3</i>.
+                </td>
+        </table>
+        <h2 id="colors">Colors</h2>
+        <p>The following colors are available for use in rich text and in color effects, matching .NET's
+            <a href="https://learn.microsoft.com/en-us/dotnet/api/system.consolecolor" target="_blank">ConsoleColor</a> Enum:</p>
+        <ul>
+            <li><code>black</code></li>
+            <li><code>blue</code></li>
+            <li><code>cyan</code></li>
+            <li><code>dark_blue</code></li>
+            <li><code>dark_cyan</code></li>
+            <li><code>dark_gray</code></li>
+            <li><code>dark_green</code></li>
+            <li><code>dark_magenta</code></li>
+            <li><code>dark_red</code></li>
+            <li><code>dark_yellow</code></li>
+            <li><code>gray</code></li>
+            <li><code>green</code></li>
+            <li><code>magenta</code></li>
+            <li><code>red</code></li>
+            <li><code>white</code></li>
+            <li><code>yellow</code></li>
+        </ul>
     </main>
+    <footer>
+        <p>ZodiacsTextEngine Documentation | 2025 | By <a href="https://github.com/D3TONAT0R">D3TONAT0R</a></p>
+    </footer>
 </body>
 
 </html>
