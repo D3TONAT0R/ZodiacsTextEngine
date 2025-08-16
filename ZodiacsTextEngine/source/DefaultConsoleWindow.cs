@@ -8,15 +8,31 @@ namespace ZodiacsTextEngine
 {
 	public class DefaultConsoleWindow : ITextInterface
 	{
-		public const ConsoleColor DEFAULT_BACKGROUND_COLOR = ConsoleColor.Black;
-		public const ConsoleColor MAIN_COLOR = ConsoleColor.Gray;
-		public const ConsoleColor HINT_COLOR = ConsoleColor.DarkGray;
 		public const int DEFAULT_WIDTH = 120;
 
 		public bool DebugMode { get; private set; }
 
-		public ConsoleColor ForegroundColor { get => Console.ForegroundColor; set => Console.ForegroundColor = value; }
-		public ConsoleColor BackgroundColor { get => Console.BackgroundColor; set => Console.BackgroundColor = value; }
+		public Color ForegroundColor
+		{
+			get => foregroundColor;
+			set
+			{
+				foregroundColor = value;
+				Console.ForegroundColor = value.ToConsoleColor();
+			}
+		}
+		private Color foregroundColor = Color.Gray;
+
+		public Color BackgroundColor
+		{
+			get => backgroundColor;
+			set
+			{
+				backgroundColor = value;
+				Console.BackgroundColor = value.ToConsoleColor();
+			}
+		}
+		private Color backgroundColor = Color.Black;
 
 		public virtual void Initialize(bool debug)
 		{
@@ -26,7 +42,7 @@ namespace ZodiacsTextEngine
 
 		public virtual void OnLoadError()
 		{
-			Text("An error occurred while loading the game files. Press any key to exit.", ConsoleColor.DarkRed);
+			Text("An error occurred while loading the game files. Press any key to exit.", Color.DarkRed);
 			Console.ReadKey();
 		}
 
@@ -57,7 +73,6 @@ namespace ZodiacsTextEngine
 
 		public virtual void Clear()
 		{
-			ResetColors();
 			Console.Clear();
 		}
 
@@ -110,18 +125,21 @@ namespace ZodiacsTextEngine
 			}
 		}
 
-		public virtual void Text(string text, ConsoleColor? color = null)
+		public virtual void Text(string text, Color? color = null, Color? background = null)
 		{
-			if(color.HasValue) Console.ForegroundColor = color.Value;
+			if(color.HasValue) Console.ForegroundColor = color.Value.ToConsoleColor();
+			if(background.HasValue) Console.BackgroundColor = background.Value.ToConsoleColor();
 			Write(text, true);
-			Console.ForegroundColor = MAIN_COLOR;
+			if(color.HasValue) Console.ForegroundColor = ForegroundColor.ToConsoleColor();
+			if(background.HasValue) Console.BackgroundColor = BackgroundColor.ToConsoleColor();
 		}
 
 		public virtual void LineBreak()
 		{
 			var foregroundColor = Console.ForegroundColor;
 			var backgroundColor = Console.BackgroundColor;
-			ResetColors();
+			Console.ForegroundColor = ForegroundColor.ToConsoleColor();
+			Console.BackgroundColor = BackgroundColor.ToConsoleColor();
 			Console.WriteLine();
 			Console.ForegroundColor = foregroundColor;
 			Console.BackgroundColor = backgroundColor;
@@ -161,7 +179,7 @@ namespace ZodiacsTextEngine
 
 		public virtual void Hint(string text)
 		{
-			Text(text, HINT_COLOR);
+			Text(text, Color.HintForeground, Color.HintBackground);
 		}
 
 		public virtual void VerticalSpace(int count = 1)
@@ -198,7 +216,7 @@ namespace ZodiacsTextEngine
 				sb.Append(choices[i].prompt.ToUpper());
 			}
 			sb.Append('.');
-			Text(sb.ToString(), HINT_COLOR);
+			Text(sb.ToString(), Color.HintForeground, Color.HintBackground);
 		}
 
 		public virtual async Task OnGameOver(string text)
@@ -217,20 +235,14 @@ namespace ZodiacsTextEngine
 			return Task.CompletedTask;
 		}
 
-		public virtual void ResetColors()
-		{
-			Console.BackgroundColor = DEFAULT_BACKGROUND_COLOR;
-			Console.ForegroundColor = MAIN_COLOR;
-		}
-
 		public virtual void LogWarning(string message)
 		{
-			Text(message, ConsoleColor.Yellow);
+			Text(message, Color.Yellow);
 		}
 
 		public virtual void LogError(string message)
 		{
-			Text(message, ConsoleColor.DarkRed);
+			Text(message, Color.DarkRed);
 		}
 	}
 }

@@ -15,7 +15,7 @@ namespace ZodiacsTextEngine.Effects
 
 		public override Task Execute(EffectGroup g)
 		{
-			TextEngine.Interface.Text("TODO: " + info, ConsoleColor.Magenta);
+			TextEngine.Interface.Text("TODO: " + info, Color.Magenta);
 			return Task.CompletedTask;
 		}
 

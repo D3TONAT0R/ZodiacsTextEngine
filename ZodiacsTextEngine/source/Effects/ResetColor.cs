@@ -7,7 +7,8 @@ namespace ZodiacsTextEngine.Effects
 	{
 		public override Task Execute(EffectGroup g)
 		{
-			TextEngine.Interface.ResetColors();
+			TextEngine.Interface.ForegroundColor = Color.DefaultForeground;
+			TextEngine.Interface.BackgroundColor = Color.DefaultBackground;
 			return Task.CompletedTask;
 		}
 

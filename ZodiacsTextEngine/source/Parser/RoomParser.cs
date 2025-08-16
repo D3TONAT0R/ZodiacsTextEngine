@@ -407,26 +407,30 @@ namespace ZodiacsTextEngine.Parser
 			else throw new FileParseException(ctx, lineNumber, $"Invalid statement '{input}'");
 		}
 
-		public static ConsoleColor ParseConsoleColor(ParserContext ctx, string input, int linePos)
+		public static Color ParseColor(ParserContext ctx, string input, int linePos)
 		{
 			switch(input.ToUpper())
 			{
-				case "BLACK": return ConsoleColor.Black;
-				case "BLUE": return ConsoleColor.Blue;
-				case "CYAN": return ConsoleColor.Cyan;
-				case "DARK_BLUE": return ConsoleColor.DarkBlue;
-				case "DARK_CYAN": return ConsoleColor.DarkCyan;
-				case "DARK_GRAY": return ConsoleColor.DarkGray;
-				case "DARK_GREEN": return ConsoleColor.DarkGreen;
-				case "DARK_MAGENTA": return ConsoleColor.DarkMagenta;
-				case "DARK_RED": return ConsoleColor.DarkRed;
-				case "DARK_YELLOW": return ConsoleColor.DarkYellow;
-				case "GRAY": return ConsoleColor.Gray;
-				case "GREEN": return ConsoleColor.Green;
-				case "MAGENTA": return ConsoleColor.Magenta;
-				case "RED": return ConsoleColor.Red;
-				case "WHITE": return ConsoleColor.White;
-				case "YELLOW": return ConsoleColor.Yellow;
+				case "BLACK": return Color.Black;
+				case "BLUE": return Color.Blue;
+				case "CYAN": return Color.Cyan;
+				case "DARK_BLUE": return Color.DarkBlue;
+				case "DARK_CYAN": return Color.DarkCyan;
+				case "DARK_GRAY": return Color.DarkGray;
+				case "DARK_GREEN": return Color.DarkGreen;
+				case "DARK_MAGENTA": return Color.DarkMagenta;
+				case "DARK_RED": return Color.DarkRed;
+				case "DARK_YELLOW": return Color.DarkYellow;
+				case "GRAY": return Color.Gray;
+				case "GREEN": return Color.Green;
+				case "MAGENTA": return Color.Magenta;
+				case "RED": return Color.Red;
+				case "WHITE": return Color.White;
+				case "YELLOW": return Color.Yellow;
+				case "TEXT": return Color.DefaultForeground;
+				case "BACKGROUND": return Color.DefaultBackground;
+				case "HIGHLIGHT_TEXT": return Color.HighlightForeground;
+				case "HIGHLIGHT_BACKGROUND": return Color.HighlightBackground;
 				default: throw new FileParseException(ctx, linePos, "Invalid input for color: " + input);
 			}
 		}

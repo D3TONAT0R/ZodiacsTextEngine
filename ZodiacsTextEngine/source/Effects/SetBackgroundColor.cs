@@ -6,9 +6,9 @@ namespace ZodiacsTextEngine.Effects
 {
 	public class SetBackgroundColor : Effect
 	{
-		public ConsoleColor color;
+		public Color color;
 
-		public SetBackgroundColor(ConsoleColor color)
+		public SetBackgroundColor(Color color)
 		{
 			this.color = color;
 		}
@@ -23,7 +23,7 @@ namespace ZodiacsTextEngine.Effects
 		public static SetBackgroundColor Parse(EffectParseContext ctx)
 		{
 			var args = ctx.GetArguments();
-			return new SetBackgroundColor(RoomParser.ParseConsoleColor(ctx.parserContext, args[0], ctx.startLinePos));
+			return new SetBackgroundColor(RoomParser.ParseColor(ctx.parserContext, args[0], ctx.startLinePos));
 		}
 	}
 }

@@ -48,12 +48,29 @@
                 </td>
             </tr>
             <tr>
+                <td><code>&lt;c=COLOR&gt;</code></td>
+                <td>Shorthand for <code>&lt;color=COLOR&gt;</code>.</td>
+            </tr>
+            <tr>
                 <td><code>&lt;background=COLOR&gt;</code></td>
                 <td>Changes the background color. See below for a list of available colors.</td>
             </tr>
             <tr>
+                <td><code>&lt;b=COLOR&gt;</code></td>
+                <td>Shorthand for <code>&lt;background=COLOR&gt;</code>.</td>
+            <tr>
+                <td><code>&lt;h&gt;</code></td>
+                <td>Applies highlighting to the text as defined in the engine settings.
+                    Both the text and the background color can be changed.
+                </td>
+            </tr>
+            <tr>
                 <td><code>&lt;reset&gt;</code></td>
                 <td>Resets all styles to default.</td>
+            </tr>
+            <tr>
+                <td><code>&lt;r&gt;</code></td>
+                <td>Shorthand for <code>&lt;reset&gt;</code>.</td>
             </tr>
             <tr>
                 <td><code>&lt;var=VARIABLE_NAME&gt;</code></td>
@@ -88,7 +105,9 @@
         </table>
         <h2 id="colors">Colors</h2>
         <p>The following colors are available for use in rich text and in color effects, matching .NET's
-            <a href="https://learn.microsoft.com/en-us/dotnet/api/system.consolecolor" target="_blank">ConsoleColor</a> Enum:</p>
+            <a href="https://learn.microsoft.com/en-us/dotnet/api/system.consolecolor" target="_blank">ConsoleColor</a>
+            Enum:
+        </p>
         <ul>
             <li><code>black</code></li>
             <li><code>blue</code></li>

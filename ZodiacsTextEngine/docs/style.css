@@ -320,6 +320,7 @@ hr {
     font-weight: bold;
     white-space: pre;
     line-height: 1;
+    margin-bottom: 3em;
 }
 
 h1.ascii {

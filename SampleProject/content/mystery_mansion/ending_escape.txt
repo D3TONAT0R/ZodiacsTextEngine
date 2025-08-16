@@ -1,6 +1,6 @@
 @ENTER
 +TEXT
-You try to leave, but the doors slam shut behind you. The mansion will not let you go until its secrets are uncovered. Will you <color=yellow>TRY AGAIN<clear> or <color=yellow>GIVE UP<clear>?
+You try to leave, but the doors slam shut behind you. The mansion will not let you go until its secrets are uncovered. Will you <h>TRY AGAIN<r> or <h>GIVE UP<r>?
 +WAIT
 +SPACE
 

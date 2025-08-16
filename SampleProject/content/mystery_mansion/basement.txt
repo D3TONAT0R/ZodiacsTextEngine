@@ -1,6 +1,6 @@
 @ENTER
 +TEXT
-The basement is cold and damp. You hear faint whispers. There is a <color=yellow>CHEST<clear> in the corner and stairs back to the <color=yellow>DINING ROOM<clear>.
+The basement is cold and damp. You hear faint whispers. There is a <h>CHEST<r> in the corner and stairs back to the <h>DINING ROOM<r>.
 +WAIT
 +SPACE
 +TEXT

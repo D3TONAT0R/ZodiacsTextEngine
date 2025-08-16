@@ -1,6 +1,6 @@
 @ENTER
 +TEXT
-The library is filled with ancient books. A candle flickers on a desk. You notice a suspicious-looking <color=yellow>BOOKSHELF<clear> and a dusty <color=yellow>DIARY<clear> on the table. You can return to the <color=yellow>ENTRANCE HALL<clear>.
+The library is filled with ancient books. A candle flickers on a desk. You notice a suspicious-looking <h>BOOKSHELF<r> and a dusty <h>DIARY<r> on the table. You can return to the <h>ENTRANCE HALL<r>.
 +TEXT
 What will you do?
 
@@ -14,7 +14,7 @@ IF has_key == 1
     +WAIT
     +SPACE
     +TEXT
-    The bookshelf slides aside, revealing a <color=yellow>SECRET PASSAGE<clear>. You can also return to the <color=yellow>ENTRANCE HALL<clear>.
+    The bookshelf slides aside, revealing a <h>SECRET PASSAGE<r>. You can also return to the <h>ENTRANCE HALL<r>.
     +TEXT
     What will you do?
 ELSE

@@ -6,25 +6,81 @@ using ZodiacsTextEngine.Parser;
 
 namespace ZodiacsTextEngine
 {
-	public class RichTextComponent
+	public abstract class RichTextComponent
 	{
 		public string text;
-		public ConsoleColor? foregroundColor;
-		public ConsoleColor? backgroundColor;
 
-		public RichTextComponent(string text, ConsoleColor? foregroundColor = null, ConsoleColor? backgroundColor = null)
+		protected RichTextComponent(string text)
 		{
 			this.text = text;
-			this.foregroundColor = foregroundColor;
-			this.backgroundColor = backgroundColor;
 		}
 
-		public virtual Task Write(ConsoleColor baseForegroundColor, ConsoleColor baseBackgroundColor)
+		protected virtual void BeginWrite(Color baseForegroundColor, Color baseBackgroundColor)
 		{
-			TextEngine.Interface.ForegroundColor = foregroundColor ?? baseForegroundColor;
-			TextEngine.Interface.BackgroundColor = backgroundColor ?? baseBackgroundColor;
-			TextEngine.Interface.Write(text, false);
+
+		}
+
+		protected virtual void EndWrite()
+		{
+
+		}
+
+		public virtual Task Write(Color baseForegroundColor, Color baseBackgroundColor)
+		{
+			BeginWrite(baseForegroundColor, baseBackgroundColor);
+			if(text != null) TextEngine.Interface.Write(text, false);
+			EndWrite();
 			return Task.CompletedTask;
+		}
+	}
+
+	public class PlainTextComponent : RichTextComponent
+	{
+		public PlainTextComponent(string text) : base(text)
+		{
+
+		}
+	}
+
+	public class SetColorComponent : RichTextComponent
+	{
+		public Color foregroundColor;
+
+		public SetColorComponent(Color foregroundColor) : base(null)
+		{
+			this.foregroundColor = foregroundColor;
+		}
+
+		protected override void BeginWrite(Color baseForegroundColor, Color baseBackgroundColor)
+		{
+			TextEngine.Interface.ForegroundColor = foregroundColor;
+		}
+	}
+
+	public class SetBackgroundColorComponent : RichTextComponent
+	{
+		public Color backgroundColor;
+		public SetBackgroundColorComponent(Color backgroundColor) : base(null)
+		{
+			this.backgroundColor = backgroundColor;
+		}
+		protected override void BeginWrite(Color baseForegroundColor, Color baseBackgroundColor)
+		{
+			TextEngine.Interface.BackgroundColor = backgroundColor;
+		}
+	}
+
+	public class ResetColorComponent : RichTextComponent
+	{
+		public ResetColorComponent() : base(null)
+		{
+
+		}
+
+		protected override void BeginWrite(Color baseForegroundColor, Color baseBackgroundColor)
+		{
+			TextEngine.Interface.ForegroundColor = baseForegroundColor;
+			TextEngine.Interface.BackgroundColor = baseBackgroundColor;
 		}
 	}
 
@@ -41,7 +97,7 @@ namespace ZodiacsTextEngine
 			this.format = format;
 		}
 
-		public override Task Write(ConsoleColor baseForegroundColor, ConsoleColor baseBackgroundColor)
+		public override Task Write(Color baseForegroundColor, Color baseBackgroundColor)
 		{
 			//Get the value of the variable and multiply it by the multiplier, with up to 2 decimal places
 			float variable = GameSession.Current.variables.GetInt(variableName);
@@ -71,7 +127,7 @@ namespace ZodiacsTextEngine
 			this.textCase = textCase;
 		}
 
-		public override Task Write(ConsoleColor baseForegroundColor, ConsoleColor baseBackgroundColor)
+		public override Task Write(Color baseForegroundColor, Color baseBackgroundColor)
 		{
 			var text = (GameSession.Current.variables.GetString(variableName) ?? defaultValue) ?? "";
 			switch(textCase)
@@ -99,10 +155,31 @@ namespace ZodiacsTextEngine
 			this.arguments = arguments;
 		}
 
-		public override async Task Write(ConsoleColor baseForegroundColor, ConsoleColor baseBackgroundColor)
+		public override async Task Write(Color baseForegroundColor, Color baseBackgroundColor)
 		{
 			string output = await Functions.Execute(functionName, arguments);
 			if(output != null) TextEngine.Interface.Write(output, false);
+		}
+	}
+
+	public class HighlightComponent : RichTextComponent
+	{
+		public HighlightComponent() : base(null)
+		{
+
+		}
+
+		protected override void BeginWrite(Color baseForegroundColor, Color baseBackgroundColor)
+		{
+			var gameData = TextEngine.GameData;
+			if(gameData.HighlightForegroundColor.HasValue)
+			{
+				TextEngine.Interface.ForegroundColor = Color.HighlightForeground;
+			}
+			if(gameData.HighlightBackgroundColor.HasValue)
+			{
+				TextEngine.Interface.BackgroundColor = Color.HighlightBackground;
+			}
 		}
 	}
 
@@ -135,8 +212,6 @@ namespace ZodiacsTextEngine
 
 		public static RichText Parse(RoomParser.ParserContext ctx, string text, int startLine)
 		{
-			ConsoleColor? foregroundColor = null;
-			ConsoleColor? backgroundColor = null;
 			var richText = new RichText();
 			//Find all matches of pattern <*>, with * being any character except space
 			MatchCollection matches = Regex.Matches(text, @"<[^ ]+?>");
@@ -149,24 +224,27 @@ namespace ZodiacsTextEngine
 					//Add the text before the match
 					if(match.Index > 0)
 					{
-						richText.AddComponent(new RichTextComponent(text.Substring(startIndex, match.Index - startIndex), foregroundColor, backgroundColor));
+						richText.AddComponent(new PlainTextComponent(text.Substring(startIndex, match.Index - startIndex)));
 					}
 					startIndex = match.Index + match.Length;
 					//Remove the brackets from the match
 					string matchText = match.Value.Substring(1, match.Value.Length - 2).ToLower();
 					//Get the type of the match (<color=*> or <bgcolor=*> or <clear>)
-					if(matchText.StartsWith("color="))
+					if(matchText.StartsWith("color=") || matchText.StartsWith("c="))
 					{
-						foregroundColor = RoomParser.ParseConsoleColor(ctx, matchText.Split('=')[1], startLine);
+						richText.AddComponent(new SetColorComponent(RoomParser.ParseColor(ctx, matchText.Split('=')[1], startLine)));
 					}
-					else if(matchText.StartsWith("bgcolor="))
+					else if(matchText.StartsWith("bgcolor=") || matchText.StartsWith("b="))
 					{
-						backgroundColor = RoomParser.ParseConsoleColor(ctx, matchText.Split('=')[1], startLine);
+						richText.AddComponent(new SetBackgroundColorComponent(RoomParser.ParseColor(ctx, matchText.Split('=')[1], startLine)));
 					}
-					else if(matchText == "clear")
+					else if(matchText == "highlight" || matchText == "h")
 					{
-						foregroundColor = null;
-						backgroundColor = null;
+						richText.AddComponent(new HighlightComponent());
+					}
+					else if(matchText == "reset" || matchText == "r")
+					{
+						richText.AddComponent(new ResetColorComponent());
 					}
 					else if(matchText.StartsWith("var="))
 					{
@@ -248,7 +326,7 @@ namespace ZodiacsTextEngine
 					//Add the remaining text
 					if(startIndex < text.Length)
 					{
-						richText.AddComponent(new RichTextComponent(text.Substring(startIndex), foregroundColor, backgroundColor));
+						richText.AddComponent(new PlainTextComponent(text.Substring(startIndex)));
 					}
 				}
 			}

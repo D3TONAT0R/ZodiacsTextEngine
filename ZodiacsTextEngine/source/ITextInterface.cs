@@ -6,9 +6,9 @@ namespace ZodiacsTextEngine
 {
 	public interface ITextInterface
 	{
-		ConsoleColor ForegroundColor { get; set; }
+		Color ForegroundColor { get; set; }
 
-		ConsoleColor BackgroundColor { get; set; }
+		Color BackgroundColor { get; set; }
 
 		void Initialize(bool debug);
 
@@ -24,7 +24,7 @@ namespace ZodiacsTextEngine
 
 		void ListChoices(List<Choice> choices);
 
-		void Text(string text, ConsoleColor? color = null);
+		void Text(string text, Color? color = null, Color? background = null);
 
 		void Write(string text, bool lineBreak, bool wordWrap = true);
 
@@ -43,8 +43,6 @@ namespace ZodiacsTextEngine
 		void LogWarning(string message);
 
 		void LogError(string message);
-
-		void ResetColors();
 
 		Task OnGameOver(string text);
 

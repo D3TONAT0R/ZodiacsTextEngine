@@ -34,8 +34,8 @@ namespace ZodiacsTextEngine
 			sb.Append(site + ": ");
 			sb.Append(isError ? "[ERROR] " : "[WARNING] ");
 			sb.Append(message);
-			TextEngine.Interface.Text(sb.ToString(), isError ? ConsoleColor.Red : ConsoleColor.DarkYellow);
-			TextEngine.Interface.ResetColors();
+			TextEngine.Interface.Text(sb.ToString(), isError ? Color.Red : Color.DarkYellow);
+			TextEngine.Interface.ForegroundColor = Color.DefaultForeground;
 		}
 	}
 

@@ -4,9 +4,9 @@ namespace Tests;
 
 public class TestTextInterface : ITextInterface
 {
-	public ConsoleColor ForegroundColor { get; set; }
+	public Color ForegroundColor { get; set; }
 
-	public ConsoleColor BackgroundColor { get; set; }
+	public Color BackgroundColor { get; set; }
 
 	public Queue<string> Inputs = new Queue<string>();
 
@@ -64,7 +64,7 @@ public class TestTextInterface : ITextInterface
 		}
 	}
 
-	public void Text(string text, ConsoleColor? color = null)
+	public void Text(string text, Color? color = null, Color? background = null)
 	{
 		Write(text, true, false);
 	}
@@ -89,12 +89,12 @@ public class TestTextInterface : ITextInterface
 
 	public void Header(string title)
 	{
-		Text($"<{title}>", ConsoleColor.Green);
+		Text($"<{title}>", Color.Green);
 	}
 
 	public void Hint(string text)
 	{
-		Text($"Hint: {text}", ConsoleColor.Cyan);
+		Text($"Hint: {text}", Color.Cyan);
 	}
 
 	public void VerticalSpace(int count = 1)
@@ -121,17 +121,12 @@ public class TestTextInterface : ITextInterface
 
 	public void LogWarning(string message)
 	{
-		Text($"Warning: {message}", ConsoleColor.Yellow);
+		Text($"Warning: {message}", Color.Yellow);
 	}
 
 	public void LogError(string message)
 	{
 		throw new Exception(message);
-	}
-
-	public void ResetColors()
-	{
-		
 	}
 
 	public Task OnGameOver(string text)

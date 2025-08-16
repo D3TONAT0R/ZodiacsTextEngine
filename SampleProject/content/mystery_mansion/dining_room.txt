@@ -1,6 +1,6 @@
 @ENTER
 +TEXT
-The dining room is set for a feast, but everything is covered in dust. You see a <color=yellow>KEY<clear> glinting under a plate. There is a door to the <color=yellow>BASEMENT<clear> and a way back to the <color=yellow>ENTRANCE HALL<clear>.
+The dining room is set for a feast, but everything is covered in dust. You see a <h>KEY<r> glinting under a plate. There is a door to the <h>BASEMENT<r> and a way back to the <h>ENTRANCE HALL<r>.
 +WAIT
 +SPACE
 +TEXT

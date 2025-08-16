@@ -1,6 +1,6 @@
 @ENTER
 +TEXT
-The garden is wild and overgrown. You see a <color=yellow>GATE<clear> leading out and a path back to the <color=yellow>ENTRANCE HALL<clear>.
+The garden is wild and overgrown. You see a <h>GATE<r> leading out and a path back to the <h>ENTRANCE HALL<r>.
 +WAIT
 +SPACE
 +TEXT

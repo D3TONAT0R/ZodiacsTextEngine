@@ -1,6 +1,6 @@
 @ENTER
 +TEXT
-You climb into the attic. Cobwebs hang from the beams. There is an old <color=yellow>TRUNK<clear> and a window overlooking the <color=yellow>GARDEN<clear>. You can go back to the <color=yellow>ENTRANCE HALL<clear>.
+You climb into the attic. Cobwebs hang from the beams. There is an old <h>TRUNK<r> and a window overlooking the <h>GARDEN<r>. You can go back to the <h>ENTRANCE HALL<r>.
 +WAIT
 +SPACE
 +TEXT

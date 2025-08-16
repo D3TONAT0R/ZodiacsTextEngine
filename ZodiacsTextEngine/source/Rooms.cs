@@ -45,10 +45,11 @@ namespace ZodiacsTextEngine
 				{
 					if(!headerPrinted)
 					{
-						TextEngine.Interface.BackgroundColor = ConsoleColor.DarkRed;
-						TextEngine.Interface.ForegroundColor = ConsoleColor.White;
+						TextEngine.Interface.BackgroundColor = Color.DarkRed;
+						TextEngine.Interface.ForegroundColor = Color.White;
 						TextEngine.Interface.Text("Room validation has found some problems:");
-						TextEngine.Interface.ResetColors();
+						TextEngine.Interface.BackgroundColor = Color.DefaultBackground;
+						TextEngine.Interface.ForegroundColor = Color.DefaultForeground;
 						headerPrinted = true;
 					}
 					foreach(var msg in log)
