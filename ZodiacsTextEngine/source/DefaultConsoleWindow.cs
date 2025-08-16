@@ -84,6 +84,10 @@ namespace ZodiacsTextEngine
 		public virtual async Task<Choice> RequestChoice(Room room)
 		{
 			Choice choice = null;
+			var lastForegroundColor = ForegroundColor;
+			var lastBackgroundColor = BackgroundColor;
+			if(TextEngine.GameData.InputForegroundColor.HasValue) Console.ForegroundColor = TextEngine.GameData.InputForegroundColor.Value;
+			if(TextEngine.GameData.InputBackgroundColor.HasValue) Console.BackgroundColor = TextEngine.GameData.InputBackgroundColor.Value;
 			do
 			{
 				LineBreak();
@@ -107,7 +111,8 @@ namespace ZodiacsTextEngine
 			}
 			while(choice == null);
 			Console.WriteLine();
-
+			ForegroundColor = lastForegroundColor;
+			BackgroundColor = lastBackgroundColor;
 			return choice;
 		}
 

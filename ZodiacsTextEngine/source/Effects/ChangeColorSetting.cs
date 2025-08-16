@@ -13,7 +13,9 @@ namespace ZodiacsTextEngine.Effects
 			HighlightForeground,
 			HighlightBackground,
 			HintForeground,
-			HintBackground
+			HintBackground,
+			InputForeground,
+			InputBackground
 		}
 
 		public SettingType setting;
@@ -47,6 +49,12 @@ namespace ZodiacsTextEngine.Effects
 				case SettingType.HintBackground:
 					TextEngine.GameData.HintBackgroundColor = color;
 					break;
+				case SettingType.InputForeground:
+					TextEngine.GameData.InputForegroundColor = color;
+					break;
+				case SettingType.InputBackground:
+					TextEngine.GameData.InputBackgroundColor = color;
+					break;
 			}
 			return Task.CompletedTask;
 		}
@@ -76,6 +84,12 @@ namespace ZodiacsTextEngine.Effects
 					break;
 				case "hint_background":
 					setting = SettingType.HintBackground;
+					break;
+				case "input_foreground":
+					setting = SettingType.InputForeground;
+					break;
+				case "input_background":
+					setting = SettingType.InputBackground;
 					break;
 				default:
 					throw new FileParseException(ctx.parserContext, ctx.startLinePos, $"Unknown setting '{settingString}'");

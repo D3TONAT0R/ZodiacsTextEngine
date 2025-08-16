@@ -33,14 +33,17 @@ namespace ZodiacsTextEngine
 
 		internal Dictionary<string, FunctionDelegate> Functions { get; } = new Dictionary<string, FunctionDelegate>();
 
-		public ConsoleColor DefaultForegroundColor { get; set; } = Console.ForegroundColor;
-		public ConsoleColor DefaultBackgroundColor { get; set; } = Console.BackgroundColor;
+		public ConsoleColor DefaultForegroundColor { get; set; } = ConsoleColor.Gray;
+		public ConsoleColor DefaultBackgroundColor { get; set; } = ConsoleColor.Black;
 
 		public ConsoleColor? HighlightForegroundColor { get; set; } = ConsoleColor.Yellow;
 		public ConsoleColor? HighlightBackgroundColor { get; set; } = null;
 
 		public ConsoleColor? HintForegroundColor { get; set; } = ConsoleColor.DarkGray;
 		public ConsoleColor? HintBackgroundColor { get; set; } = null;
+
+		public ConsoleColor? InputForegroundColor { get; set; } = null;
+		public ConsoleColor? InputBackgroundColor { get; set; } = null;
 
 		public GameData(Dictionary<string, Room> rooms, string startRoomName, List<string> variableNames)
 		{
