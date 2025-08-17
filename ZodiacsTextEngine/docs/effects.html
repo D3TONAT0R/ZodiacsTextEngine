@@ -485,7 +485,7 @@
             </output-window>
         </div>
 
-        <div class="group" id="template">
+        <div class="group" id="func">
             <h2 class="effect">+FUNC</h2>
             <p>Executes a custom C# function.</p>
             <p>
@@ -515,6 +515,87 @@
                 Result of 5 + 7 = 12<br>
                 Result of -5 + 32 = 27
                 <prompt>_</prompt>
+            </output-window>
+        </div>
+
+        <div class="group" id="color-setting">
+            <h2 class="effect">+COLOR_SETTING</h2>
+            <p>Changes a global color setting for the currently loaded game data.</p>
+            <p>
+                By using this effect, you can modify the default colors used by the text interface.
+                NOTE: This change is permanent and will affect all subsequent text output, including
+                new game sessions and will persist until different content is loaded or the app
+                is restarted.
+            </p>
+            <p>
+                This effect is best used at the very beginning of the game, before any text output.
+            </p>
+            <p>
+                If the background color is changed, you may want to call
+                <a href="#clear-output">+CLEAR_OUTPUT</a> afterwards to see the new background.
+            </p>
+            <h3>Supported Settings</h3>
+            <table>
+                <tr>
+                    <th>Setting</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td><code>foreground</code></td>
+                    <td>The text color of regular text output.</td>
+                </tr>
+                <tr>
+                    <td><code>background</code></td>
+                    <td>The background color of regular text output.</td>
+                </tr>
+                <tr>
+                    <td><code>highlight_foreground</code></td>
+                    <td>The text color of text highlighted with the <code>&lt;h&gt;</code> tag.</td>
+                </tr>
+                <tr>
+                    <td><code>highlight_background</code></td>
+                    <td>The background color of text highlighted with the <code>&lt;h&gt;</code> tag.</td>
+                </tr>
+                <tr>
+                    <td><code>hint_foreground</code></td>
+                    <td>The text color of hints displayed in the interface, such as <i>[Press Any Key to Continue]</i>.</td>
+                </tr>
+                <tr>
+                    <td><code>hint_background</code></td>
+                    <td>The background color of hints displayed in the interface, such as <i>[Press Any Key to Continue]</i>.</td>
+                </tr>
+                <tr>
+                    <td><code>input_foreground</code></td>
+                    <td>The text color of user input lines.</td>
+                </tr>
+                <tr>
+                    <td><code>input_background</code></td>
+                    <td>The background color of user input lines.</td>
+                </tr>
+            </table>
+            <p>
+                See <a href="rich-text.html#colors">Colors</a> for a list of all supported colors.<br>
+                To remove a color, set <code>none</code> as the color value.
+            </p>
+            <h3>Examples</h3>
+            <code-block>
+                <li>//Set custom colors at game start</li>
+                <li>@ENTER</li>
+                <li><em>+COLOR_SETTING background dark_blue</em></li>
+                <li><em>+COLOR_SETTING foreground blue</em></li>
+                <li><em>+COLOR_SETTING highlight_foreground white</em></li>
+                <li><em>+COLOR_SETTING input_foreground yellow</em></li>
+                <li>+CLEAR_OUTPUT</li>
+                <li>+TEXT</li>
+                <li>He was austere with himself; drank &lt;h&gt;GIN&lt;r&gt; when he was alone,</li>
+                <li>to mortify a taste for vintages; and though he enjoyed the theatre,</li>
+                <li>had not crossed the &lt;h&gt;DOORS&lt;r&gt; of one for twenty years.</li>
+            </code-block>
+            <output-window style="background: #006; color: #88f">
+                He was austere with himself; drank <span style="color: white">GIN</span> when he was alone,<br>
+                to mortify a taste for vintages; and though he enjoyed the theatre,<br>
+                had not crossed the <span style="color: white">DOORS</span> of one for twenty years.
+                <prompt style="color: yellow; opacity: 1;">_</prompt>
             </output-window>
         </div>
 
