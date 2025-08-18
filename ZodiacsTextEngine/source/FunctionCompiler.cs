@@ -25,33 +25,34 @@ namespace ZodiacsTextEngine
             {
                 string functionName = kv.Key;
                 string code;
-                if(kv.Value.async)
-                {
-	                code = $@"
-public static async Task<string> {functionName}(string[] args)
-{{
-{kv.Value.code}
-}}";
-				}
-                else
-                {
-                    code = $@"
-public static string {functionName}(string[] args)
-{{
-{kv.Value.code}
-}}";
-                }
-				AddFunctionSource(kv.Key, code);
+                AddFunctionSource(functionName, kv.Value.code, kv.Value.async);
 			}
         }
 
-        public void AddFunctionSource(string functionName, string code)
+        public void AddFunctionSource(string functionName, string code, bool async)
         {
             if(!ValidateFunctionName(functionName))
             {
                 throw new ArgumentException($"Invalid function name: '{functionName}'");
             }
-            sourceCodes[functionName] = code;
+            string source;
+            if(async)
+            {
+	            source = $@"
+public static async Task<string> {functionName}(string[] args)
+{{
+{code}
+}}";
+            }
+            else
+            {
+	            source = $@"
+public static string {functionName}(string[] args)
+{{
+{code}
+}}";
+            }
+			sourceCodes[functionName] = source;
         }
 
         public IEnumerable<(string, Functions.FunctionDelegate)> CompileFunctions()
@@ -103,7 +104,11 @@ using ZodiacsTextEngine.Effects;
 
 public class Functions
 {{
-    {functionsSource}
+private Variables vars => GameSession.Current?.variables;
+private ITextInterface window => TextEngine.Interface;
+private GameData gameData => TextEngine.GameData;
+
+{functionsSource}
 }}";
 
             var syntaxTree = CSharpSyntaxTree.ParseText(source);
@@ -140,7 +145,7 @@ public class Functions
                     {
                         errorMessages.AppendLine($"Error: {diagnostic.GetMessage()} at {diagnostic.Location}");
                     }
-                    throw new InvalidOperationException($"Compilation failed:\n{errorMessages}");
+                    throw new InvalidOperationException($"Compilation failed:\n{errorMessages}\n\nSource:\n\n{source}");
                 }
                 ms.Seek(0, SeekOrigin.Begin);
                 return Assembly.Load(ms.ToArray());

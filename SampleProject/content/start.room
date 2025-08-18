@@ -8,4 +8,4 @@
 +COLOR_SETTING input_foreground yellow
 +COLOR_SETTING input_background dark_blue
 +CLEAR_OUTPUT
-+GOTO _start
++GOTO mansion_start

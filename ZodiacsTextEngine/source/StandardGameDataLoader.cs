@@ -38,22 +38,25 @@ namespace ZodiacsTextEngine
 		protected override void Begin()
 		{
 			if(DebugMode) Interface.Header("GAME FILE LOAD");
-			//Check if the root directory is a zip file
-			if(Path.GetFileName(rootDirectory).EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
+			if(rootDirectory != null)
 			{
-				if(DebugMode)
+				//Check if the root directory is a zip file
+				if(Path.GetFileName(rootDirectory).EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
 				{
-					Interface.Text($"Loading game data from zip file '{rootDirectory}' ...");
-					Interface.LineBreak();
+					if(DebugMode)
+					{
+						Interface.Text($"Loading game data from zip file '{rootDirectory}' ...");
+						Interface.LineBreak();
+					}
+					zipArchive = ZipFile.OpenRead(rootDirectory);
 				}
-				zipArchive = ZipFile.OpenRead(rootDirectory);
-			}
-			else
-			{
-				if(DebugMode)
+				else
 				{
-					Interface.Text($"Loading game data from directory '{rootDirectory}' ...");
-					Interface.LineBreak();
+					if(DebugMode)
+					{
+						Interface.Text($"Loading game data from directory '{rootDirectory}' ...");
+						Interface.LineBreak();
+					}
 				}
 			}
 		}

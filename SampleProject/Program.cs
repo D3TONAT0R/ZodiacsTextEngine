@@ -12,7 +12,7 @@ namespace SampleProject
 			}
 		}
 
-		static async Task Main(string[] args)
+		private static async Task Main(string[] args)
 		{
 			await TextEngine.Initialize(new DefaultConsoleWindow(), new ContentLoader(), true);
 			await TextEngine.StartGame();

@@ -117,7 +117,7 @@ return $""{a} + {b} = {c}"";";
 				SingleFile("codedom_test", () =>
 				{
 					var compiler = new FunctionCompiler();
-					compiler.AddFunctionSource("codedom_func", sourceCode);
+					compiler.AddFunctionSource("codedom_func", sourceCode, false);
 					return compiler.CompileFunctions();
 				}),
 				null,

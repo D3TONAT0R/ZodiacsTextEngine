@@ -59,7 +59,7 @@ public class SingleFileGameDataLoader : TestGameDataLoader
 
 	protected override IEnumerable<Room> LoadRooms()
 	{
-		var room = Room.Parse(gameData, path, GameFile.ReadAllText(path));
+		var room = Room.Parse(gameData, path, File.ReadAllText(path));
 		yield return room;
 		SetStartRoom(room.name);
 	}

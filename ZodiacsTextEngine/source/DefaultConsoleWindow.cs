@@ -144,8 +144,6 @@ namespace ZodiacsTextEngine
 
 		public virtual void LineBreak()
 		{
-			Console.WriteLine();
-			return;
 			var foregroundColor = ForegroundColor;
 			var backgroundColor = BackgroundColor;
 			Console.ForegroundColor = TextEngine.GameData?.DefaultForegroundColor ?? Console.ForegroundColor;
