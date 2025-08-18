@@ -8,15 +8,6 @@
 </head>
 
 <body>
-    <nav>
-        <a href="index.html" class="title">ZodiacsTextEngine</a>
-        <a href="getting-started.html">Getting Started</a>
-        <a href="room-files.html">Room File Structure</a>
-        <a href="effects.html">Effects</a>
-        <a href="rich-text.html">Rich Text</a>
-        <a href="variables.html">Variables</a>
-        <a href="library-usage.html">Using ZodiacsTextEngine in a custom Application</a>
-    </nav>
     <main>
         <h1>Effects</h1>
         <p>A comprehensive list of all available effects in the ZodiacsTextEngine.</p>
@@ -500,16 +491,6 @@
                 <li><em>+FUNC math_add 5 7</em></li>
                 <li><em>+FUNC math_add -5 32</em></li>
             </code-block>
-            <code-block>
-                <li>//C# file</li>
-                <li>AddFunction("math_add", parameters =></li>
-                <li>{</li>
-                <li>&#9;int a = int.Parse(parameters[0]);</li>
-                <li>&#9;int b = int.Parse(parameters[1]);</li>
-                <li>&#9;int result = a + b;</li>
-                <li>&#9;TextEngine.Interface.Write($"Result of {a} + {b} = {result}");</li>
-                <li>});</li>
-            </code-block>
             <output-window>
                 Result of 1 + 1 = 2<br>
                 Result of 5 + 7 = 12<br>
@@ -634,6 +615,7 @@
     <footer>
         <p>ZodiacsTextEngine Documentation | 2025 | By <a href="https://github.com/D3TONAT0R">D3TONAT0R</a></p>
     </footer>
+    <script src="navigation.js"></script>
 </body>
 
 </html>

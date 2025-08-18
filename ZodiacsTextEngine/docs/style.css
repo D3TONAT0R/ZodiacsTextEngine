@@ -66,25 +66,37 @@ main {
 nav {
     float: left;
     position: fixed;
-    height: 100%;
+    height: 100vh;
     width: var(--nav-width);
     background-color: var(--surface-color);
     border-right: var(--border);
     padding: 16px;
     padding-right: 0;
-}
+    overflow-y: auto;
 
-nav a {
-    display: block;
-    margin-top: 8px;
-    /* border: var(--border); */
-    padding: 4px;
-}
+    a {
+        display: block;
+        margin-top: 8px;
+        /* border: var(--border); */
+        padding: 4px;
+    }
 
-nav a.title {
-    font-size: 1.5em;
-    font-weight: bold;
-    color: var(--primary-color);
+    a.title {
+        font-size: 1.5em;
+        font-weight: bold;
+        color: var(--primary-color);
+    }
+
+    a.active {
+        color: #fff;
+        font-weight: bold;
+    }
+
+    a.section-link {
+        font-size: 0.9em;
+        color: var(--muted-text);
+        margin-top: 0px;
+    }
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -185,6 +197,7 @@ code-block {
         word-wrap: break-word;
         text-wrap: wrap;
         line-height: 1;
+        min-height: 1em;
     }
     
     li::before {
