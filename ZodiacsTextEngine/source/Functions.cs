@@ -40,5 +40,54 @@ namespace ZodiacsTextEngine
 		{
 			return TextEngine.GameData.Functions.ContainsKey(id.ToLower());
 		}
+
+		public static (string, FunctionDelegate) CreateFunction(string id, Action func)
+		{
+			return (id, _ =>
+					{
+						func.Invoke();
+						return Task.FromResult<string>(null);
+					}
+				);
+		}
+
+		public static(string, FunctionDelegate) CreateFunction(string id, Func<string> func)
+		{
+			return (id, _ => Task.FromResult(func.Invoke()));
+		}
+
+		public static (string, FunctionDelegate) CreateFunction(string id, Func<Task<string>> func)
+		{
+			return (id, async _ =>
+					{
+						await func.Invoke();
+						return null;
+					}
+				);
+		}
+
+		public static (string, FunctionDelegate) CreateFunction(string id, Action<string[]> func)
+		{
+			return (id, args =>
+					{
+						func.Invoke(args);
+						return Task.FromResult<string>(null);
+					}
+				);
+		}
+
+		public static (string, FunctionDelegate) CreateFunction(string id, Func<string[], string> func)
+		{
+			return (id, args =>
+					{
+						return Task.FromResult(func.Invoke(args));
+					}
+				);
+		}
+
+		public static  (string, FunctionDelegate) CreateFunction(string id, FunctionDelegate func)
+		{
+			return (id, func);
+		}
 	}
 }

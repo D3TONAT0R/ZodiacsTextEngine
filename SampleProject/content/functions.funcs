@@ -1,0 +1,7 @@
+﻿#my_function
+
+int a = int.Parse(args[0]);
+int b = int.Parse(args[1]);
+int c = a + b;
+
+return $"{a} + {b} = {c}";

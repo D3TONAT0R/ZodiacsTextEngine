@@ -105,6 +105,31 @@ namespace Tests
 
 		}
 
+		[Test]
+		public void TestCodeDomFunctions()
+		{
+			string sourceCode = @"
+				int a = int.Parse(args[0]);
+				int b = int.Parse(args[1]);
+				int c = a + b;
+				return \""{a} + {b} = {c}\"";
+			";
+			RunTest(
+				SingleFile("codedom_test", () =>
+				{
+					var compiler = new FunctionCompiler();
+					compiler.AddFunctionSource("codedom_func", sourceCode);
+					return compiler.CompileFunctions();
+				}),
+				null,
+				[
+					"1 + 2 = 3",
+					"3 + 4 = 7",
+					"5 + 6 = 11"
+				]
+			);
+		}
+
 		#endregion
 
 		public static Task<string> AssertFunc(string[] args)
@@ -121,9 +146,9 @@ namespace Tests
 			return Task.FromResult<string>(null);
 		}
 
-		private SingleFileGameDataLoader SingleFile(string path)
+		private SingleFileGameDataLoader SingleFile(string path, Func<IEnumerable<(string, Functions.FunctionDelegate)>>? loadFunctions = null)
 		{
-			return new SingleFileGameDataLoader(Path.Combine(BaseDirectory, path + ".txt"));
+			return new SingleFileGameDataLoader(Path.Combine(BaseDirectory, path + ".txt"), loadFunctions);
 		}
 
 		private StandardGameDataLoader Directory(string path, string start = "_start")

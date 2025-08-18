@@ -11,19 +11,19 @@ public abstract class TestGameDataLoader : StandardGameDataLoader
 
 	protected override IEnumerable<(string, Functions.FunctionDelegate)> LoadFunctions()
 	{
-		yield return CreateFunction("assert", EngineTests.AssertFunc);
-		yield return CreateFunction("fail", EngineTests.FailFunc);
-		yield return CreateFunction("test_func", (args) =>
+		yield return Functions.CreateFunction("assert", EngineTests.AssertFunc);
+		yield return Functions.CreateFunction("fail", EngineTests.FailFunc);
+		yield return Functions.CreateFunction("test_func", (args) =>
 			{
 				return "Test Function";
 			}
 		);
-		yield return CreateFunction("test_func_with_params", (args) =>
+		yield return Functions.CreateFunction("test_func_with_params", (args) =>
 			{
 				return $"A {args[0]}, B {args[1]}, C {args[2]}";
 			}
 		);
-		yield return CreateFunction("my_function", (args) =>
+		yield return Functions.CreateFunction("my_function", (args) =>
 			{
 				return $"Hello {string.Join(' ', args)}";
 			}
@@ -34,10 +34,27 @@ public abstract class TestGameDataLoader : StandardGameDataLoader
 public class SingleFileGameDataLoader : TestGameDataLoader
 {
 	public string path;
+	public Func<IEnumerable<(string, Functions.FunctionDelegate)>>? loadFunctions;
 
-	public SingleFileGameDataLoader(string path) : base(null, null)
+	public SingleFileGameDataLoader(string path, Func<IEnumerable<(string, Functions.FunctionDelegate)>>? loadFunctions = null) : base(null, null)
 	{
 		this.path = path;
+		this.loadFunctions = loadFunctions;
+	}
+
+	protected override IEnumerable<(string, Functions.FunctionDelegate)> LoadFunctions()
+	{
+		foreach(var func in base.LoadFunctions())
+		{
+			yield return func;
+		}
+		if(loadFunctions != null)
+		{
+			foreach(var func in loadFunctions.Invoke())
+			{
+				yield return func;
+			}
+		}
 	}
 
 	protected override IEnumerable<Room> LoadRooms()
