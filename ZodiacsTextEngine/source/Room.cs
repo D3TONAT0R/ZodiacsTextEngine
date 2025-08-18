@@ -21,9 +21,8 @@ namespace ZodiacsTextEngine
 			name = id;
 		}
 
-		public static Room FromFile(GameData gameData, string filename)
+		public static Room Parse(GameData gameData, string filename, string content)
 		{
-			var content = File.ReadAllText(filename);
 			return RoomParser.Parse(gameData, filename, content);
 		}
 

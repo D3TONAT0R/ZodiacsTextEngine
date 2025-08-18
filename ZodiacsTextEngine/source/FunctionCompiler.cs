@@ -18,9 +18,10 @@ namespace ZodiacsTextEngine
 
         public int FunctionSourceCount => sourceCodes.Count;
 
-		public void AddFunctionSourcesFromFile(string[] fileContents)
+		public void AddFunctionSourcesFromFile(string fileContents)
         {
-            foreach(var kv in FunctionFileParser.ParseFile(fileContents))
+            var lines = fileContents.Replace("\r", "").Split('\n');
+			foreach(var kv in FunctionFileParser.ParseFile(lines))
             {
                 string functionName = kv.Key;
                 string code;
