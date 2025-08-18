@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ZodiacsTextEngine | Custom Functions</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <main>
+        <h1>Custom Functions</h1>
+        <p>
+            Custom functions in the ZodiacsTextEngine allow you to extend the functionality
+            of the engine by writing code which can be executed using the <a href="effects.html#func">+FUNC Effect</a>
+            or as part of a <a href="rich-text.html">Rich Text Tag</a>.
+        </p>
+        <p>
+            There are two main ways to define custom functions:
+        </p>
+        <ul>
+            <li><a href="#writing-function-files">Writing Function Files</a></li>
+            <li><a href="#registering-functions-via-contentloader">Registering Functions via ContentLoader</a></li>
+        </ul>
+        <h2 id="writing-function-files">Writing Function Files</h2>
+        <p>
+            Function files are separate text files that define custom functions. These files are loaded
+            alongside the room files and are compiled into executable code when the game starts.
+        </p>
+        <p>
+            Function files use the <code>.funcs</code> extension and can contain an arbitrary number of functions.
+        </p>
+        <p>
+            Functions can be triggered by writing <code>+FUNC <i>function_name</i></code> or
+            <code>+<i>FUNCTION_NAME</i></code> followed by any required arguments.
+        </p>
+        <h3>Function File Structure</h3>
+        <code-block>
+            <li>//Define a function named 'math_add'</li>
+            <li># math_add</li>
+            <li>int x = int.Parse(args[0]);</li>
+            <li>int y = int.Parse(args[1]);</li>
+            <li>int result = x + y;</li>
+            <li>//Print the result</li>
+            <li>return $"The sum of {x} and {y} is {result}";</li>
+            <li></li>
+            <li>//Define an async function named 'request_login_data'</li>
+            <li># request_login_data async</li>
+            <li>window.Text("Enter Username:");</li>
+            <li>string username = await window.ReadInput();</li>
+            <li>vars.SetString("username", username);</li>
+            <li>window.Text("Enter Password:");</li>
+            <li>string password = await window.ReadInput();</li>
+            <li>vars.SetString("password", password);</li>
+            <li>window.Text($"User {username} identified.");</li>
+            <li>return null; //Don't output anything else</li>
+        </code-block>
+        <p>Example usage is as follows:</p>
+        <code-block>
+            <li>+FUNC math_add 1 2</li>
+            <li>// OR</li>
+            <li>+MATH_ADD 3 4</li>
+            <li></li>
+            <li>+FUNC request_login_data</li>
+        </code-block>
+        <output-window>
+            The sum of 1 and 2 is 3<br>
+            The sum of 3 and 4 is 7<br>
+            Enter Username:<br>
+            <prompt>admin</prompt>
+            Enter Password:<br>
+            <prompt>123</prompt>
+            User admin identified.<br>
+            <prompt>_</prompt>
+        </output-window>
+        <p>
+            The body of a single function must have a return statement that returns text
+            to be displayed in the output window. If null is returned, no text will be displayed.<br>
+            In the case of an async function, the returned value must be <code>Task&lt;string&gt;</code> or <code>null</code>.
+        </p>
+        <p>When writing function files, you have limited access to certain assemblies:</p>
+        <ul>
+            <li><code>netstandard.dll</code></li>
+            <li><code>System.Runtime.dll</code></li>
+            <li><code>ZodiacsTextEngine</code></li>
+        </ul>
+        <p>The following usings are pre-defined in function files:</p>
+        <ul>
+            <li><code>using System;</code></li>
+            <li><code>using System.Linq;</code></li>
+            <li><code>using System.Collections.Generic;</code></li>
+            <li><code>using ZodiacsTextEngine;</code></li>
+            <li><code>using ZodiacsTextEngine.Effects;</code></li>
+        </ul>
+        <p>To simplify writing functions, certain accessors are provided:</p>
+        <ul>
+            <li><code>window</code> - Shorthand access to the text interface (<code>ZodiacsTextEngine.TextEngine.Interface</code>).</li>
+            <li><code>vars</code> - Shorthand access to the variable storage (<code>ZodiacsTextEngine.GameSession.Current.variables</code>).</li>
+            <li><code>gameData</code> - Shorthand access to the game data (<code>ZodiacsTextEngine.TextEngine.GameData</code>).</li>
+        </ul>
+        <h2 id="registering-functions-via-contentloader">Registering Functions via ContentLoader</h2>
+        <code-block>
+            <li>protected override IEnumerable<(string, Functions.FunctionDelegate)> LoadFunctions()</li>
+            <li>{</li>
+            <li>&#9;yield return Functions.CreateFunction("math_add", parameters =></li>
+            <li>&#9;&#9;int x = int.Parse(parameters[0]);</li>
+            <li>&#9;&#9;int y = int.Parse(parameters[1]);</li>
+            <li>&#9;&#9;int result = x + y;</li>
+            <li>&#9;&#9;TextEngine.Interface.Write($"The sum of {x} and {y} is {result}");</li>
+            <li>&#9;&#9;return null;</li>
+            <li>&#9;));</li>
+            <li>}</li>
+        </code-block>
+    </main>
+    <footer>
+        <p>ZodiacsTextEngine Documentation | 2025 | By <a href="https://github.com/D3TONAT0R">D3TONAT0R</a></p>
+    </footer>
+    <script src="navigation.js"></script>
+</body>
+
+</html>
