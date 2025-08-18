@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using ZodiacsTextEngine.Effects;
-using ZodiacsTextEngine.Parser;
+using ZodiacsTextEngine.Parsers;
 
 namespace ZodiacsTextEngine
 {

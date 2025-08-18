@@ -1,7 +1,7 @@
 ﻿using System;
 using ZodiacsTextEngine.Effects;
 
-namespace ZodiacsTextEngine.Parser
+namespace ZodiacsTextEngine.Parsers
 {
 	public delegate Effect EffectParserDelegate(EffectParseContext context);
 

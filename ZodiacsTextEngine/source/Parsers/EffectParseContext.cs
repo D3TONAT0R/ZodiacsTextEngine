@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ZodiacsTextEngine.Parser
+namespace ZodiacsTextEngine.Parsers
 {
 	public class EffectParseContext
 	{

@@ -8,7 +8,7 @@ namespace ZodiacsTextEngine
 	public class StandardGameDataLoader : GameDataLoader
 	{
 		public const string ROOM_FILE_EXT = "txt";
-		public const string VARS_FILE_EXT = "vars";
+		public const string FUNC_FILE_EXT = "funcs";
 
 		protected readonly string rootDirectory;
 		protected readonly string startRoomName;
@@ -22,6 +22,31 @@ namespace ZodiacsTextEngine
 		protected override void Begin()
 		{
 			if(DebugMode) Interface.Header("GAME FILE LOAD");
+		}
+
+		protected override IEnumerable<(string, Functions.FunctionDelegate)> LoadFunctions()
+		{
+			var funcFiles = Directory.GetFiles(rootDirectory, "*." + FUNC_FILE_EXT, SearchOption.AllDirectories);
+			if(funcFiles.Length == 0) yield break;
+
+			if(DebugMode) Interface.Text($"Compiling {funcFiles.Length} function files ...");
+			var compiler = new FunctionCompiler();
+			foreach(var funcFile in funcFiles)
+			{
+				var lines = File.ReadAllLines(funcFile);
+				compiler.AddFunctionSourcesFromFile(lines);
+			}
+			if(compiler.FunctionSourceCount == 0)
+			{
+				if(DebugMode) Interface.Text("No functions found in the function files.");
+				yield break;
+			}
+			var compiled = compiler.CompileFunctions();
+			foreach(var func in compiled)
+			{
+				if(DebugMode) Interface.Text($"Successfully compiled function '{func.Item1}'");
+				yield return func;
+			}
 		}
 
 		protected override IEnumerable<Room> LoadRooms()

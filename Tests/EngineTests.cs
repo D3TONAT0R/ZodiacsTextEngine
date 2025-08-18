@@ -108,12 +108,11 @@ namespace Tests
 		[Test]
 		public void TestCodeDomFunctions()
 		{
-			string sourceCode = @"
-				int a = int.Parse(args[0]);
-				int b = int.Parse(args[1]);
-				int c = a + b;
-				return \""{a} + {b} = {c}\"";
-			";
+			string sourceCode = 
+@"int a = int.Parse(args[0]);
+int b = int.Parse(args[1]);
+int c = a + b;
+return $""{a} + {b} = {c}"";";
 			RunTest(
 				SingleFile("codedom_test", () =>
 				{

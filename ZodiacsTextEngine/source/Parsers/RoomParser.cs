@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using ZodiacsTextEngine.Effects;
 
-namespace ZodiacsTextEngine.Parser
+namespace ZodiacsTextEngine.Parsers
 {
 	public static class RoomParser
 	{
