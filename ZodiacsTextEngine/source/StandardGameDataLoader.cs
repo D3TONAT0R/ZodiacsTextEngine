@@ -29,7 +29,7 @@ namespace ZodiacsTextEngine
 
 		protected ZipArchive zipArchive;
 
-		public StandardGameDataLoader(string rootDirectory, string startRoomName)
+		public StandardGameDataLoader(string rootDirectory, string startRoomName = "start")
 		{
 			this.rootDirectory = rootDirectory;
 			this.startRoomName = startRoomName;

@@ -24,7 +24,6 @@ namespace ZodiacsTextEngine
 			foreach(var kv in FunctionFileParser.ParseFile(lines))
             {
                 string functionName = kv.Key;
-                string code;
                 AddFunctionSource(functionName, kv.Value.code, kv.Value.async);
 			}
         }

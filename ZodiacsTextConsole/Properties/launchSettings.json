@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Text Console (menu)": {
+      "commandName": "Project",
+      "commandLineArgs": "--menu"
+    }
+  }
+}
