@@ -23,21 +23,21 @@
             </p>
             <h3>Examples</h3>
             <code-block>
-                <li>//Single line text</li>
-                <li>+TEXT Hello, World!</li>
-                <li> </li>
-                <li>//Multi-line text</li>
-                <li>+TEXT</li>
-                <li>This is a multi-line text effect.</li>
-                <li>It can span multiple lines.</li>
-                <li> </li>
-                <li>It can also contain blank lines.</li>
-                <li> </li>
-                <li>//Rich text tags</li>
-                <li>+TEXT</li>
-                <li>This text is &lt;color=red&gt;red&lt;reset&gt;.</li>
-                <li>This text has a &lt;background=blue&gt;blue background&lt;reset&gt;.</li>
-                <li>You have &lt;var=hitpoints&gt; left.</li>
+                <span>//Single line text</span>
+                <span>+TEXT Hello, World!</span>
+                <span> </span>
+                <span>//Multi-line text</span>
+                <span>+TEXT</span>
+                <span>This is a multi-line text effect.</span>
+                <span>It can span multiple lines.</span>
+                <span> </span>
+                <span>It can also contain blank lines.</span>
+                <span> </span>
+                <span>//Rich text tags</span>
+                <span>+TEXT</span>
+                <span>This text is &lt;color=red&gt;red&lt;reset&gt;.</span>
+                <span>This text has a &lt;background=blue&gt;blue background&lt;reset&gt;.</span>
+                <span>You have &lt;var=hitpoints&gt; left.</span>
             </code-block>
             <output-window>
                 Hello, World!<br>
@@ -62,18 +62,15 @@
             </p>
             <h3>Examples</h3>
             <code-block>
-                <li>+PLAIN_TEXT Hello, World!</li>
-                <li>+PLAIN_TEXT</li>
-                <li>This effect is similar to +TEXT</li>
-                <li>but it does not process &lt;color=yellow&gt;rich text tags&lt;reset&gt;</li>
-                <li> </li>
-                <li>+TEXT &lt; Welcome, traveler! &gt;</li>
+                <span>+PLAIN_TEXT Hello, World!</span>
+                <span>+PLAIN_TEXT</span>
+                <span>This effect is similar to +TEXT</span>
+                <span>but it does not process &lt;color=yellow&gt;rich text tags&lt;reset&gt;</span>
             </code-block>
             <output-window>
                 Hello, World!<br>
                 This effect is similar to +TEXT<br>
-                but it does not process &lt;color=yellow&gt;rich text tags&lt;reset&gt;<br>
-                &lt; Welcome, traveler! &gt;
+                but it does not process &lt;color=yellow&gt;rich text tags&lt;reset&gt;
                 <prompt>_</prompt>
             </output-window>
         </div>
@@ -87,11 +84,11 @@
             </p>
             <h3>Examples</h3>
             <code-block>
-                <li>+TEXT This is a line of text.</li>
-                <li><em>+SPACE</em></li>
-                <li>+TEXT This is another line of text.</li>
-                <li><em>+SPACE 3</em></li>
-                <li>+TEXT This line is separated by three blank lines.</li>
+                <span>+TEXT This is a line of text.</span>
+                <span><em>+SPACE</em></span>
+                <span>+TEXT This is another line of text.</span>
+                <span><em>+SPACE 3</em></span>
+                <span>+TEXT This line is separated by three blank lines.</span>
             </code-block>
             <output-window>
                 This is a line of text.<br>
@@ -114,12 +111,12 @@
             </p>
             <h3>Examples</h3>
             <code-block>
-                <li>+TEXT Hello, World!</li>
-                <li>//Clear the output window</li>
-                <li><em>+CLEAR_OUTPUT</em></li>
-                <li> </li>
-                <li>//Display new content</li>
-                <li>+TEXT Welcome to the ZodiacsTextEngine!</li>
+                <span>+TEXT Hello, World!</span>
+                <span>//Clear the output window</span>
+                <span><em>+CLEAR_OUTPUT</em></span>
+                <span> </span>
+                <span>//Display new content</span>
+                <span>+TEXT Welcome to the ZodiacsTextEngine!</span>
             </code-block>
             <output-window>
                 Welcome to the ZodiacsTextEngine!
@@ -140,14 +137,14 @@
             <p>A list of all available colors can be found <a href="rich-text.html#colors">here</a>.</p>
             <h3>Examples</h3>
             <code-block>
-                <li>//Example usage</li>
-                <li>+TEXT Normal text</li>
-                <li><em>+COLOR red</em></li>
-                <li>+TEXT This text is red.</li>
-                <li><em>+COLOR blue</em></li>
-                <li>+TEXT This text is blue.</li>
-                <li>+RESET</li>
-                <li>+TEXT This text is back to normal.</li>
+                <span>//Example usage</span>
+                <span>+TEXT Normal text</span>
+                <span><em>+COLOR red</em></span>
+                <span>+TEXT This text is red.</span>
+                <span><em>+COLOR blue</em></span>
+                <span>+TEXT This text is blue.</span>
+                <span>+RESET</span>
+                <span>+TEXT This text is back to normal.</span>
             </code-block>
             <output-window>
                 Normal text<br>
@@ -171,14 +168,14 @@
             <p>A list of all available colors can be found <a href="rich-text.html#colors">here</a>.</p>
             <h3>Examples</h3>
             <code-block>
-                <li>//Example usage</li>
-                <li>+TEXT Normal text</li>
-                <li><em>+BACKGROUND red</em></li>
-                <li>+TEXT This text has a red background.</li>
-                <li><em>+BACKGROUND blue</em></li>
-                <li>+TEXT This text has a blue background.</li>
-                <li>+RESET</li>
-                <li>+TEXT This text is back to normal.</li>
+                <span>//Example usage</span>
+                <span>+TEXT Normal text</span>
+                <span><em>+BACKGROUND red</em></span>
+                <span>+TEXT This text has a red background.</span>
+                <span><em>+BACKGROUND blue</em></span>
+                <span>+TEXT This text has a blue background.</span>
+                <span>+RESET</span>
+                <span>+TEXT This text is back to normal.</span>
             </code-block>
             <output-window>
                 Normal text<br>
@@ -198,12 +195,12 @@
             </p>
             <h3>Examples</h3>
             <code-block>
-                <li>+COLOR yellow</li>
-                <li>+TEXT This text is yellow.</li>
-                <li>+BACKGROUND gray</li>
-                <li>+TEXT This text is yellow with a gray background.</li>
-                <li><em>+RESET</em></li>
-                <li>+TEXT This text is back to normal.</li>
+                <span>+COLOR yellow</span>
+                <span>+TEXT This text is yellow.</span>
+                <span>+BACKGROUND gray</span>
+                <span>+TEXT This text is yellow with a gray background.</span>
+                <span><em>+RESET</em></span>
+                <span>+TEXT This text is back to normal.</span>
             </code-block>
             <output-window>
                 <span style="color: yellow;">This text is yellow.</span><br>
@@ -223,20 +220,20 @@
             </p>
             <h3>Examples</h3>
             <code-block>
-                <li><em>+VAR_SET coins 7</em></li>
-                <li>+TEXT You are in front of a pile of coins. You have &lt;var=coins&gt; coins.</li>
-                <li>+TEXT You take three coins.</li>
-                <li><em>+VAR_ADD coins 3</em></li>
-                <li>+TEXT You now have &lt;var=coins&gt; coins.</li>
-                <li>IF coins > 5</li>
-                <li>&#9;+TEXT You have enough coins to buy a potion (costs 5 coins).</li>
-                <li>&#9;+TEXT You buy a potion.</li>
-                <li>&#9;<em>+VAR_ADD coins -5</em></li>
-                <li>&#9;<em>+VAR_ADD potions 1</em></li>
-                <li>&#9;+TEXT You now have &lt;var=coins&gt; coins and &lt;var=potions&gt; potion(s).</li>
-                <li>ELSE</li>
-                <li>&#9;+TEXT You don't have enough coins to buy a potion.</li>
-                <li>ENDIF</li>
+                <span><em>+VAR_SET coins 7</em></span>
+                <span>+TEXT You are in front of a pile of coins. You have &lt;var=coins&gt; coins.</span>
+                <span>+TEXT You take three coins.</span>
+                <span><em>+VAR_ADD coins 3</em></span>
+                <span>+TEXT You now have &lt;var=coins&gt; coins.</span>
+                <span>IF coins > 5</span>
+                <span>&#9;+TEXT You have enough coins to buy a potion (costs 5 coins).</span>
+                <span>&#9;+TEXT You buy a potion.</span>
+                <span>&#9;<em>+VAR_ADD coins -5</em></span>
+                <span>&#9;<em>+VAR_ADD potions 1</em></span>
+                <span>&#9;+TEXT You now have &lt;var=coins&gt; coins and &lt;var=potions&gt; potion(s).</span>
+                <span>ELSE</span>
+                <span>&#9;+TEXT You don't have enough coins to buy a potion.</span>
+                <span>ENDIF</span>
             </code-block>
             <output-window>
                 You are in front of a pile of coins. You have 7 coins.<br>
@@ -261,14 +258,14 @@
             </p>
             <h3>Examples</h3>
             <code-block>
-                <li>+TEXT What is your name?</li>
-                <li><em>+SVAR_SET name "Harry"</em></li>
-                <li>+TEXT Hello, &lt;var=name&gt;! And what is your full name?</li>
-                <li><em>+SVAR_ADD name "Potter"</em></li>
-                <li>+TEXT Nice to meet you, &lt;var=name&gt;!</li>
-                <li>IF name IS "Harry Potter"</li>
-                <li>&#9;+TEXT You're a wizard, Harry!</li>
-                <li>ENDIF</li>
+                <span>+TEXT What is your name?</span>
+                <span><em>+SVAR_SET name "Harry"</em></span>
+                <span>+TEXT Hello, &lt;var=name&gt;! And what is your full name?</span>
+                <span><em>+SVAR_ADD name "Potter"</em></span>
+                <span>+TEXT Nice to meet you, &lt;var=name&gt;!</span>
+                <span>IF name IS "Harry Potter"</span>
+                <span>&#9;+TEXT You're a wizard, Harry!</span>
+                <span>ENDIF</span>
             </code-block>
             <output-window>
                 What is your name?<br>
@@ -278,23 +275,23 @@
                 <prompt>_</prompt>
             </output-window>
             <code-block>
-                <li>//Define variable house</li>
-                <li><em>+SVAR_SET house "A house"</em></li>
-                <li> </li>
-                <li>//Set variable x to string "house"</li>
-                <li><em>+SVAR_SET x "house"</em></li>
-                <li>+TEXT &lt;var=x&gt;</li>
-                <li> </li>
-                <li>//Set variable y to the value of variable named house</li>
-                <li><em>+SVAR_SET y house</em></li>
-                <li>+TEXT &lt;var=y&gt;</li>
-                <li> </li>
-                <li>//String concatenation</li>
-                <li><em>+SVAR_SET description "giant"</em></li>
-                <li><em>+SVAR_SET z "A "</em></li>
-                <li><em>+SVAR_ADD z description</em></li>
-                <li><em>+SVAR_ADD z " house."</em></li>
-                <li>+TEXT &lt;var=z&gt;</li>
+                <span>//Define variable house</span>
+                <span><em>+SVAR_SET house "A house"</em></span>
+                <span> </span>
+                <span>//Set variable x to string "house"</span>
+                <span><em>+SVAR_SET x "house"</em></span>
+                <span>+TEXT &lt;var=x&gt;</span>
+                <span> </span>
+                <span>//Set variable y to the value of variable named house</span>
+                <span><em>+SVAR_SET y house</em></span>
+                <span>+TEXT &lt;var=y&gt;</span>
+                <span> </span>
+                <span>//String concatenation</span>
+                <span><em>+SVAR_SET description "giant"</em></span>
+                <span><em>+SVAR_SET z "A "</em></span>
+                <span><em>+SVAR_ADD z description</em></span>
+                <span><em>+SVAR_ADD z " house."</em></span>
+                <span>+TEXT &lt;var=z&gt;</span>
             </code-block>
             <output-window>
                 house<br>
@@ -313,28 +310,28 @@
             </p>
             <h3>Examples</h3>
             <code-block>
-                <li>//house.txt</li>
-                <li>@ENTER</li>
-                <li>+TEXT</li>
-                <li>There is a door leading to the back of the house.</li>
-                <li>You can LOOK through the window or go through the DOOR.</li>
-                <li> </li>
-                <li>What will you do?</li>
-                <li> </li>
-                <li>//Choice that is executed when the user types 'DOOR'</li>
-                <li>&gt;DOOR</li>
-                <li>+TEXT Curious, you open the door and step outside.</li>
-                <li><em>+GOTO garden.txt</em></li>
-                <li> </li>
-                <li>&gt;WINDOW</li>
-                <li>+TEXT You look through the window and see a beautiful garden.</li>
+                <span>//house.txt</span>
+                <span>@ENTER</span>
+                <span>+TEXT</span>
+                <span>There is a door leading to the back of the house.</span>
+                <span>You can LOOK through the window or go through the DOOR.</span>
+                <span> </span>
+                <span>What will you do?</span>
+                <span> </span>
+                <span>//Choice that is executed when the user types 'DOOR'</span>
+                <span>&gt;DOOR</span>
+                <span>+TEXT Curious, you open the door and step outside.</span>
+                <span><em>+GOTO garden.txt</em></span>
+                <span> </span>
+                <span>&gt;WINDOW</span>
+                <span>+TEXT You look through the window and see a beautiful garden.</span>
             </code-block>
             <code-block>
-                <li>//garden.txt</li>
-                <li>@ENTER</li>
-                <li>+COLOR green</li>
-                <li>+TEXT</li>
-                <li>You enter a beautiful garden.</li>
+                <span>//garden.txt</span>
+                <span>@ENTER</span>
+                <span>+COLOR green</span>
+                <span>+TEXT</span>
+                <span>You enter a beautiful garden.</span>
             </code-block>
             <output-window>
                 There is a door leading to the back of the house.<br>
@@ -359,13 +356,13 @@
             </p>
             <h3>Examples</h3>
             <code-block>
-                <li>@ENTER</li>
-                <li>+TEXT You are in front of a pile of coins. You have &lt;var=coins&gt; coins.</li>
-                <li> </li>
-                <li>&gt;TAKE COIN</li>
-                <li>+TEXT You take a coin.</li>
-                <li>+VAR_ADD coins 1</li>
-                <li><em>+RETURN</em></li>
+                <span>@ENTER</span>
+                <span>+TEXT You are in front of a pile of coins. You have &lt;var=coins&gt; coins.</span>
+                <span> </span>
+                <span>&gt;TAKE COIN</span>
+                <span>+TEXT You take a coin.</span>
+                <span>+VAR_ADD coins 1</span>
+                <span><em>+RETURN</em></span>
             </code-block>
             <output-window>
                 You are in front of a pile of coins. You have 0 coins.<br>
@@ -392,8 +389,8 @@
             </p>
             <h3>Examples</h3>
             <code-block>
-                <li>+TEXT You have escaped!</li>
-                <li><em>+GAMEOVER</em></li>
+                <span>+TEXT You have escaped!</span>
+                <span><em>+GAMEOVER</em></span>
             </code-block>
             <output-window>
                 You have escaped!<br>
@@ -415,10 +412,10 @@
             </p>
             <h3>Examples</h3>
             <code-block>
-                <li>+TEXT To quit the game, type "QUIT"</li>
-                <li> </li>
-                <li>&gt; QUIT</li>
-                <li><em>+EXIT</em></li>
+                <span>+TEXT To quit the game, type "QUIT"</span>
+                <span> </span>
+                <span>&gt; QUIT</span>
+                <span><em>+EXIT</em></span>
             </code-block>
             <output-window>
                 To quit the game, type "QUIT"<br>
@@ -437,11 +434,11 @@
             </p>
             <h3>Examples</h3>
             <code-block>
-                <li>+TEXT Hello, World!</li>
-                <li><em>+WAIT</em></li>
-                <li>+TEXT You pressed a key!</li>
-                <li><em>+WAIT Further user input required</em></li>
-                <li>+TEXT Welcome aboard.</li>
+                <span>+TEXT Hello, World!</span>
+                <span><em>+WAIT</em></span>
+                <span>+TEXT You pressed a key!</span>
+                <span><em>+WAIT Further user input required</em></span>
+                <span>+TEXT Welcome aboard.</span>
             </code-block>
             <output-window>
                 Hello, World!<br>
@@ -464,10 +461,10 @@
             </p>
             <h3>Examples</h3>
             <code-block>
-                <li><em>+DELAY 0.5</em></li>
-                <li>+TEXT Big Man goes live.</li>
-                <li><em>+DELAY 2</em></li>
-                <li>+TEXT He threatens to destroy the earth with his portable thermonuclear bomb or even several.</li>
+                <span><em>+DELAY 0.5</em></span>
+                <span>+TEXT Big Man goes live.</span>
+                <span><em>+DELAY 2</em></span>
+                <span>+TEXT He threatens to destroy the earth with his portable thermonuclear bomb or even several.</span>
             </code-block>
             <output-window>
                 Big Man goes live.<br>
@@ -486,10 +483,10 @@
             </p>
             <h3>Examples</h3>
             <code-block>
-                <li>//Room file</li>
-                <li><em>+FUNC math_add 1 1</em></li>
-                <li><em>+FUNC math_add 5 7</em></li>
-                <li><em>+FUNC math_add -5 32</em></li>
+                <span>//Room file</span>
+                <span><em>+FUNC math_add 1 1</em></span>
+                <span><em>+FUNC math_add 5 7</em></span>
+                <span><em>+FUNC math_add -5 32</em></span>
             </code-block>
             <output-window>
                 Result of 1 + 1 = 2<br>
@@ -560,17 +557,17 @@
             </p>
             <h3>Examples</h3>
             <code-block>
-                <li>//Set custom colors at game start</li>
-                <li>@ENTER</li>
-                <li><em>+COLOR_SETTING background dark_blue</em></li>
-                <li><em>+COLOR_SETTING foreground blue</em></li>
-                <li><em>+COLOR_SETTING highlight_foreground white</em></li>
-                <li><em>+COLOR_SETTING input_foreground yellow</em></li>
-                <li>+CLEAR_OUTPUT</li>
-                <li>+TEXT</li>
-                <li>He was austere with himself; drank &lt;h&gt;GIN&lt;r&gt; when he was alone,</li>
-                <li>to mortify a taste for vintages; and though he enjoyed the theatre,</li>
-                <li>had not crossed the &lt;h&gt;DOORS&lt;r&gt; of one for twenty years.</li>
+                <span>//Set custom colors at game start</span>
+                <span>@ENTER</span>
+                <span><em>+COLOR_SETTING background dark_blue</em></span>
+                <span><em>+COLOR_SETTING foreground blue</em></span>
+                <span><em>+COLOR_SETTING highlight_foreground white</em></span>
+                <span><em>+COLOR_SETTING input_foreground yellow</em></span>
+                <span>+CLEAR_OUTPUT</span>
+                <span>+TEXT</span>
+                <span>He was austere with himself; drank &lt;h&gt;GIN&lt;r&gt; when he was alone,</span>
+                <span>to mortify a taste for vintages; and though he enjoyed the theatre,</span>
+                <span>had not crossed the &lt;h&gt;DOORS&lt;r&gt; of one for twenty years.</span>
             </code-block>
             <output-window style="background: #006; color: #88f">
                 He was austere with himself; drank <span style="color: white">GIN</span> when he was alone,<br>
@@ -591,8 +588,8 @@
             </p>
             <h3>Examples</h3>
             <code-block>
-                <li>//This will be reported every time when running the game with debug mode on</li>
-                <li><em>+TODO Write more text</em></li>
+                <span>//This will be reported every time when running the game with debug mode on</span>
+                <span><em>+TODO Write more text</em></span>
             </code-block>
         </div>
 
@@ -607,8 +604,8 @@
             </p>
             <h3>Examples</h3>
             <code-block>
-                <li>//Triggers a breakpoint when reaching this line</li>
-                <li><em>+BREAKPOINT</em></li>
+                <span>//Triggers a breakpoint when reaching this line</span>
+                <span><em>+BREAKPOINT</em></span>
             </code-block>
         </div>
     </main>

@@ -36,32 +36,32 @@
         </p>
         <h3>Function File Structure</h3>
         <code-block>
-            <li>//Define a function named 'math_add'</li>
-            <li># math_add</li>
-            <li>int x = int.Parse(args[0]);</li>
-            <li>int y = int.Parse(args[1]);</li>
-            <li>int result = x + y;</li>
-            <li>//Print the result</li>
-            <li>return $"The sum of {x} and {y} is {result}";</li>
-            <li></li>
-            <li>//Define an async function named 'request_login_data'</li>
-            <li># request_login_data async</li>
-            <li>window.Text("Enter Username:");</li>
-            <li>string username = await window.ReadInput();</li>
-            <li>vars.SetString("username", username);</li>
-            <li>window.Text("Enter Password:");</li>
-            <li>string password = await window.ReadInput();</li>
-            <li>vars.SetString("password", password);</li>
-            <li>window.Text($"User {username} identified.");</li>
-            <li>return null; //Don't output anything else</li>
+            <span>//Define a function named 'math_add'</span>
+            <span># math_add</span>
+            <span>int x = int.Parse(args[0]);</span>
+            <span>int y = int.Parse(args[1]);</span>
+            <span>int result = x + y;</span>
+            <span>//Print the result</span>
+            <span>return $"The sum of {x} and {y} is {result}";</span>
+            <span></span>
+            <span>//Define an async function named 'request_login_data'</span>
+            <span># request_login_data async</span>
+            <span>window.Text("Enter Username:");</span>
+            <span>string username = await window.ReadInput();</span>
+            <span>vars.SetString("username", username);</span>
+            <span>window.Text("Enter Password:");</span>
+            <span>string password = await window.ReadInput();</span>
+            <span>vars.SetString("password", password);</span>
+            <span>window.Text($"User {username} identified.");</span>
+            <span>return null; //Don't output anything else</span>
         </code-block>
         <p>Example usage is as follows:</p>
         <code-block>
-            <li>+FUNC math_add 1 2</li>
-            <li>// OR</li>
-            <li>+MATH_ADD 3 4</li>
-            <li></li>
-            <li>+FUNC request_login_data</li>
+            <span>+FUNC math_add 1 2</span>
+            <span>// OR</span>
+            <span>+MATH_ADD 3 4</span>
+            <span></span>
+            <span>+FUNC request_login_data</span>
         </code-block>
         <output-window>
             The sum of 1 and 2 is 3<br>
@@ -80,36 +80,36 @@
         </p>
         <p>When writing function files, you have limited access to certain assemblies:</p>
         <ul>
-            <li><code>netstandard.dll</code></li>
-            <li><code>System.Runtime.dll</code></li>
-            <li><code>ZodiacsTextEngine</code></li>
+            <span><code>netstandard.dll</code></span>
+            <span><code>System.Runtime.dll</code></span>
+            <span><code>ZodiacsTextEngine</code></span>
         </ul>
         <p>The following usings are pre-defined in function files:</p>
         <ul>
-            <li><code>using System;</code></li>
-            <li><code>using System.Linq;</code></li>
-            <li><code>using System.Collections.Generic;</code></li>
-            <li><code>using ZodiacsTextEngine;</code></li>
-            <li><code>using ZodiacsTextEngine.Effects;</code></li>
+            <span><code>using System;</code></span>
+            <span><code>using System.Linq;</code></span>
+            <span><code>using System.Collections.Generic;</code></span>
+            <span><code>using ZodiacsTextEngine;</code></span>
+            <span><code>using ZodiacsTextEngine.Effects;</code></span>
         </ul>
         <p>To simplify writing functions, certain accessors are provided:</p>
         <ul>
-            <li><code>window</code> - Shorthand access to the text interface (<code>ZodiacsTextEngine.TextEngine.Interface</code>).</li>
-            <li><code>vars</code> - Shorthand access to the variable storage (<code>ZodiacsTextEngine.GameSession.Current.variables</code>).</li>
-            <li><code>gameData</code> - Shorthand access to the game data (<code>ZodiacsTextEngine.TextEngine.GameData</code>).</li>
+            <span><code>window</code> - Shorthand access to the text interface (<code>ZodiacsTextEngine.TextEngine.Interface</code>).</span>
+            <span><code>vars</code> - Shorthand access to the variable storage (<code>ZodiacsTextEngine.GameSession.Current.variables</code>).</span>
+            <span><code>gameData</code> - Shorthand access to the game data (<code>ZodiacsTextEngine.TextEngine.GameData</code>).</span>
         </ul>
         <h2 id="registering-functions-via-contentloader">Registering Functions via ContentLoader</h2>
         <code-block>
-            <li>protected override IEnumerable<(string, Functions.FunctionDelegate)> LoadFunctions()</li>
-            <li>{</li>
-            <li>&#9;yield return Functions.CreateFunction("math_add", parameters =></li>
-            <li>&#9;&#9;int x = int.Parse(parameters[0]);</li>
-            <li>&#9;&#9;int y = int.Parse(parameters[1]);</li>
-            <li>&#9;&#9;int result = x + y;</li>
-            <li>&#9;&#9;TextEngine.Interface.Write($"The sum of {x} and {y} is {result}");</li>
-            <li>&#9;&#9;return null;</li>
-            <li>&#9;));</li>
-            <li>}</li>
+            <span>protected override IEnumerable<(string, Functions.FunctionDelegate)> LoadFunctions()</span>
+            <span>{</span>
+            <span>&#9;yield return Functions.CreateFunction("math_add", parameters =></span>
+            <span>&#9;&#9;int x = int.Parse(parameters[0]);</span>
+            <span>&#9;&#9;int y = int.Parse(parameters[1]);</span>
+            <span>&#9;&#9;int result = x + y;</span>
+            <span>&#9;&#9;TextEngine.Interface.Write($"The sum of {x} and {y} is {result}");</span>
+            <span>&#9;&#9;return null;</span>
+            <span>&#9;));</span>
+            <span>}</span>
         </code-block>
     </main>
     <footer>

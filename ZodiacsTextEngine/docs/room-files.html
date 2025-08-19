@@ -23,19 +23,19 @@
             The general structure of a single room file is as follows:
         </p>
         <code-block>
-            <li>@ENTER <i>Required</i></li>
-            <li>+EFFECT <i>Effects to execute when entering the room</i></li>
-            <li> </li>
-            <li>@EXIT <i>Optional</i></li>
-            <li>+EFFECT <i>Effects to execute when exiting the room</i></li>
-            <li> </li>
-            <li>&gt;Choice 1</li>
-            <li>+EFFECT <i>Invoked when inputting "Choice 1"</i></li>
-            <li> </li>
-            <li>&gt;Choice 2</li>
-            <li>+EFFECT <i>Invoked when inputting "Choice 2"</i></li>
-            <li> </li>
-            <li><i>Add more choices as required</i></li>
+            <span>@ENTER <i>Required</i></span>
+            <span>+EFFECT <i>Effects to execute when entering the room</i></span>
+            <span> </span>
+            <span>@EXIT <i>Optional</i></span>
+            <span>+EFFECT <i>Effects to execute when exiting the room</i></span>
+            <span> </span>
+            <span>&gt;Choice 1</span>
+            <span>+EFFECT <i>Invoked when inputting "Choice 1"</i></span>
+            <span> </span>
+            <span>&gt;Choice 2</span>
+            <span>+EFFECT <i>Invoked when inputting "Choice 2"</i></span>
+            <span> </span>
+            <span><i>Add more choices as required</i></span>
         </code-block>
         <p>
             The <code>@ENTER</code> tag is mandatory and should (aside from comments) be the first line in the room
@@ -62,45 +62,45 @@
         </p>
         <h2 id="example">Example</h2>
         <code-block>
-            <li>//An example room file</li>
-            <li>@ENTER</li>
-            <li>+TEXT You enter a mysterious room.</li>
-            <li>+TEXT There is a sturdy DOOR to the right and a dark PASSAGE to the left.</li>
-            <li>+TEXT What will you do?</li>
-            <li> </li>
-            <li>&gt;DOOR</li>
-            <li>+TEXT You step towards the door.</li>
-            <li>//A key is needed to proceed</li>
-            <li>IF key == 1</li>
-            <li>&#9;+TEXT Turning the key, the door slowly gives way.</li>
-            <li>&#9;+GOTO secret_room</li>
-            <li>ELSE</li>
-            <li>&#9;+TEXT The door is locked. You need a key.</li>
-            <li>ENDIF</li>
-            <li> </li>
-            <li>&gt;PASSAGE</li>
-            <li>+TEXT You approach the passage cautiously. It is cold and damp.</li>
-            <li>//Go to another room</li>
-            <li>+GOTO dark_passage</li>
+            <span>//An example room file</span>
+            <span>@ENTER</span>
+            <span>+TEXT You enter a mysterious room.</span>
+            <span>+TEXT There is a sturdy DOOR to the right and a dark PASSAGE to the left.</span>
+            <span>+TEXT What will you do?</span>
+            <span> </span>
+            <span>&gt;DOOR</span>
+            <span>+TEXT You step towards the door.</span>
+            <span>//A key is needed to proceed</span>
+            <span>IF key == 1</span>
+            <span>&#9;+TEXT Turning the key, the door slowly gives way.</span>
+            <span>&#9;+GOTO secret_room</span>
+            <span>ELSE</span>
+            <span>&#9;+TEXT The door is locked. You need a key.</span>
+            <span>ENDIF</span>
+            <span> </span>
+            <span>&gt;PASSAGE</span>
+            <span>+TEXT You approach the passage cautiously. It is cold and damp.</span>
+            <span>//Go to another room</span>
+            <span>+GOTO dark_passage</span>
         </code-block>
         <h2 id="special-characters">Special Characters</h2>
         <p>
             The following characters have special meanings in room files when placed at the start of a line:
         </p>
         <ul>
-            <li><code>@</code> Denotes the start of a room event block (such as <code>@ENTER</code> or
+            <span><code>@</code> Denotes the start of a room event block (such as <code>@ENTER</code> or
                 <code>@EXIT</code>).
-            </li>
-            <li><code>+</code> Denotes an effect to be executed.</li>
-            <li><code>&gt;</code> Denotes the start of a choice block.</li>
-            <li><code>//</code> Denotes a comment. Comments are not processed in any way and have no
-                effect on the output.</li>
-            <li><code>IF</code> Denotes the start of an IF block. Must be closed by an
+            </span>
+            <span><code>+</code> Denotes an effect to be executed.</span>
+            <span><code>&gt;</code> Denotes the start of a choice block.</span>
+            <span><code>//</code> Denotes a comment. Comments are not processed in any way and have no
+                effect on the output.</span>
+            <span><code>IF</code> Denotes the start of an IF block. Must be closed by an
                 <code>ENDIF</code> or <code>ELSE</code> block.
-            </li>
-            <li><code>ELSE</code> Denotes the start of an ELSE block. Must be preceded by an <code>IF</code> block
-                and closed by an <code>ENDIF</code> block.</li>
-            <li><code>ENDIF</code> Denotes the end of an IF block.
+            </span>
+            <span><code>ELSE</code> Denotes the start of an ELSE block. Must be preceded by an <code>IF</code> block
+                and closed by an <code>ENDIF</code> block.</span>
+            <span><code>ENDIF</code> Denotes the end of an IF block.
         </ul>
         <h2 id="choices">Choices</h2>
         <p>
@@ -111,16 +111,16 @@
             "gold", "GOLD", and "&nbsp;&nbsp;&nbsp;Gold&nbsp;&nbsp;&nbsp;" all refer to the same choice.
         </p>
         <code-block>
-            <li><em>&gt;GOLD</em></li>
-            <li>+TEXT You take the gold. A trap springs into action. The floor gives way beneath you!</li>
-            <li>+GOTO dungeon</li>
-            <li> </li>
-            <li><em>&gt;LEAVE</em></li>
-            <li>+TEXT You leave the room without taking any gold.</li>
-            <li>+GOTO outside</li>
-            <li> </li>
-            <li><em>&gt;WAIT</em></li>
-            <li>+TEXT You wait patiently. Nothing happens.</li>
+            <span><em>&gt;GOLD</em></span>
+            <span>+TEXT You take the gold. A trap springs into action. The floor gives way beneath you!</span>
+            <span>+GOTO dungeon</span>
+            <span> </span>
+            <span><em>&gt;LEAVE</em></span>
+            <span>+TEXT You leave the room without taking any gold.</span>
+            <span>+GOTO outside</span>
+            <span> </span>
+            <span><em>&gt;WAIT</em></span>
+            <span>+TEXT You wait patiently. Nothing happens.</span>
         </code-block>
         <h2 id="anti-choice">Anti-Choice</h2>
         <p>
@@ -130,15 +130,15 @@
             which contains the text of the last given input.
         </p>
         <code-block>
-            <li>&gt;RED</li>
-            <li>+TEXT You choose the red pill.</li>
-            <li> </li>
-            <li>&gt;BLUE</li>
-            <li>+TEXT You choose the blue pill.</li>
-            <li> </li>
-            <li><em>&gt;!</em></li>
-            <li>+TEXT You choose neither the red pill nor the blue pill.</li>
-            <li>+TEXT Instead, you choose &lt;svar=input&gt;.</li>
+            <span>&gt;RED</span>
+            <span>+TEXT You choose the red pill.</span>
+            <span> </span>
+            <span>&gt;BLUE</span>
+            <span>+TEXT You choose the blue pill.</span>
+            <span> </span>
+            <span><em>&gt;!</em></span>
+            <span>+TEXT You choose neither the red pill nor the blue pill.</span>
+            <span>+TEXT Instead, you choose &lt;svar=input&gt;.</span>
         </code-block>
     </main>
     <footer>

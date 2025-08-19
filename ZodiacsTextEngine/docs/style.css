@@ -95,7 +95,8 @@ nav {
     a.section-link {
         font-size: 0.9em;
         color: var(--muted-text);
-        margin-top: 0px;
+        margin-top: 0;
+        margin-bottom: 0;
     }
 }
 
@@ -188,7 +189,8 @@ code-block {
     
     counter-reset: linenumber;
     
-    li {
+    span {
+        display: block;
         list-style: none;
         counter-increment: linenumber;
         position: relative;
@@ -200,7 +202,7 @@ code-block {
         min-height: 1em;
     }
     
-    li::before {
+    span::before {
         content: counter(linenumber);
         position: absolute;
         left: 0;
