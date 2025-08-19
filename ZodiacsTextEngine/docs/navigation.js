@@ -27,23 +27,20 @@ document.addEventListener("DOMContentLoaded", function() {
             if (page.href === currentPage) {
                 a.classList.add("active");
                 nav.appendChild(a);
-                // Insert section links right after the active page link
-                document.querySelectorAll("h2[id]").forEach(h2 => {
-                    const sectionA = document.createElement("a");
-                    sectionA.href = "#" + h2.id;
-                    sectionA.textContent = h2.textContent;
-                    sectionA.className = "section-link";
+                const elements = Array.from(document.querySelectorAll("h2[id], div.group[id]"));
+                elements.forEach(el => {
+                    let sectionA = document.createElement("a");
+                    if (el.tagName.toLowerCase() === "h2") {
+                        sectionA.href = "#" + el.id;
+                        sectionA.textContent = el.textContent;
+                        sectionA.className = "section-link";
+                    } else {
+                        sectionA.href = "#" + el.id;
+                        const firstH2 = el.querySelector("h2");
+                        sectionA.textContent = firstH2 ? firstH2.textContent.trim() : el.id;
+                        sectionA.className = "group-link";
+                    }
                     nav.appendChild(sectionA);
-                });
-                // Also include divs with class="group" and id
-                document.querySelectorAll("div.group[id]").forEach(div => {
-                    const groupA = document.createElement("a");
-                    groupA.href = "#" + div.id;
-                    // Use the first h2 inside the div for link text, or the div id if none
-                    const firstH2 = div.querySelector("h2");
-                    groupA.textContent = firstH2 ? firstH2.textContent.trim() : div.id;
-                    groupA.className = "section-link";
-                    nav.appendChild(groupA);
                 });
                 sectionLinksInserted = true;
             } else {

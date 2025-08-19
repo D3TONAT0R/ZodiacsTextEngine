@@ -18,7 +18,7 @@
     --shadow: 4px 4px 0px rgba(0,0,0,0.4);
     --font-main: 'Segoe UI', 'Roboto', Arial, sans-serif;
     --font-mono: 'Fira Mono', 'Consolas', monospace;
-    --nav-width: 15rem;
+    --nav-width: 18rem;
 }
 
 body {
@@ -51,8 +51,8 @@ footer {
 }
 
 main {
-    margin-left: calc(var(--nav-width) + 16px);
-    padding: 16px;
+    margin-left: var(--nav-width);
+    padding: 20px;
     /*
     max-width: 900px;
     margin: 2rem auto;
@@ -70,33 +70,45 @@ nav {
     width: var(--nav-width);
     background-color: var(--surface-color);
     border-right: var(--border);
-    padding: 16px;
+    padding: 0;
     padding-right: 0;
     overflow-y: auto;
 
     a {
         display: block;
-        margin-top: 8px;
-        /* border: var(--border); */
         padding: 4px;
+        padding-left: 12px;
+        border-top: var(--border);    
+        line-height: 1.6;
     }
 
     a.title {
         font-size: 1.5em;
         font-weight: bold;
         color: var(--primary-color);
+        border: none;
     }
-
+    
     a.active {
         color: #fff;
         font-weight: bold;
     }
-
+    
     a.section-link {
         font-size: 0.9em;
-        color: var(--muted-text);
+        color: var(--primary-color);
         margin-top: 0;
         margin-bottom: 0;
+        border: none;
+    }
+    
+    a.group-link {
+        font-size: 0.75em;
+        color: var(--primary-color);
+        margin-top: 0;
+        margin-bottom: 0;
+        margin-left: 1em;
+        border: none;
     }
 }
 
