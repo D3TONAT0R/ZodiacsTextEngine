@@ -2,9 +2,9 @@
 
 namespace Tests;
 
-public abstract class TestGameDataLoader : StandardGameDataLoader
+public abstract class TestLoader : StandardLoader
 {
-	protected TestGameDataLoader(string rootDirectory, string startRoomName) : base(rootDirectory, startRoomName)
+	protected TestLoader(string rootDirectory, string startRoomName) : base(rootDirectory, startRoomName)
 	{
 
 	}
@@ -31,12 +31,12 @@ public abstract class TestGameDataLoader : StandardGameDataLoader
 	}
 }
 
-public class SingleFileGameDataLoader : TestGameDataLoader
+public class SingleFileLoader : TestLoader
 {
 	public string path;
 	public Func<IEnumerable<(string, Functions.FunctionDelegate)>>? loadFunctions;
 
-	public SingleFileGameDataLoader(string path, Func<IEnumerable<(string, Functions.FunctionDelegate)>>? loadFunctions = null) : base(null, null)
+	public SingleFileLoader(string path, Func<IEnumerable<(string, Functions.FunctionDelegate)>>? loadFunctions = null) : base(null, null)
 	{
 		this.path = path;
 		this.loadFunctions = loadFunctions;
@@ -59,15 +59,15 @@ public class SingleFileGameDataLoader : TestGameDataLoader
 
 	protected override IEnumerable<Room> LoadRooms()
 	{
-		var room = Room.Parse(gameData, path, File.ReadAllText(path));
+		var room = Room.Parse(story, path, File.ReadAllText(path));
 		yield return room;
 		SetStartRoom(room.name);
 	}
 }
 
-public class MultiFileGameDataLoader : StandardGameDataLoader
+public class MultiFileLoader : StandardLoader
 {
-	public MultiFileGameDataLoader(string path) : base(path, "_start")
+	public MultiFileLoader(string path) : base(path, "_start")
 	{
 
 	}

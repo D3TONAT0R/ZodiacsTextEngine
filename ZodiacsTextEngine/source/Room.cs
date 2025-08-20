@@ -21,9 +21,9 @@ namespace ZodiacsTextEngine
 			name = id;
 		}
 
-		public static Room Parse(GameData gameData, string filename, string content)
+		public static Room Parse(Story story, string filename, string content)
 		{
-			return RoomParser.Parse(gameData, filename, content);
+			return RoomParser.Parse(story, filename, content);
 		}
 
 		public Choice GetChoice(string input)

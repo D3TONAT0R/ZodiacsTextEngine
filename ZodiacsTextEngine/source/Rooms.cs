@@ -9,21 +9,21 @@ namespace ZodiacsTextEngine
 	{
 		public static Room GetRoom(string name)
 		{
-			return TextEngine.GameData.Rooms[name];
+			return TextEngine.Story.Rooms[name];
 		}
 
 		public static bool Exists(string name)
 		{
-			return TextEngine.GameData.Rooms.ContainsKey(name);
+			return TextEngine.Story.Rooms.ContainsKey(name);
 		}
 
-		public static void Validate(GameData gameData)
+		public static void Validate(Story story)
 		{
 			bool headerPrinted = false;
 			List<string> writeVars = new List<string>();
 			List<string> writeSVars = new List<string>() { "input" }; //input is automatically set by the engine
 			//Gather all variables used in the room
-			foreach(var room in gameData.Rooms.Values)
+			foreach(var room in story.Rooms.Values)
 			{
 				var effects = room.ListAllEffects();
 				foreach(var effect in effects)
@@ -38,7 +38,7 @@ namespace ZodiacsTextEngine
 					}
 				}
 			}
-			foreach(var room in gameData.Rooms.Values)
+			foreach(var room in story.Rooms.Values)
 			{
 				var context = new RoomValidationContext(room, writeVars, writeSVars);
 				if(!RoomValidator.Validate(context, out var log))

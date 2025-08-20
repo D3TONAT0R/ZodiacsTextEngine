@@ -4,7 +4,7 @@ namespace SampleProject
 {
 	internal class Program
 	{
-		public class ContentLoader : StandardGameDataLoader
+		public class ContentLoader : StandardLoader
 		{
 			public ContentLoader() : base("content", "start")
 			{
@@ -15,7 +15,7 @@ namespace SampleProject
 		private static async Task Main(string[] args)
 		{
 			await TextEngine.Initialize(new DefaultConsoleWindow(), new ContentLoader(), true);
-			await TextEngine.StartGame();
+			await TextEngine.Start();
 		}
 	}
 }

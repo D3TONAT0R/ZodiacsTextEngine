@@ -14,7 +14,7 @@ namespace ZodiacsTextEngine.Effects
 
 		public override async Task Execute(EffectGroup g)
 		{
-			await GameSession.Current.GoToRoom(nextRoomName);
+			await Session.Current.GoToRoom(nextRoomName);
 		}
 
 		public override LogMessage Validate(string site)

@@ -45,7 +45,7 @@ namespace ZodiacsTextEngine
 
 		public virtual void OnLoadError()
 		{
-			Text("An error occurred while loading the game files. Press any key to exit.", Color.DarkRed);
+			Text("An error occurred while loading the story content. Press any key to exit.", Color.DarkRed);
 			Console.ReadKey();
 		}
 
@@ -76,8 +76,8 @@ namespace ZodiacsTextEngine
 
 		public virtual void Clear()
 		{
-			ForegroundColor = TextEngine.GameData.DefaultForegroundColor.ToColor();
-			BackgroundColor = TextEngine.GameData.DefaultBackgroundColor.ToColor();
+			ForegroundColor = TextEngine.Story.DefaultForegroundColor.ToColor();
+			BackgroundColor = TextEngine.Story.DefaultBackgroundColor.ToColor();
 			Console.Clear();
 		}
 
@@ -86,8 +86,8 @@ namespace ZodiacsTextEngine
 			Choice choice = null;
 			var lastForegroundColor = ForegroundColor;
 			var lastBackgroundColor = BackgroundColor;
-			if(TextEngine.GameData.InputForegroundColor.HasValue) Console.ForegroundColor = TextEngine.GameData.InputForegroundColor.Value;
-			if(TextEngine.GameData.InputBackgroundColor.HasValue) Console.BackgroundColor = TextEngine.GameData.InputBackgroundColor.Value;
+			if(TextEngine.Story.InputForegroundColor.HasValue) Console.ForegroundColor = TextEngine.Story.InputForegroundColor.Value;
+			if(TextEngine.Story.InputBackgroundColor.HasValue) Console.BackgroundColor = TextEngine.Story.InputBackgroundColor.Value;
 			do
 			{
 				LineBreak();
@@ -146,8 +146,8 @@ namespace ZodiacsTextEngine
 		{
 			var foregroundColor = ForegroundColor;
 			var backgroundColor = BackgroundColor;
-			Console.ForegroundColor = TextEngine.GameData?.DefaultForegroundColor ?? Console.ForegroundColor;
-			Console.BackgroundColor = TextEngine.GameData?.DefaultBackgroundColor ?? Console.BackgroundColor;
+			Console.ForegroundColor = TextEngine.Story?.DefaultForegroundColor ?? Console.ForegroundColor;
+			Console.BackgroundColor = TextEngine.Story?.DefaultBackgroundColor ?? Console.BackgroundColor;
 			Console.WriteLine();
 			ForegroundColor = foregroundColor;
 			BackgroundColor = backgroundColor;
@@ -238,7 +238,7 @@ namespace ZodiacsTextEngine
 			Text("---------");
 			await WaitForInput(false);
 
-			await TextEngine.StartGame();
+			await TextEngine.Start();
 		}
 
 		public virtual Task Exit()

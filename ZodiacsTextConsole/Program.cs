@@ -48,8 +48,8 @@ namespace ZodiacsTextConsole
 			try
 			{
 				Console.Title = Path.GetFileNameWithoutExtension(inputPath);
-				await TextEngine.Initialize(new DefaultConsoleWindow(), new StandardGameDataLoader(inputPath, startRoom), debugMode);
-				await TextEngine.StartGame();
+				await TextEngine.Initialize(new DefaultConsoleWindow(), new StandardLoader(inputPath, startRoom), debugMode);
+				await TextEngine.Start();
 			}
 			catch(Exception e)
 			{

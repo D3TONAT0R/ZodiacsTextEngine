@@ -103,9 +103,9 @@ using ZodiacsTextEngine.Effects;
 
 public class Functions
 {{
-private Variables vars => GameSession.Current?.variables;
-private ITextInterface window => TextEngine.Interface;
-private GameData gameData => TextEngine.GameData;
+private static Variables vars => Session.Current?.variables;
+private static ITextInterface window => TextEngine.Interface;
+private static Story story => TextEngine.Story;
 
 {functionsSource}
 }}";

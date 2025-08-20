@@ -100,7 +100,7 @@ namespace ZodiacsTextEngine
 		public override Task Write(Color baseForegroundColor, Color baseBackgroundColor)
 		{
 			//Get the value of the variable and multiply it by the multiplier, with up to 2 decimal places
-			float variable = GameSession.Current.variables.GetInt(variableName);
+			float variable = Session.Current.variables.GetInt(variableName);
 			//Get value as a string with the given format
 			string value = (variable * multiplier).ToString(format ?? "0.##");
 			TextEngine.Interface.Write(value, false);
@@ -129,7 +129,7 @@ namespace ZodiacsTextEngine
 
 		public override Task Write(Color baseForegroundColor, Color baseBackgroundColor)
 		{
-			var text = (GameSession.Current.variables.GetString(variableName) ?? defaultValue) ?? "";
+			var text = (Session.Current.variables.GetString(variableName) ?? defaultValue) ?? "";
 			switch(textCase)
 			{
 				case Case.Upper:
@@ -171,12 +171,11 @@ namespace ZodiacsTextEngine
 
 		protected override void BeginWrite(Color baseForegroundColor, Color baseBackgroundColor)
 		{
-			var gameData = TextEngine.GameData;
-			if(gameData.HighlightForegroundColor.HasValue)
+			if(TextEngine.Story.HighlightForegroundColor.HasValue)
 			{
 				TextEngine.Interface.ForegroundColor = Color.HighlightForeground;
 			}
-			if(gameData.HighlightBackgroundColor.HasValue)
+			if(TextEngine.Story.HighlightBackgroundColor.HasValue)
 			{
 				TextEngine.Interface.BackgroundColor = Color.HighlightBackground;
 			}

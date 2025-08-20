@@ -19,7 +19,7 @@ namespace ZodiacsTextEngine.Effects
 
 		public override Task Execute(EffectGroup g)
 		{
-			var store = GameSession.Current.variables;
+			var store = Session.Current.variables;
 			if(additive)
 			{
 				store.AddString(variableName, value.GetString());

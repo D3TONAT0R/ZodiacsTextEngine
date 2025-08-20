@@ -39,7 +39,7 @@ namespace ZodiacsTextEngine
 		{
 			//if(parentCondition != null && !parentCondition.Check()) return false;
 			var type = GetVariableTargetType(operation);
-			var vars = GameSession.Current.variables;
+			var vars = Session.Current.variables;
 			bool result;
 			if(type == VariableType.Int)
 			{

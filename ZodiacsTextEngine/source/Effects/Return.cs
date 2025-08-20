@@ -7,7 +7,7 @@ namespace ZodiacsTextEngine.Effects
 	{
 		public override async Task Execute(EffectGroup g)
 		{
-			await GameSession.Current.GoToRoom(GameSession.Current.currentRoom);
+			await Session.Current.GoToRoom(Session.Current.currentRoom);
 		}
 
 		[EffectParser("RETURN")]

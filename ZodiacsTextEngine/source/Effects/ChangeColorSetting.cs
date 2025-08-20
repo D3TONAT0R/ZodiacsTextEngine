@@ -32,28 +32,28 @@ namespace ZodiacsTextEngine.Effects
 			switch(setting)
 			{
 				case SettingType.Foreground:
-					TextEngine.GameData.DefaultForegroundColor = color ?? ConsoleColor.Gray;
+					TextEngine.Story.DefaultForegroundColor = color ?? ConsoleColor.Gray;
 					break;
 				case SettingType.Background:
-					TextEngine.GameData.DefaultBackgroundColor = color ?? ConsoleColor.Black;
+					TextEngine.Story.DefaultBackgroundColor = color ?? ConsoleColor.Black;
 					break;
 				case SettingType.HighlightForeground:
-					TextEngine.GameData.HighlightForegroundColor = color;
+					TextEngine.Story.HighlightForegroundColor = color;
 					break;
 				case SettingType.HighlightBackground:
-					TextEngine.GameData.HighlightBackgroundColor = color;
+					TextEngine.Story.HighlightBackgroundColor = color;
 					break;
 				case SettingType.HintForeground:
-					TextEngine.GameData.HintForegroundColor = color;
+					TextEngine.Story.HintForegroundColor = color;
 					break;
 				case SettingType.HintBackground:
-					TextEngine.GameData.HintBackgroundColor = color;
+					TextEngine.Story.HintBackgroundColor = color;
 					break;
 				case SettingType.InputForeground:
-					TextEngine.GameData.InputForegroundColor = color;
+					TextEngine.Story.InputForegroundColor = color;
 					break;
 				case SettingType.InputBackground:
-					TextEngine.GameData.InputBackgroundColor = color;
+					TextEngine.Story.InputBackgroundColor = color;
 					break;
 			}
 			return Task.CompletedTask;

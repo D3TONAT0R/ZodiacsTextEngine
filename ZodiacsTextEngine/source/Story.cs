@@ -4,7 +4,7 @@ using static ZodiacsTextEngine.Functions;
 
 namespace ZodiacsTextEngine
 {
-	public class GameData
+	public class Story
 	{
 		public Dictionary<string, Room> Rooms { get; } = new Dictionary<string, Room>();
 
@@ -45,14 +45,14 @@ namespace ZodiacsTextEngine
 		public ConsoleColor? InputForegroundColor { get; set; } = null;
 		public ConsoleColor? InputBackgroundColor { get; set; } = null;
 
-		public GameData(Dictionary<string, Room> rooms, string startRoomName, List<string> variableNames)
+		public Story(Dictionary<string, Room> rooms, string startRoomName, List<string> variableNames)
 		{
 			Rooms = rooms;
 			StartRoomName = startRoomName;
 			VariableNames = variableNames ?? VariableNames;
 		}
 
-		public GameData()
+		public Story()
 		{
 
 		}

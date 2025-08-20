@@ -2,22 +2,22 @@
 
 namespace ZodiacsTextEngine
 {
-	public class GameSession
+	public class Session
 	{
-		public static GameSession Current { get; private set; }
+		public static Session Current { get; private set; }
 
 		public Variables variables = new Variables();
 		public Room currentRoom = null;
 
-		private GameSession()
+		private Session()
 		{
 
 		}
 
 		public static async Task StartNew()
 		{
-			Current = new GameSession();
-			await Current.GoToRoom(TextEngine.GameData.StartRoom);
+			Current = new Session();
+			await Current.GoToRoom(TextEngine.Story.StartRoom);
 		}
 
 		public async Task GoToRoom(string nextRoomName)

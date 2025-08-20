@@ -5,13 +5,13 @@ using static ZodiacsTextEngine.Functions;
 
 namespace ZodiacsTextEngine
 {
-	public abstract class GameDataLoader
+	public abstract class ContentLoader
 	{
-		protected GameData gameData;
+		protected Story story;
 
-		public GameData Load(ref bool success)
+		public Story Load(ref bool success)
 		{
-			gameData = new GameData();
+			story = new Story();
 			Begin();
 			foreach(var func in LoadFunctions())
 			{
@@ -22,7 +22,7 @@ namespace ZodiacsTextEngine
 				AddRoom(room);
 			}
 			Complete();
-			return gameData;
+			return story;
 		}
 
 		protected virtual void Begin()
@@ -44,17 +44,17 @@ namespace ZodiacsTextEngine
 
 		public virtual void AddRoom(Room room)
 		{
-			gameData.Rooms.Add(room.name, room);
+			story.Rooms.Add(room.name, room);
 		}
 
 		public virtual void SetStartRoom(string roomName)
 		{
-			gameData.SetStartRoom(roomName);
+			story.SetStartRoom(roomName);
 		}
 
 		public virtual void AddVariable(string name)
 		{
-			gameData.VariableNames.Add(name);
+			story.VariableNames.Add(name);
 		}
 
 		public virtual void AddFunction((string, FunctionDelegate) function)
@@ -69,8 +69,8 @@ namespace ZodiacsTextEngine
 					throw new ArgumentException($"Function names may only contain letters, digits, '-', and '_'.");
 				}
 			}
-			if(gameData.Functions.ContainsKey(id)) throw new ArgumentException($"A function with name '{id}' already exists.");
-			gameData.Functions.Add(id, func);
+			if(story.Functions.ContainsKey(id)) throw new ArgumentException($"A function with name '{id}' already exists.");
+			story.Functions.Add(id, func);
 		}
 	}
 }

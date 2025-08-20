@@ -135,7 +135,7 @@ return $""{a} + {b} = {c}"";";
 		{
 			string var = args[0];
 			int expected = int.Parse(args[1]);
-			Assert.That(GameSession.Current.variables.GetInt(var), Is.EqualTo(expected), $"Variable '{var}' should be {expected}");
+			Assert.That(Session.Current.variables.GetInt(var), Is.EqualTo(expected), $"Variable '{var}' should be {expected}");
 			return Task.FromResult($"Assertion passed ({var} == {expected})");
 		}
 
@@ -145,25 +145,25 @@ return $""{a} + {b} = {c}"";";
 			return Task.FromResult<string>(null);
 		}
 
-		private SingleFileGameDataLoader SingleFile(string path, Func<IEnumerable<(string, Functions.FunctionDelegate)>>? loadFunctions = null)
+		private SingleFileLoader SingleFile(string path, Func<IEnumerable<(string, Functions.FunctionDelegate)>>? loadFunctions = null)
 		{
-			return new SingleFileGameDataLoader(Path.Combine(BaseDirectory, path + ".txt"), loadFunctions);
+			return new SingleFileLoader(Path.Combine(BaseDirectory, path + ".txt"), loadFunctions);
 		}
 
-		private StandardGameDataLoader Directory(string path, string start = "_start")
+		private StandardLoader Directory(string path, string start = "_start")
 		{
-			return new StandardGameDataLoader(Path.Combine(BaseDirectory, path), start);
+			return new StandardLoader(Path.Combine(BaseDirectory, path), start);
 		}
 
-		private void RunTest(GameDataLoader gameData, List<string>? inputs, List<string>? expectedOutput)
+		private void RunTest(ContentLoader content, List<string>? inputs, List<string>? expectedOutput)
 		{
 			// Run synchronously
-			TextEngine.Initialize(console, gameData, false).GetAwaiter().GetResult();
+			TextEngine.Initialize(console, content, false).GetAwaiter().GetResult();
 			if(inputs != null) console.SetInputs(inputs.ToArray());
 			//expectedOutput.Insert(0, "Test start");
 			try
 			{
-				TextEngine.StartGame().GetAwaiter().GetResult();
+				TextEngine.Start().GetAwaiter().GetResult();
 			}
 			catch(SuccessException)
 			{

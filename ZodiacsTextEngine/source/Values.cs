@@ -86,20 +86,20 @@ namespace ZodiacsTextEngine
 
 		public override int GetInt()
 		{
-			int v = GameSession.Current.variables.GetInt(variableName);
+			int v = Session.Current.variables.GetInt(variableName);
 			if(!sign) v = -v;
 			return v;
 		}
 
 		public override string GetString()
 		{
-			string v = GameSession.Current.variables.GetString(variableName);
+			string v = Session.Current.variables.GetString(variableName);
 			return v;
 		}
 
 		public override string ToString()
 		{
-			var vars = GameSession.Current?.variables;
+			var vars = Session.Current?.variables;
 			if(vars == null) return $"'{variableName}'";
 			var v = vars.HasString(variableName) ? vars.GetString(variableName) : vars.GetInt(variableName).ToString();
 			return $"'{variableName}' ({v})";

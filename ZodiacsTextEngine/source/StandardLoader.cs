@@ -7,14 +7,14 @@ using static ZodiacsTextEngine.TextEngine;
 
 namespace ZodiacsTextEngine
 {
-	public class StandardGameDataLoader : GameDataLoader
+	public class StandardLoader : ContentLoader
 	{
-		protected struct GameFile
+		protected struct DataFile
 		{
 			public string fileName;
 			public string content;
 
-			public GameFile(string fileName, string content)
+			public DataFile(string fileName, string content)
 			{
 				this.fileName = fileName;
 				this.content = content;
@@ -29,7 +29,7 @@ namespace ZodiacsTextEngine
 
 		protected ZipArchive zipArchive;
 
-		public StandardGameDataLoader(string rootDirectory, string startRoomName = "start")
+		public StandardLoader(string rootDirectory, string startRoomName = "start")
 		{
 			this.rootDirectory = rootDirectory;
 			this.startRoomName = startRoomName;
@@ -37,7 +37,7 @@ namespace ZodiacsTextEngine
 
 		protected override void Begin()
 		{
-			if(DebugMode) Interface.Header("GAME FILE LOAD");
+			if(DebugMode) Interface.Header("CONTENT LOAD");
 			if(rootDirectory != null)
 			{
 				//Check if the root directory is a zip file
@@ -45,7 +45,7 @@ namespace ZodiacsTextEngine
 				{
 					if(DebugMode)
 					{
-						Interface.Text($"Loading game data from zip file '{rootDirectory}' ...");
+						Interface.Text($"Loading story content from zip file '{rootDirectory}' ...");
 						Interface.LineBreak();
 					}
 					zipArchive = ZipFile.OpenRead(rootDirectory);
@@ -54,7 +54,7 @@ namespace ZodiacsTextEngine
 				{
 					if(DebugMode)
 					{
-						Interface.Text($"Loading game data from directory '{rootDirectory}' ...");
+						Interface.Text($"Loading story content from directory '{rootDirectory}' ...");
 						Interface.LineBreak();
 					}
 				}
@@ -94,7 +94,7 @@ namespace ZodiacsTextEngine
 				Room room;
 				try
 				{
-					room = Room.Parse(gameData, file.fileName, file.content);
+					room = Room.Parse(story, file.fileName, file.content);
 				}
 				catch(Exception e)
 				{
@@ -124,9 +124,9 @@ namespace ZodiacsTextEngine
 			}
 		}
 
-		protected GameFile[] LoadAllFiles(string extension)
+		protected DataFile[] LoadAllFiles(string extension)
 		{
-			var files = new List<GameFile>();
+			var files = new List<DataFile>();
 			if(zipArchive != null)
 			{
 				foreach(var entry in zipArchive.Entries.Where(e => e.FullName.ToLower().EndsWith("." + extension)))
@@ -137,7 +137,7 @@ namespace ZodiacsTextEngine
 						using(var reader = new StreamReader(stream))
 						{
 							string content = reader.ReadToEnd();
-							files.Add(new GameFile(entry.FullName, content));
+							files.Add(new DataFile(entry.FullName, content));
 						}
 					}
 				}
@@ -146,7 +146,7 @@ namespace ZodiacsTextEngine
 			{
 				foreach(var fileName in Directory.GetFiles(rootDirectory, "*." + extension, SearchOption.AllDirectories))
 				{
-					files.Add(new GameFile(fileName, File.ReadAllText(fileName)));
+					files.Add(new DataFile(fileName, File.ReadAllText(fileName)));
 				}
 			}
 			return files.ToArray();

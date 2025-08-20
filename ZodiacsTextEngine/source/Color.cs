@@ -76,19 +76,19 @@ namespace ZodiacsTextEngine
 				case Color.Yellow: return ConsoleColor.Yellow;
 				case Color.White: return ConsoleColor.White;
 
-				case Color.DefaultForeground: return TextEngine.GameData?.DefaultForegroundColor ?? ConsoleColor.Gray;
-				case Color.DefaultBackground: return TextEngine.GameData?.HighlightBackgroundColor ?? ConsoleColor.Black;
-				case Color.HighlightForeground: return TextEngine.GameData?.HighlightForegroundColor
-						?? TextEngine.GameData?.DefaultForegroundColor
+				case Color.DefaultForeground: return TextEngine.Story?.DefaultForegroundColor ?? ConsoleColor.Gray;
+				case Color.DefaultBackground: return TextEngine.Story?.HighlightBackgroundColor ?? ConsoleColor.Black;
+				case Color.HighlightForeground: return TextEngine.Story?.HighlightForegroundColor
+						?? TextEngine.Story?.DefaultForegroundColor
 						?? ConsoleColor.Gray;
-				case Color.HighlightBackground: return TextEngine.GameData?.HighlightBackgroundColor
-						?? TextEngine.GameData?.DefaultBackgroundColor
+				case Color.HighlightBackground: return TextEngine.Story?.HighlightBackgroundColor
+						?? TextEngine.Story?.DefaultBackgroundColor
 						?? ConsoleColor.Black;
-				case Color.HintForeground: return TextEngine.GameData?.HintForegroundColor
-						?? TextEngine.GameData?.DefaultForegroundColor
+				case Color.HintForeground: return TextEngine.Story?.HintForegroundColor
+						?? TextEngine.Story?.DefaultForegroundColor
 						?? ConsoleColor.DarkGray;
-				case Color.HintBackground: return TextEngine.GameData?.HintBackgroundColor
-						?? TextEngine.GameData?.DefaultBackgroundColor
+				case Color.HintBackground: return TextEngine.Story?.HintBackgroundColor
+						?? TextEngine.Story?.DefaultBackgroundColor
 						?? ConsoleColor.Black;
 				default: throw new ArgumentOutOfRangeException(nameof(color), color, null);
 			}

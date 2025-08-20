@@ -28,17 +28,17 @@ namespace ZodiacsTextEngine
 
 		public static FunctionDelegate Get(string id)
 		{
-			return TextEngine.GameData.Functions[id.ToLower()];
+			return TextEngine.Story.Functions[id.ToLower()];
 		}
 
 		public static bool TryGet(string id, out FunctionDelegate function)
 		{
-			return TextEngine.GameData.Functions.TryGetValue(id.ToLower(), out function);
+			return TextEngine.Story.Functions.TryGetValue(id.ToLower(), out function);
 		}
 
 		public static bool Exists(string id)
 		{
-			return TextEngine.GameData.Functions.ContainsKey(id.ToLower());
+			return TextEngine.Story.Functions.ContainsKey(id.ToLower());
 		}
 
 		public static (string, FunctionDelegate) CreateFunction(string id, Action func)
