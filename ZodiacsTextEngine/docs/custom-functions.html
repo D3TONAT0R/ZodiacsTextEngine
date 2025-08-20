@@ -15,6 +15,10 @@
             of the engine by writing code which can be executed using the <a href="effects.html#func">+FUNC Effect</a>
             or as part of a <a href="rich-text.html">Rich Text Tag</a>.
         </p>
+        <div class="remark">
+            Prior knowledge of C# and a moderate understanding of the ZodiacsTextEngine's codebase is recommended
+            to be able to write functions.
+        </div>
         <p>
             There are two main ways to define custom functions:
         </p>
@@ -80,23 +84,27 @@
         </p>
         <p>When writing function files, you have limited access to certain assemblies:</p>
         <ul>
-            <span><code>netstandard.dll</code></span>
-            <span><code>System.Runtime.dll</code></span>
-            <span><code>ZodiacsTextEngine</code></span>
+            <li><code>netstandard.dll</code></li>
+            <li><code>System.Runtime.dll</code></li>
+            <li><code>ZodiacsTextEngine</code></li>
         </ul>
         <p>The following usings are pre-defined in function files:</p>
         <ul>
-            <span><code>using System;</code></span>
-            <span><code>using System.Linq;</code></span>
-            <span><code>using System.Collections.Generic;</code></span>
-            <span><code>using ZodiacsTextEngine;</code></span>
-            <span><code>using ZodiacsTextEngine.Effects;</code></span>
+            <li><code>using System;</code></li>
+            <li><code>using System.Linq;</code></li>
+            <li><code>using System.Collections.Generic;</code></li>
+            <li><code>using ZodiacsTextEngine;</code></li>
+            <li><code>using ZodiacsTextEngine.Effects;</code></li>
         </ul>
-        <p>To simplify writing functions, certain accessors are provided:</p>
+        <p>To simplify writing functions, certain helper variables and methods are provided:</p>
         <ul>
-            <span><code>window</code> - Shorthand access to the text interface (<code>ZodiacsTextEngine.TextEngine.Interface</code>).</span>
-            <span><code>vars</code> - Shorthand access to the variable storage (<code>ZodiacsTextEngine.GameSession.Current.variables</code>).</span>
-            <span><code>gameData</code> - Shorthand access to the game data (<code>ZodiacsTextEngine.TextEngine.GameData</code>).</span>
+            <li><code>window</code> - Shorthand access to the text interface (<code>ZodiacsTextEngine.TextEngine.Interface</code>).</li>
+            <li><code>vars</code> - Shorthand access to the variable storage (<code>ZodiacsTextEngine.GameSession.Current.variables</code>).</li>
+            <li><code>story</code> - Shorthand access to the story content (<code>ZodiacsTextEngine.TextEngine.Story</code>).</li>
+            <li><code>room</code> - Shorthand access to the current room (<code>ZodiacsTextEngine.GameSession.Current.currentRoom</code>).</li>
+            <li><code>GoTo(<i>name/room</i>)</code> - Shorthand access to go to another room (<code>ZodiacsTextEngine.GameSession.Current.GoToRoom(...)</code>)
+                , must be called using <code>await GoTo(...);</code>.</li>
+            <p>These are only available within function files, not when registering functions via the ContentLoader.</p>
         </ul>
         <h2 id="registering-functions-via-contentloader">Registering Functions via ContentLoader</h2>
         <code-block>
