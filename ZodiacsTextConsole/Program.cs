@@ -5,6 +5,8 @@ namespace ZodiacsTextConsole
 {
 	internal class Program
 	{
+		private const string CONTENT_SUBDIR = "stories";
+
 		private static readonly string[] TITLE_ART =
 		[
 			@"  ______         _ _             _______        _   ______             _            ",
@@ -80,22 +82,21 @@ namespace ZodiacsTextConsole
 				Console.WriteLine("Debug mode is active.");
 				Console.WriteLine();
 			}
-			if(!Directory.Exists("content"))
-			{
-				Directory.CreateDirectory("content");
-			}
 			List<string> contents = new();
-			contents.AddRange(Directory.GetFiles("content", "*.zip").Select(Path.GetFileName)!);
-			contents.AddRange(Directory.GetDirectories("content").Select(Path.GetFileName)!);
+			if(Directory.Exists(CONTENT_SUBDIR))
+			{
+				contents.AddRange(Directory.GetFiles(CONTENT_SUBDIR, "*.zip").Select(Path.GetFileName)!);
+				contents.AddRange(Directory.GetDirectories(CONTENT_SUBDIR).Select(Path.GetFileName)!);
+			}
 			if(contents.Count == 0)
 			{
-				Console.WriteLine("No content found in the 'content' directory. Add zip files or directories containing game data to the 'content' folder " +
-					"to have them show here.");
+				Console.WriteLine($"No content found in the '{CONTENT_SUBDIR}' directory. Add zip files or directories containing story files to the " +
+					$"'{CONTENT_SUBDIR}' folder to have them listed here.");
 				Console.WriteLine("Press any key to exit.");
 				Console.ReadKey(true);
 				return;
 			}
-			Console.WriteLine("CONTENT SELECTION:");
+			Console.WriteLine("STORY SELECTION:");
 			Console.WriteLine();
 			for(int i = 0; i < contents.Count; i++)
 			{

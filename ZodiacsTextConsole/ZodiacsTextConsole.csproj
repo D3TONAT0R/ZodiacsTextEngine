@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <Target Name="ModifyFileStructureAfterPublish" AfterTargets="Publish">
-    <Exec Command="for /d %%D in (bin\Build\*) do if /I not &quot;%%~nxD&quot;==&quot;content&quot; rmdir /s /q &quot;%%D&quot;" />
+    <Exec Command="for /d %%D in (bin\Build\*) do if /I not &quot;%%~nxD&quot;==&quot;stories&quot; rmdir /s /q &quot;%%D&quot;" />
     
     <Exec Command="cmd /c &quot;(echo @echo off &amp; echo ZodiacsTextConsole.exe --menu) &gt; &quot;bin\Build\Main Menu.bat&quot;&quot;" />
     <Exec Command="cmd /c &quot;(echo @echo off &amp; echo ZodiacsTextConsole.exe --menu --debug) &gt; &quot;bin\Build\Main Menu (Debug).bat&quot;&quot;" />
@@ -27,7 +27,7 @@
     </ItemGroup>
     <Move SourceFiles="@(PublishedFiles)" DestinationFolder="bin\Build\libs\" />
     
-    <MakeDir Directories="bin\Build\content" />
+    <MakeDir Directories="bin\Build\stories" />
   </Target>
 
 </Project>
