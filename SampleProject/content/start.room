@@ -1,4 +1,5 @@
 ﻿@ENTER
++SET_TITLE The Mysterious Mansion
 +COLOR_SETTING foreground dark_yellow
 +COLOR_SETTING background black
 +COLOR_SETTING highlight_foreground white

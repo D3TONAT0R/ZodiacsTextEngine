@@ -431,6 +431,8 @@ namespace ZodiacsTextEngine.Parsers
 				case "background": return Color.DefaultBackground;
 				case "highlight_text": return Color.HighlightForeground;
 				case "highlight_background": return Color.HighlightBackground;
+				case "hint_text": return Color.HighlightForeground;
+				case "hint_background": return Color.HintBackground;
 				default: throw new FileParseException(ctx, linePos, "Invalid input for color: " + input);
 			}
 		}

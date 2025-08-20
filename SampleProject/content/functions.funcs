@@ -13,11 +13,11 @@ return $"The square of {x} is {x * x}";
 
 # prompt_player_name async
 var name = await TextEngine.RequestInput();
-GameSession.Current.variables.SetString("player_name", name);
+vars.SetString("player_name", name);
 return null;
 
 # goto_prompt async
 TextEngine.Interface.Write("Go to room: ", true);
 var nextRoomName = await TextEngine.RequestInput();
-await GameSession.Current.GoToRoom(nextRoomName);
+await GoTo(nextRoomName);
 return null;

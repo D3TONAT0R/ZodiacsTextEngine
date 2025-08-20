@@ -106,6 +106,10 @@ public class Functions
 private static Variables vars => Session.Current?.variables;
 private static ITextInterface window => TextEngine.Interface;
 private static Story story => TextEngine.Story;
+private static Room room => Session.Current?.currentRoom;
+
+private static async Task GoTo(string roomName) => await Session.Current.GoToRoom(roomName);
+private static async Task GoTo(Room room) => await Session.Current.GoToRoom(room);
 
 {functionsSource}
 }}";

@@ -22,7 +22,7 @@ namespace ZodiacsTextEngine.Effects
 
 		public override LogMessage Validate(string site)
 		{
-			if(!Functions.Exists(functionId)) return LogMessage.Error(site, "Nonexisting function referenced: " + functionId);
+			if(!Functions.Exists(functionId)) return LogMessage.Error(site, "Nonexistent function referenced: " + functionId);
 			return null;
 		}
 
