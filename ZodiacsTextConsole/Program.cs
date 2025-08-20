@@ -45,6 +45,7 @@ namespace ZodiacsTextConsole
 		{
 			try
 			{
+				Console.Title = Path.GetFileNameWithoutExtension(inputPath);
 				await TextEngine.Initialize(new DefaultConsoleWindow(), new StandardGameDataLoader(inputPath, startRoom), debugMode);
 				await TextEngine.StartGame();
 			}
@@ -65,6 +66,7 @@ namespace ZodiacsTextConsole
 
 		private static async Task MainMenu()
 		{
+			Console.Title = "Zodiacs Text Console";
 			Console.WriteLine();
 			foreach(var line in TITLE_ART)
 			{
