@@ -16,6 +16,8 @@ namespace ZodiacsTextEngine
 
 		void OnDebugInfo();
 
+		void SetTitle(string title);
+
 		void Clear();
 
 		Task<string> ReadInput();

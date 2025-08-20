@@ -74,6 +74,11 @@ namespace ZodiacsTextEngine
 
 		}
 
+		public virtual void SetTitle(string title)
+		{
+			Console.Title = title;
+		}
+
 		public virtual void Clear()
 		{
 			ForegroundColor = TextEngine.Story.DefaultForegroundColor.ToColor();
