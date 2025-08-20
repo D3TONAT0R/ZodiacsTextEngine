@@ -14,36 +14,69 @@
         <p>To get started writing your story using the provided console application, you will need:</p>
         <ul>
             <li>A text editor for writing your story.</li>
-            <li>A copy of the ZodiacsTextEngine console application.</li>
+            <li>A copy of the ZodiacsTextEngine console application, <i>ZodiacsTextConsole</i>.</li>
         </ul>
-        <p>If you intend to write custom functions or integrate it into another environment, you'll also need:</p>
+        <p>If you intend to the engine into another environment, you'll also need:</p>
         <ul>
-            <li>An IDE capable of creating .NET applications, such as Visual Studio, Visual Studio Code, or JetBrains
-                Rider.</li>
-            <li>A copy of the ZodiacsTextEngine package.</li>
+            <li>An IDE capable of creating .NET applications, such as Visual Studio, Visual Studio Code,
+                or JetBrains Rider.</li>
+            <li>The ZodiacsTextEngine package.</li>
             <li>A .NET project to integrate the ZodiacsTextEngine into.</li>
         </ul>
         <div class="remark">
             For more information how to setup the engine in a .NET project, refer to <a href="library-usage.html">Using
                 ZodiacsTextEngine in a custom Application</a>.
         </div>
-        <h2 id="writing-content">Writing Content</h2>
+        <h2 id="using-zodiacstextconsole">Using <i>ZodiacsTextConsole</i></h2>
         <p>
-            When using the provided console application, the game content files need to be placed in a folder named
-            <code>content</code> next to the executable.
+            The ZodiacsTextConsole is a pre-built console application that allows you to load and play
+            ZodiacsTextEngine stories with ease.
         </p>
+        <p>
+            There are two ways in which <i>ZodiacsTextConsole</i> can be used:
+        </p>
+        <ul>
+            <li>Directly loading a story and starting it.</li>
+            <li>Launching the main menu to select a story to play.</li>
+        </ul>
+        <div class="remark">
+            Both methods additionally support the <code>--debug</code> command line argument
+            to launch the text engine in debug mode, printing additional debug information
+            about the story being played.
+        </div>
+
+        <h3>Direct Loading</h3>
+        <p>
+            To load a story, the executable can be run with the <code>--content</code> command line argument,
+            followed by the path to the story, which can be either a directory or a zip file.
+        </p>
+        <p>
+            File paths can be either absolute or relative relative to the executable.
+        </p>
+        <p>Example: <code>ZodiacsTextConsole.exe --content "C:/Path/To/Your/Story/content"</code></p>
+        <h3>Main Menu</h3>
+        <p>
+            To launch the main menu, the executable needs to be run with the <code>--menu</code>
+            command line argument.
+        </p>
+        <p>
+            The main menu will list all available stories placed in the <code>stories</code>
+            subdirectory below the executable.
+        </p>
+
+        <h2 id="writing-stories">Writing Stories</h2>
         <p>
             The ZodiacsTextEngine follows a file structure where each section is defined in its own file
-            (called a "room").
+            (called a <i>room</i>).
             The engine runs through the content of a room file sequentially, executing effects and displaying text until
             the end, where it awaits user input. Depending on user input, the story can branch into different rooms,
-            execute other effects (e.g. adding an item to the player's inventory), or simply provide flavour text.
+            execute other effects (e.g. adding an item to the player's inventory), or simply provide flavor text.
         </p>
         <p>
-            By default, the ZodiacsTextEngine uses the file named <code>start.room</code> as the starting point for the
-            game.
+            By default, the engine uses a file named <code>start.room</code>
+            as the starting point for the story.
         </p>
-        <p>The folder structure can look like this:</p>
+        <p>The folder structure for a story may look like this:</p>
         <div class="file-structure">
             <div class="folder">Game Directory
                 <div class="file">game.exe</div>
