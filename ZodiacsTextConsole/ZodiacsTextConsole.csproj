@@ -6,16 +6,28 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <!--<PublishSingleFile>true</PublishSingleFile>-->
+    <!--<SelfContained>true</SelfContained>-->
+    <!--<RuntimeIdentifier>win-x64</RuntimeIdentifier>-->
+    <!--<PublishTrimmed>true</PublishTrimmed>-->
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ZodiacsTextEngine\ZodiacsTextEngine.csproj" />
   </ItemGroup>
 
-  <Target Name="RemoveLocalizedResourcesAfterPublish" AfterTargets="Publish">
-    <Exec Command='for /d %%D in (bin\Build\*) do if /I not "%%~nxD"=="content" rmdir /s /q "%%D"' />
-    <Exec Command='cmd /c "(echo @echo off &amp; echo ZodiacsTextConsole.exe --menu) > &quot;bin\Build\Main Menu.bat&quot;"' />
-    <Exec Command='cmd /c "(echo @echo off &amp; echo ZodiacsTextConsole.exe --menu --debug) > &quot;bin\Build\Main Menu (Debug).bat&quot;"' />
-  </Target> 
+  <Target Name="ModifyFileStructureAfterPublish" AfterTargets="Publish">
+    <Exec Command="for /d %%D in (bin\Build\*) do if /I not &quot;%%~nxD&quot;==&quot;content&quot; rmdir /s /q &quot;%%D&quot;" />
+    
+    <Exec Command="cmd /c &quot;(echo @echo off &amp; echo ZodiacsTextConsole.exe --menu) &gt; &quot;bin\Build\Main Menu.bat&quot;&quot;" />
+    <Exec Command="cmd /c &quot;(echo @echo off &amp; echo ZodiacsTextConsole.exe --menu --debug) &gt; &quot;bin\Build\Main Menu (Debug).bat&quot;&quot;" />
+
+    <MakeDir Directories="bin\Build\libs" />
+    <ItemGroup>
+      <PublishedFiles Include="bin\Build\*.dll;bin\Build\*.pdb" Exclude="bin\Build\ZodiacsTextConsole.dll;bin\Build\ZodiacsTextConsole.pdb" />
+    </ItemGroup>
+    <Move SourceFiles="@(PublishedFiles)" DestinationFolder="bin\Build\libs\" />
+    
+    <MakeDir Directories="bin\Build\content" />
+  </Target>
 
 </Project>

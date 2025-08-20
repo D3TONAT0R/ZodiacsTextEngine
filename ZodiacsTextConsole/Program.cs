@@ -21,6 +21,8 @@ namespace ZodiacsTextConsole
 
 		private static async Task Main(string[] args)
 		{
+			AppDomain.CurrentDomain.AssemblyResolve += ResolveAssembly;
+
 			Console.ForegroundColor = ConsoleColor.Gray;
 			Console.BackgroundColor = ConsoleColor.Black;
 
@@ -61,7 +63,7 @@ namespace ZodiacsTextConsole
 				Console.WriteLine("Press any key to exit.");
 				Console.ReadKey(true);
 			}
-			
+
 		}
 
 		private static async Task MainMenu()
@@ -163,6 +165,18 @@ namespace ZodiacsTextConsole
 					Console.WriteLine($"Unknown argument: {args[i]}");
 				}
 			}
+		}
+
+		private static Assembly? ResolveAssembly(object? sender, ResolveEventArgs eventArgs)
+		{
+			string assemblyName = new AssemblyName(eventArgs.Name).Name;
+			string assemblyPath = Path.Combine(AppContext.BaseDirectory, "libs", $"{assemblyName}.dll");
+			if(File.Exists(assemblyPath))
+			{
+				return Assembly.LoadFrom(assemblyPath);
+			}
+
+			return null;
 		}
 	}
 }
