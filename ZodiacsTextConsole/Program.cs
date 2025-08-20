@@ -1,4 +1,5 @@
-﻿using ZodiacsTextEngine;
+﻿using System.Reflection;
+using ZodiacsTextEngine;
 
 namespace ZodiacsTextConsole
 {
@@ -16,33 +17,21 @@ namespace ZodiacsTextConsole
 			@"                                                                 |___/              "
 		];
 
+		private static bool debugMode = false;
+
 		private static async Task Main(string[] args)
 		{
 			Console.ForegroundColor = ConsoleColor.Gray;
 			Console.BackgroundColor = ConsoleColor.Black;
-			ParseArguments(args, out var inputPath, out var debug, out string startRoom, out bool showMenu);
+
+			ParseArguments(args, out var inputPath, out debugMode, out string startRoom, out bool showMenu);
 			if(showMenu)
 			{
 				await MainMenu();
 			}
 			else if(inputPath != null)
 			{
-				try
-				{
-					await Run(inputPath, debug, startRoom);
-				}
-				catch(Exception e)
-				{
-					Console.ResetColor();
-					Console.WriteLine("An error occurred while running the game:");
-					Console.WriteLine(e.Message);
-					if(debug)
-					{
-						Console.WriteLine(e.StackTrace);
-					}
-					Console.WriteLine("Press any key to exit.");
-					Console.ReadKey(true);
-				}
+				await Run(inputPath, startRoom);
 			}
 			else
 			{
@@ -52,10 +41,26 @@ namespace ZodiacsTextConsole
 			}
 		}
 
-		private static async Task Run(string inputPath, bool debug, string startRoom = "start")
+		private static async Task Run(string inputPath, string startRoom = "start")
 		{
-			await TextEngine.Initialize(new DefaultConsoleWindow(), new StandardGameDataLoader(inputPath, startRoom), debug);
-			await TextEngine.StartGame();
+			try
+			{
+				await TextEngine.Initialize(new DefaultConsoleWindow(), new StandardGameDataLoader(inputPath, startRoom), debugMode);
+				await TextEngine.StartGame();
+			}
+			catch(Exception e)
+			{
+				Console.ResetColor();
+				Console.WriteLine("An error occurred while running the game:");
+				Console.WriteLine(e.Message);
+				if(debugMode)
+				{
+					Console.WriteLine(e.StackTrace);
+				}
+				Console.WriteLine("Press any key to exit.");
+				Console.ReadKey(true);
+			}
+			
 		}
 
 		private static async Task MainMenu()
@@ -66,6 +71,11 @@ namespace ZodiacsTextConsole
 				Console.WriteLine(line);
 			}
 			Console.WriteLine();
+			if(debugMode)
+			{
+				Console.WriteLine("Debug mode is active.");
+				Console.WriteLine();
+			}
 			if(!Directory.Exists("content"))
 			{
 				Directory.CreateDirectory("content");
@@ -101,7 +111,7 @@ namespace ZodiacsTextConsole
 					string selectedContent = contents[index - 1];
 					string contentPath = Path.Combine("content", selectedContent);
 					Console.WriteLine($"Loading content: {selectedContent}");
-					await Run(contentPath, false);
+					await Run(contentPath);
 					return;
 				}
 				else
@@ -140,9 +150,10 @@ namespace ZodiacsTextConsole
 				{
 					Console.WriteLine("Usage: ZodiacsTextConsole [options]");
 					Console.WriteLine("Options:");
+					Console.WriteLine("  --menu             Show main menu with content selection");
+					Console.WriteLine("  --content <path>   Specify the content path (zip file or directory)");
+					Console.WriteLine("  --startroom <name> Specify the starting room name");
 					Console.WriteLine("  --debug            Enable debug mode");
-					Console.WriteLine("  --content <path>    Specify the content path (zip file or directory)");
-					Console.WriteLine("  --startroom <name>  Specify the starting room name");
 					Console.WriteLine("  -h, --help         Show this help message");
 				}
 				else

@@ -5,11 +5,17 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <PublishSingleFile>true</PublishSingleFile>
+    <!--<PublishSingleFile>true</PublishSingleFile>-->
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ZodiacsTextEngine\ZodiacsTextEngine.csproj" />
   </ItemGroup>
+
+  <Target Name="RemoveLocalizedResourcesAfterPublish" AfterTargets="Publish">
+    <Exec Command='for /d %%D in (bin\Build\*) do if /I not "%%~nxD"=="content" rmdir /s /q "%%D"' />
+    <Exec Command='cmd /c "(echo @echo off &amp; echo ZodiacsTextConsole.exe --menu) > &quot;bin\Build\Main Menu.bat&quot;"' />
+    <Exec Command='cmd /c "(echo @echo off &amp; echo ZodiacsTextConsole.exe --menu --debug) > &quot;bin\Build\Main Menu (Debug).bat&quot;"' />
+  </Target> 
 
 </Project>

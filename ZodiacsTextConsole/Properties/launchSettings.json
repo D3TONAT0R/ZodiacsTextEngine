@@ -2,7 +2,7 @@
   "profiles": {
     "Text Console (menu)": {
       "commandName": "Project",
-      "commandLineArgs": "--menu"
+      "commandLineArgs": "--menu --debug"
     }
   }
 }
