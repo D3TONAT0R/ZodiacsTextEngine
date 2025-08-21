@@ -6,17 +6,17 @@ namespace ZodiacsTextEngine.Effects
 	public class FunctionRef : Effect
 	{
 		public string functionId;
-		public string[] arguments;
+		public FunctionArgs args;
 
-		public FunctionRef(string functionId, params string[] arguments)
+		public FunctionRef(string functionId, FunctionArgs args)
 		{
 			this.functionId = functionId;
-			this.arguments = arguments;
+			this.args = args;
 		}
 
 		public override async Task Execute(EffectGroup g)
 		{
-			string output = await Functions.Execute(functionId, arguments);
+			string output = await Functions.Execute(functionId, args);
 			if(output != null) TextEngine.Interface.Write(output, true);
 		}
 
@@ -32,7 +32,7 @@ namespace ZodiacsTextEngine.Effects
 			var args = ctx.GetArguments();
 			string funcId = args[0];
 			args.RemoveAt(0);
-			return new FunctionRef(funcId, args.ToArray());
+			return new FunctionRef(funcId, new FunctionArgs(ctx.content));
 		}
 	}
 }

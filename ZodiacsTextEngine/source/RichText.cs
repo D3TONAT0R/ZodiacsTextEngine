@@ -147,17 +147,17 @@ namespace ZodiacsTextEngine
 	public class FunctionComponent : RichTextComponent
 	{
 		public string functionName;
-		public string[] arguments;
+		public FunctionArgs args;
 
-		public FunctionComponent(string functionName, string[] arguments) : base(null)
+		public FunctionComponent(string functionName, FunctionArgs args) : base(null)
 		{
 			this.functionName = functionName;
-			this.arguments = arguments;
+			this.args = args;
 		}
 
 		public override async Task Write(Color baseForegroundColor, Color baseBackgroundColor)
 		{
-			string output = await Functions.Execute(functionName, arguments);
+			string output = await Functions.Execute(functionName, args);
 			if(output != null) TextEngine.Interface.Write(output, false);
 		}
 	}
@@ -316,7 +316,7 @@ namespace ZodiacsTextEngine
 						{
 							funcArgs = Array.Empty<string>();
 						}
-						richText.AddComponent(new FunctionComponent(funcName, funcArgs));
+						richText.AddComponent(new FunctionComponent(funcName, new FunctionArgs(funcArgs, argsMatch.Groups[1].Value)));
 					}
 					else throw new FileParseException(ctx, startLine, "Invalid rich text tag: " + matchText);
 				}

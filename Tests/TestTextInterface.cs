@@ -35,6 +35,11 @@ public class TestTextInterface : ITextInterface
 		
 	}
 
+	public void SetTitle(string title)
+	{
+		
+	}
+
 	public void Clear()
 	{
 		Output.Clear();

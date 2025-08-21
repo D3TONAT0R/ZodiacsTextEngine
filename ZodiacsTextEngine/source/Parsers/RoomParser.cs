@@ -296,7 +296,7 @@ namespace ZodiacsTextEngine.Parsers
 				//Search custom functions
 				if(ctx.story.Functions.ContainsKey(keyword.ToLower()))
 				{
-					return new FunctionRef(keyword, content.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
+					return new FunctionRef(keyword, new FunctionArgs(content));
 				}
 				else
 				{

@@ -38,7 +38,7 @@ namespace ZodiacsTextEngine
 			if(async)
 			{
 				source = $@"
-public static async Task<string> {functionName}(string[] args)
+public static async Task<string> {functionName}(FunctionArgs args)
 {{
 {code}
 }}";
@@ -46,7 +46,7 @@ public static async Task<string> {functionName}(string[] args)
 			else
 			{
 				source = $@"
-public static string {functionName}(string[] args)
+public static string {functionName}(FunctionArgs args)
 {{
 {code}
 }}";
@@ -78,7 +78,7 @@ public static string {functionName}(string[] args)
 				else
 				{
 					// If the method is synchronous, create a delegate for it
-					yield return Functions.CreateFunction(functionName, (Func<string[], string>)Delegate.CreateDelegate(typeof(Func<string[], string>), method));
+					yield return Functions.CreateFunction(functionName, (Func<FunctionArgs, string>)Delegate.CreateDelegate(typeof(Func<FunctionArgs, string>), method));
 				}
 			}
 		}

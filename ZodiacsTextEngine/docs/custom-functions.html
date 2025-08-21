@@ -42,8 +42,8 @@
         <code-block>
             <span>//Define a function named 'math_add'</span>
             <span># math_add</span>
-            <span>int x = int.Parse(args[0]);</span>
-            <span>int y = int.Parse(args[1]);</span>
+            <span>int x = args.GetInt(0);</span>
+            <span>int y = args.GetInt(1);</span>
             <span>int result = x + y;</span>
             <span>//Print the result</span>
             <span>return $"The sum of {x} and {y} is {result}";</span>
@@ -96,6 +96,20 @@
             <li><code>using ZodiacsTextEngine;</code></li>
             <li><code>using ZodiacsTextEngine.Effects;</code></li>
         </ul>
+        <p>To get the arguments from the function call, you can use the <code>args</code> parameter,
+            which is of type <code>FunctionArgs</code>:</p>
+        <ul>
+            <li><code>args[<i>x</i>]</code> - Gets the argument at index <i>x</i>. If out of range, an empty string is returned.</li>
+            <li><code>args.Length</code> - Gets the number of arguments.</li>
+            <li><code>args.raw</code> - Gets the raw argument input as one string.</li>
+            <li><code>args.GetInt(<i>x</i>)</code> - Gets the argument at index <i>x</i> as an integer.
+                Raises an exception if unsuccessful.
+            </li>
+            <li><code>args.TryGetInt(<i>x</i>, out int result)</code> - Tries to get the argument at index <i>x</i> as an integer.
+                Returns true if successful, false otherwise.
+            </li>
+            <li>The same <code>Get...</code> and <code>TryGet...</code> methods are available floats and strings as well.</li>
+        </ul>
         <p>To simplify writing functions, certain helper variables and methods are provided:</p>
         <ul>
             <li><code>window</code> - Shorthand access to the text interface (<code>ZodiacsTextEngine.TextEngine.Interface</code>).</li>
@@ -110,9 +124,9 @@
         <code-block>
             <span>protected override IEnumerable<(string, Functions.FunctionDelegate)> LoadFunctions()</span>
             <span>{</span>
-            <span>&#9;yield return Functions.CreateFunction("math_add", parameters =></span>
-            <span>&#9;&#9;int x = int.Parse(parameters[0]);</span>
-            <span>&#9;&#9;int y = int.Parse(parameters[1]);</span>
+            <span>&#9;yield return Functions.CreateFunction("math_add", args =></span>
+            <span>&#9;&#9;int x = args.GetInt(0);</span>
+            <span>&#9;&#9;int y = args.GetInt(1);</span>
             <span>&#9;&#9;int result = x + y;</span>
             <span>&#9;&#9;TextEngine.Interface.Write($"The sum of {x} and {y} is {result}");</span>
             <span>&#9;&#9;return null;</span>
