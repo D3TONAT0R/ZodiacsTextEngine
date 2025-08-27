@@ -10,6 +10,169 @@
 <body>
     <main>
         <h1>Variables</h1>
+        <p>
+            Variables are a powerful feature in the ZodiacsTextEngine allowing writers to create more dynamic stories
+            or implement simple mechanics based on various conditions.
+        </p>
+        <h2 id="variable-types">Variable Types</h2>
+        <p>
+            There are two types of variables, which are independent of each other:
+        </p>
+        <h3 id="numeric-variables">Numeric Variables (<i>VAR</i>s)</h3>
+        <p>
+            Numeric variables use the <i>Integer</i> type and can be used to represent anything quantifyable
+            or a true/false value, e.g. amount of coins, number of locations visited or whether the player has a
+            specific key in their inventory (by checking if the value is greater than zero). Numeric variables
+            use the <code>VAR</code> abbreviation in room files.
+        </p>
+        <h3 id="string-variables">String Variables (<i>SVAR</i>s)</h3>
+        <p>
+            String variables use the <i>String</i> type and can represent any piece of text, such as the player
+            name. String variables use the <code>SVAR</code> abbreviation in room files.
+        </p>
+        <h2 id="defining-variables">Defining Variables</h2>
+        <p>
+            Variables can be set using the <code>+VAR_SET</code> and <code>+SVAR_SET</code> or effect respectively.
+        </p>
+        <code-block>
+            <span>//Set 'coins' to 5</span>
+            <span>+VAR_SET coins 5</span>
+            <span>//Set 'money' to the same value as 'coins'</span>
+            <span>+VAR_SET money coins</span>
+            <span></span>
+            <span>//Set 'name' to "Hans" (without the quotation marks)</span>
+            <span>+SVAR_SET name "Hans"</span>
+        </code-block>
+        <h2 id="adding-subtracting-variables">Adding/Subtracting Variables</h2>
+        <p>
+            Variables can be added together using the <code>+VAR_ADD</code> and <code>+SVAR_ADD</code> effects.
+        </p>
+        <code-block>
+            <span>//Set 'coins' to 2</span>
+            <span>+VAR_SET coins 2</span>
+            <span>//Add 3 to 'coins'</span>
+            <span>+VAR_ADD coins 3</span>
+            <span>//'coins' is now 5</span>
+            <span></span>
+            <span>+VAR_SET cost 4</span>
+            <span>//Subtract 4 from 'coins' by adding the negative value of 'cost'</span>
+            <span>+VAR_ADD coins -cost</span>
+            <span></span>
+            <span>//Append " Jr." to 'name'</span>
+            <span>+SVAR_ADD name " Jr."</span>
+        </code-block>
+        <p>
+            The following restrictions apply when naming a variable:
+        </p>
+        <ul>
+            <li>Names may only contain letters, digits and underscores (a-z,0-9,_).</li>
+            <li>Names cannot start with a digit.</li>
+            <li>Names are case-insensitive, however using lowercase is recommended.</li>
+        </ul>
+        <h2 id="conditions">Conditions</h2>
+        <p>
+            Conditions can be used to check the state of variables and control the flow of the story.
+        </p>
+        <p>
+            The <code>IF</code> statement is used to start a conditional block, which is closed with either
+            the <code>ENDIF</code> or <code>ELSE</code> statement. The <code>ELSE</code> statement is optional
+            and can be used to define an alternative path if the condition is not met. Conditions can be nested.
+        </p>
+        <div class="remark">Indentations are optional but recommended to improve readability.</div>
+        <code-block>
+            <span>//Check if 'coins' is greater than 0</span>
+            <span>IF VAR coins &gt; 0</span>
+            <span>&#9;+TEXT You have some coins!</span>
+            <span>ENDIF</span>
+            <span></span>
+            <span>//Check if 'name' is "Hans"</span>
+            <span>IF name IS "Hans"</span>
+            <span>&#9;+TEXT Hello, Hans!</span>
+            <span>ELSE</span>
+            <span>&#9;+TEXT Hello, stranger!</span>
+            <span>ENDIF</span>
+        </code-block>
+        <p>
+            The operator used in the condition determines whether the input variables
+            are interpreted as <i>Integer</i> or <i>String</i> types.
+            <i>Integer</i> and <i>String</i> variables cannot be used interchangeably.
+        </p>
+        <p>
+            Strings must always be defined with quotation marks, otherwise they will be interpreted as variable names.
+        </p>
+        <p>
+            The following operators are available:
+        </p>
+        <h3>Integer Operators</h3>
+        <table>
+            <tr>
+                <th style="width: 25ch">Operator</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td><code>&gt;</code></td>
+                <td>Greater than</td>
+            </tr>
+            <tr>
+                <td><code>&lt;</code></td>
+                <td>Less than</td>
+            </tr>
+            <tr>
+                <td><code>&gt;=</code></td>
+                <td>Greater than or equal to</td>
+            </tr>
+            <tr>
+                <td><code>&lt;=</code></td>
+                <td>Less than or equal to</td>
+            </tr>
+            <tr>
+                <td><code>==</code></td>
+                <td>Equal to</td>
+            </tr>
+            <tr>
+                <td><code>!=</code></td>
+                <td>Not equal to</td>
+            </tr>
+        </table>
+        <h3>String Operators</h3>
+        <table>
+            <tr>
+                <th style="width: 25ch">Operator</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td><code>IS</code></td>
+                <td>Equal to</td>
+            </tr>
+            <tr>
+                <td><code>NOT</code> / <code>ISNOT</code> / <code>!IS</code></td>
+                <td>Not equal to</td>
+            </tr>
+            <tr>
+                <td><code>CONTAINS</code></td>
+                <td>Contains string</td>
+            </tr>
+            <tr>
+                <td><code>!CONTAINS</code></td>
+                <td>Does not contain string</td>
+            </tr>
+            <tr>
+                <td><code>STARTSWITH</code></td>
+                <td>Starts with string</td>
+            </tr>
+            <tr>
+                <td><code>!STARTSWITH</code></td>
+                <td>Does not start with string</td>
+            </tr>
+            <tr>
+                <td><code>ENDSWITH</code></td>
+                <td>Ends with string</td>
+            </tr>
+            <tr>
+                <td><code>!ENDSWITH</code></td>
+                <td>Does not end with string</td>
+            </tr>
+        </table>
         <footer>
             <p>ZodiacsTextEngine Documentation | 2025 | By <a href="https://github.com/D3TONAT0R">D3TONAT0R</a></p>
         </footer>
