@@ -131,7 +131,7 @@ return $""{a} + {b} = {c}"";";
 
 		#endregion
 
-		public static Task<string> AssertFunc(string[] args)
+		public static Task<string> AssertFunc(FunctionArgs args)
 		{
 			string var = args[0];
 			int expected = int.Parse(args[1]);
@@ -139,9 +139,9 @@ return $""{a} + {b} = {c}"";";
 			return Task.FromResult($"Assertion passed ({var} == {expected})");
 		}
 
-		public static Task<string> FailFunc(string[] args)
+		public static Task<string> FailFunc(FunctionArgs args)
 		{
-			Assert.Fail(string.Join(' ', args));
+			Assert.Fail(string.Join(' ', args.args));
 			return Task.FromResult<string>(null);
 		}
 

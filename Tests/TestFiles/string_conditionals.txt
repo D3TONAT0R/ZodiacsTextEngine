@@ -20,6 +20,12 @@ ELSE
 	+FUNC fail does not start with abc check failed
 ENDIF
 
+IF var STARTSWITH_CS "H"
+	+FUNC fail case sensitive check failed
+ELSE
+	+TEXT "house" does not start with "H" (case sensitive)
+ENDIF
+
 //Append s
 +SVAR_ADD var "s"
 

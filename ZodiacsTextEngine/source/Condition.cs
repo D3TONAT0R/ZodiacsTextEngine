@@ -8,7 +8,6 @@ namespace ZodiacsTextEngine
 		public Variables.ConditionalOperator operation;
 		//TODO: throw exception when comparing to a non-existing variable
 		public Value compareValue;
-		public bool ignoreCase = true;
 		public bool Inverted { get; private set; }
 
 		public VariableType VariableType => GetVariableTargetType(operation);
@@ -47,7 +46,7 @@ namespace ZodiacsTextEngine
 			}
 			else
 			{
-				result = vars.CheckString(variableName, compareValue.GetString(), operation, ignoreCase);
+				result = vars.CheckString(variableName, compareValue.GetString(), operation);
 			}
 			return Inverted ? !result : result;
 		}
@@ -69,12 +68,22 @@ namespace ZodiacsTextEngine
 				case Variables.ConditionalOperator.GreaterThanOrEqual: return ">=";
 				case Variables.ConditionalOperator.LessThan: return "<";
 				case Variables.ConditionalOperator.LessThanOrEqual: return "<=";
-				case Variables.ConditionalOperator.StringContains: return "**";
-				case Variables.ConditionalOperator.StringNotContains: return "!*";
-				case Variables.ConditionalOperator.StringStartsWith: return ".*";
-				case Variables.ConditionalOperator.StringNotStartsWith: return "!.*";
-				case Variables.ConditionalOperator.StringEndsWith: return "*.";
-				case Variables.ConditionalOperator.StringNotEndsWith: return "!*.";
+				case Variables.ConditionalOperator.StringEquals: return "IS";
+				case Variables.ConditionalOperator.StringEqualsCaseSensitive: return "IS_CS";
+				case Variables.ConditionalOperator.StringNotEquals: return "!IS";
+				case Variables.ConditionalOperator.StringNotEqualsCaseSensitive: return "!IS_CS";
+				case Variables.ConditionalOperator.StringContains: return "CONTAINS";
+				case Variables.ConditionalOperator.StringContainsCaseSensitive: return "CONTAINS_CS";
+				case Variables.ConditionalOperator.StringNotContains: return "!CONTAINS";
+				case Variables.ConditionalOperator.StringNotContainsCaseSensitive: return "!CONTAINS_CS";
+				case Variables.ConditionalOperator.StringStartsWith: return "STARTSWITH";
+				case Variables.ConditionalOperator.StringStartsWithCaseSensitive: return "STARTSWITH_CS";
+				case Variables.ConditionalOperator.StringNotStartsWith: return "!STARTSWITH";
+				case Variables.ConditionalOperator.StringNotStartsWithCaseSensitive: return "!STARTSWITH_CS";
+				case Variables.ConditionalOperator.StringEndsWith: return "ENDSWITH";
+				case Variables.ConditionalOperator.StringEndsWithCaseSensitive: return "ENDSWITH_CS";
+				case Variables.ConditionalOperator.StringNotEndsWith: return "!ENDSWITH";
+				case Variables.ConditionalOperator.StringNotEndsWithCaseSensitive: return "!ENDSWITH_CS";
 				default: return "???";
 			}
 		}
@@ -91,13 +100,21 @@ namespace ZodiacsTextEngine
 				case Variables.ConditionalOperator.GreaterThanOrEqual:
 					return VariableType.Int;
 				case Variables.ConditionalOperator.StringEquals:
+				case Variables.ConditionalOperator.StringEqualsCaseSensitive:
 				case Variables.ConditionalOperator.StringNotEquals:
+				case Variables.ConditionalOperator.StringNotEqualsCaseSensitive:
 				case Variables.ConditionalOperator.StringContains:
+				case Variables.ConditionalOperator.StringContainsCaseSensitive:
 				case Variables.ConditionalOperator.StringNotContains:
+				case Variables.ConditionalOperator.StringNotContainsCaseSensitive:
 				case Variables.ConditionalOperator.StringStartsWith:
+				case Variables.ConditionalOperator.StringStartsWithCaseSensitive:
 				case Variables.ConditionalOperator.StringNotStartsWith:
+				case Variables.ConditionalOperator.StringNotStartsWithCaseSensitive:
 				case Variables.ConditionalOperator.StringEndsWith:
+				case Variables.ConditionalOperator.StringEndsWithCaseSensitive:
 				case Variables.ConditionalOperator.StringNotEndsWith:
+				case Variables.ConditionalOperator.StringNotEndsWithCaseSensitive:
 					return VariableType.String;
 				default:
 					throw new ArgumentException($"Unknown conditional operator: {op}");

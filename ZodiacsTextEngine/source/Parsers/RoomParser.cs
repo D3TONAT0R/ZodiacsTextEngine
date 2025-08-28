@@ -245,15 +245,25 @@ namespace ZodiacsTextEngine.Parsers
 				case "!=": return Variables.ConditionalOperator.NotEqual;
 
 				case "IS": return Variables.ConditionalOperator.StringEquals;
+				case "IS_CS": return Variables.ConditionalOperator.StringEquals;
 				case "NOT":
 				case "ISNOT":
 				case "!IS": return Variables.ConditionalOperator.StringNotEquals;
+				case "NOT_CS":
+				case "ISNOT_CS":
+				case "!IS_CS": return Variables.ConditionalOperator.StringNotEqualsCaseSensitive;
 				case "CONTAINS": return Variables.ConditionalOperator.StringContains;
+				case "CONTAINS_CS": return Variables.ConditionalOperator.StringContainsCaseSensitive;
 				case "!CONTAINS": return Variables.ConditionalOperator.StringNotContains;
+				case "!CONTAINS_CS": return Variables.ConditionalOperator.StringNotContainsCaseSensitive;
 				case "STARTSWITH": return Variables.ConditionalOperator.StringStartsWith;
+				case "STARTSWITH_CS": return Variables.ConditionalOperator.StringStartsWithCaseSensitive;
 				case "!STARTSWITH": return Variables.ConditionalOperator.StringNotStartsWith;
+				case "!STARTSWITH_CS": return Variables.ConditionalOperator.StringNotStartsWithCaseSensitive;
 				case "ENDSWITH": return Variables.ConditionalOperator.StringEndsWith;
+				case "ENDSWITH_CS": return Variables.ConditionalOperator.StringEndsWithCaseSensitive;
 				case "!ENDSWITH": return Variables.ConditionalOperator.StringNotEndsWith;
+				case "!ENDSWITH_CS": return Variables.ConditionalOperator.StringNotEndsWithCaseSensitive;
 				default: throw new FileParseException(ctx, lineIndex, "Invalid conditional operator: " + input);
 			}
 		}

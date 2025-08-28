@@ -32,7 +32,10 @@ namespace ZodiacsTextEngine.Effects
 			var args = ctx.GetArguments();
 			string funcId = args[0];
 			args.RemoveAt(0);
-			return new FunctionRef(funcId, new FunctionArgs(ctx.content));
+			FunctionArgs funcArgs = ctx.content.Length > funcId.Length + 1
+				? new FunctionArgs(ctx.content.Substring(funcId.Length + 1))
+				: new FunctionArgs("");
+			return new FunctionRef(funcId, funcArgs);
 		}
 	}
 }

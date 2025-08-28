@@ -25,7 +25,7 @@ public abstract class TestLoader : StandardLoader
 		);
 		yield return Functions.CreateFunction("my_function", (args) =>
 			{
-				return $"Hello {string.Join(' ', args)}";
+				return $"Hello {string.Join(' ', args.args)}";
 			}
 		);
 	}

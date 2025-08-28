@@ -17,13 +17,21 @@ namespace ZodiacsTextEngine
 
 			//String specific operators
 			StringEquals,
+			StringEqualsCaseSensitive,
 			StringNotEquals,
+			StringNotEqualsCaseSensitive,
 			StringContains,
+			StringContainsCaseSensitive,
 			StringNotContains,
+			StringNotContainsCaseSensitive,
 			StringStartsWith,
+			StringStartsWithCaseSensitive,
 			StringNotStartsWith,
+			StringNotStartsWithCaseSensitive,
 			StringEndsWith,
-			StringNotEndsWith
+			StringEndsWithCaseSensitive,
+			StringNotEndsWith,
+			StringNotEndsWithCaseSensitive
 		}
 
 		public static bool HasFixedVariableNames => fixedVariableNames != null;
@@ -114,29 +122,44 @@ namespace ZodiacsTextEngine
 			}
 		}
 
-		public bool CheckString(string varName, string value, ConditionalOperator operation, bool ignoreCase = true)
+		public bool CheckString(string varName, string value, ConditionalOperator operation)
 		{
 			string varValue = GetString(varName) ?? "";
 			value = value ?? "";
-			var sc = ignoreCase ? System.StringComparison.OrdinalIgnoreCase : System.StringComparison.Ordinal;
 			switch(operation)
 			{
 				case ConditionalOperator.StringEquals:
-					return varValue.Equals(value, sc);
+					return varValue.Equals(value, StringComparison.OrdinalIgnoreCase);
+				case ConditionalOperator.StringEqualsCaseSensitive:
+					return varValue.Equals(value, StringComparison.Ordinal);
 				case ConditionalOperator.StringNotEquals:
-					return !varValue.Equals(value, sc);
+					return !varValue.Equals(value, StringComparison.OrdinalIgnoreCase);
+				case ConditionalOperator.StringNotEqualsCaseSensitive:
+					return !varValue.Equals(value, StringComparison.Ordinal);
 				case ConditionalOperator.StringContains:
-					return varValue.IndexOf(value, sc) >= 0;
+					return varValue.IndexOf(value, StringComparison.OrdinalIgnoreCase) >= 0;
+				case ConditionalOperator.StringContainsCaseSensitive:
+					return varValue.IndexOf(value, StringComparison.Ordinal) >= 0;
 				case ConditionalOperator.StringNotContains:
-					return varValue.IndexOf(value, sc) < 0;
+					return varValue.IndexOf(value, StringComparison.OrdinalIgnoreCase) < 0;
+				case ConditionalOperator.StringNotContainsCaseSensitive:
+					return varValue.IndexOf(value, StringComparison.Ordinal) < 0;
 				case ConditionalOperator.StringStartsWith:
-					return varValue.StartsWith(value, sc);
+					return varValue.StartsWith(value, StringComparison.OrdinalIgnoreCase);
+				case ConditionalOperator.StringStartsWithCaseSensitive:
+					return varValue.StartsWith(value, StringComparison.Ordinal);
 				case ConditionalOperator.StringNotStartsWith:
-					return !varValue.StartsWith(value, sc);
+					return !varValue.StartsWith(value, StringComparison.OrdinalIgnoreCase);
+				case ConditionalOperator.StringNotStartsWithCaseSensitive:
+					return !varValue.StartsWith(value, StringComparison.Ordinal);
 				case ConditionalOperator.StringEndsWith:
-					return varValue.EndsWith(value, sc);
+					return varValue.EndsWith(value, StringComparison.OrdinalIgnoreCase);
+				case ConditionalOperator.StringEndsWithCaseSensitive:
+					return varValue.EndsWith(value, StringComparison.Ordinal);
 				case ConditionalOperator.StringNotEndsWith:
-					return !varValue.EndsWith(value, sc);
+					return !varValue.EndsWith(value, StringComparison.OrdinalIgnoreCase);
+				case ConditionalOperator.StringNotEndsWithCaseSensitive:
+					return !varValue.EndsWith(value, StringComparison.Ordinal);
 				default:
 					throw new ArgumentException("Unsupported operator for strings " + operation);
 			}
