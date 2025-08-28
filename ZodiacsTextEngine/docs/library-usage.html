@@ -10,6 +10,39 @@
 <body>
     <main>
         <h1>Using ZodiacsTextEngine in a custom Application</h1>
+        <p>
+            The ZodiacsTextEngine provides a simple .NET API that lets you implement your own text interface
+            to capture user inputs and render the output.
+        </p>
+        <h2 id="installation">Installation</h2>
+        <p>Depending on the type of application you're creating, there are various ways to install the ZodiacsTextEngine:</p>
+        <h3>NuGet Package</h3>
+        <p>
+            To start using the Text Engine, install the ZodiacsTextEngine NuGet package.
+            Refer to the <a href="">install instructions</a> to add the package to your project.
+        </p>
+        <h3>Unity Package</h3>
+        <p>
+            In case of a Unity game project, the ZodiacsTextEngine can be installed via the <a href="">Package Manager</a>.
+        </p>
+        <h3>Manual Installation</h3>
+        <p>
+            If both options are unavailable, you can still download the repository and copy the files
+            directly into your project. The source code can be found
+            <a href="https://github.com/D3TONAT0R/ZodiacsTextEngine">here</a>.
+        </p>
+        <h2 id="initialization">Initialization</h2>
+        <p>
+            To initialize the ZodiacsTextEngine, simply call:
+        </p>
+        <code-block>
+            <span>TextEngine.Initialize();</span>
+            <span>TextEngine.StartGame(game);</span>
+        </code-block>
+        <h2 id="implementing-itextinterface">Implementing ITextInterface</h2>
+        <p>
+
+        </p>
         <footer>
             <p>ZodiacsTextEngine Documentation | 2025 | By <a href="https://github.com/D3TONAT0R">D3TONAT0R</a></p>
         </footer>
