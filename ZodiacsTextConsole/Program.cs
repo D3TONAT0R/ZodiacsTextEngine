@@ -50,7 +50,7 @@ namespace ZodiacsTextConsole
 			try
 			{
 				Console.Title = Path.GetFileNameWithoutExtension(inputPath);
-				await TextEngine.Initialize(new DefaultConsoleWindow(), new StandardLoader(inputPath, startRoom), debugMode);
+				await TextEngine.Initialize(new DefaultConsoleWindow(), new StandardContentLoader(inputPath, startRoom), debugMode);
 				await TextEngine.Start();
 			}
 			catch(Exception e)

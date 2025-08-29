@@ -2,9 +2,9 @@
 
 namespace Tests;
 
-public abstract class TestLoader : StandardLoader
+public abstract class TestContentLoader : StandardContentLoader
 {
-	protected TestLoader(string rootDirectory, string startRoomName) : base(rootDirectory, startRoomName)
+	protected TestContentLoader(string rootDirectory, string startRoomName) : base(rootDirectory, startRoomName)
 	{
 
 	}
@@ -31,12 +31,12 @@ public abstract class TestLoader : StandardLoader
 	}
 }
 
-public class SingleFileLoader : TestLoader
+public class SingleFileContentLoader : TestContentLoader
 {
 	public string path;
 	public Func<IEnumerable<(string, Functions.FunctionDelegate)>>? loadFunctions;
 
-	public SingleFileLoader(string path, Func<IEnumerable<(string, Functions.FunctionDelegate)>>? loadFunctions = null) : base(null, null)
+	public SingleFileContentLoader(string path, Func<IEnumerable<(string, Functions.FunctionDelegate)>>? loadFunctions = null) : base(null, null)
 	{
 		this.path = path;
 		this.loadFunctions = loadFunctions;
@@ -65,9 +65,9 @@ public class SingleFileLoader : TestLoader
 	}
 }
 
-public class MultiFileLoader : StandardLoader
+public class MultiFileContentLoader : StandardContentLoader
 {
-	public MultiFileLoader(string path) : base(path, "_start")
+	public MultiFileContentLoader(string path) : base(path, "_start")
 	{
 
 	}

@@ -7,7 +7,7 @@ using static ZodiacsTextEngine.TextEngine;
 
 namespace ZodiacsTextEngine
 {
-	public class StandardLoader : ContentLoader
+	public class StandardContentLoader : ContentLoader
 	{
 		protected struct DataFile
 		{
@@ -29,7 +29,7 @@ namespace ZodiacsTextEngine
 
 		protected ZipArchive zipArchive;
 
-		public StandardLoader(string rootDirectory, string startRoomName = "start")
+		public StandardContentLoader(string rootDirectory, string startRoomName = "start")
 		{
 			this.rootDirectory = rootDirectory;
 			this.startRoomName = startRoomName;

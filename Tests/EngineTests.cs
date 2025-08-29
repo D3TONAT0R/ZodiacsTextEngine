@@ -145,14 +145,14 @@ return $""{a} + {b} = {c}"";";
 			return Task.FromResult<string>(null);
 		}
 
-		private SingleFileLoader SingleFile(string path, Func<IEnumerable<(string, Functions.FunctionDelegate)>>? loadFunctions = null)
+		private SingleFileContentLoader SingleFile(string path, Func<IEnumerable<(string, Functions.FunctionDelegate)>>? loadFunctions = null)
 		{
-			return new SingleFileLoader(Path.Combine(BaseDirectory, path + ".txt"), loadFunctions);
+			return new SingleFileContentLoader(Path.Combine(BaseDirectory, path + ".txt"), loadFunctions);
 		}
 
-		private StandardLoader Directory(string path, string start = "_start")
+		private StandardContentLoader Directory(string path, string start = "_start")
 		{
-			return new StandardLoader(Path.Combine(BaseDirectory, path), start);
+			return new StandardContentLoader(Path.Combine(BaseDirectory, path), start);
 		}
 
 		private void RunTest(ContentLoader content, List<string>? inputs, List<string>? expectedOutput)
