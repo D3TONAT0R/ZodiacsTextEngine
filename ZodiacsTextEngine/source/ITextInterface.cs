@@ -40,13 +40,13 @@ namespace ZodiacsTextEngine
 
 		Task WaitForInput(bool printLine);
 
+		Task OnGameOver(string text);
+
 		Task Wait(int milliseconds);
 
 		void LogWarning(string message);
 
 		void LogError(string message);
-
-		Task OnGameOver(string text);
 
 		Task Exit();
 	}

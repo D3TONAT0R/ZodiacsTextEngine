@@ -15,7 +15,8 @@
             to capture user inputs and render the output.
         </p>
         <h2 id="installation">Installation</h2>
-        <p>Depending on the type of application you're creating, there are various ways to install the ZodiacsTextEngine:</p>
+        <p>Depending on the type of application you're creating, there are various ways to install the
+            ZodiacsTextEngine:</p>
         <h3>NuGet Package</h3>
         <p>
             To start using the Text Engine, install the ZodiacsTextEngine NuGet package.
@@ -23,7 +24,8 @@
         </p>
         <h3>Unity Package</h3>
         <p>
-            In case of a Unity game project, the ZodiacsTextEngine can be installed via the <a href="">Package Manager</a>.
+            In case of a Unity game project, the ZodiacsTextEngine can be installed via the <a href="">Package
+                Manager</a>.
         </p>
         <h3>Manual Installation</h3>
         <p>
@@ -31,18 +33,167 @@
             directly into your project. The source code can be found
             <a href="https://github.com/D3TONAT0R/ZodiacsTextEngine">here</a>.
         </p>
-        <h2 id="initialization">Initialization</h2>
+        <h2 id="initialization">Initializing the Text Engine</h2>
         <p>
-            To initialize the ZodiacsTextEngine, simply call:
+            To initialize and start the ZodiacsTextEngine, simply call:
         </p>
         <code-block>
-            <span>TextEngine.Initialize();</span>
-            <span>TextEngine.StartGame(game);</span>
+            <span>ITextInterface textInterface = new <i>(Your ITextInterface implementation)</i>;</span>
+            <span>ContentLoader loader = new StandardContentLoader(); //Or your own content loader</span>
+            <span>bool debug = false;</span>
+            <span>TextEngine.Initialize(textInterface, loader, debug);</span>
+            <span>TextEngine.StartGame();</span>
         </code-block>
-        <h2 id="implementing-itextinterface">Implementing ITextInterface</h2>
+        <h2 id="itextinterface">Implementing ITextInterface</h2>
         <p>
-
+            To provide your own text interface, create a class that implements <code>ZodiacsTextEngine.ITextInterface</code>,
+            then pass it as a parameter to the engine during initialization as mentioned above.
         </p>
+        <h3 id="itextinterface-members">Members of ITextInterface</h3>
+        <p>The <code>ITextInterface</code> consists of the following members:</p>
+        <ul class="member-list">
+            <li>
+                <code>void Initialize(bool debug)</code>
+                <p>Called when the text engine initializes.</p>
+            </li>
+            <li>
+                <code>void OnDebugInfo()</code>
+                <p>Called during initialization if debug mode is enabled.</p>
+            </li>
+            <li>
+                <code>void OnLoadError()</code>
+                <p>Called when the content loader has failed to load the game files.</p>
+            </li>
+            <li>
+                <code>void SetTitle(string title)</code>
+                <p>Called when the title (normally the window title) is changed via the <code>+TITLE</code> effect.</p>
+            </li>
+            <li>
+                <code>void Clear()</code>
+                <p>Called when the output should be cleared, often caused by <code>+CLEAR_OUTPUT</code> effects.</p>
+            </li>
+            <li>
+                <code>Task&lt;string&gt; ReadInput()</code>
+                <p>Called when user input is requested. Can be asynchronous.</p>
+            </li>
+            <li>
+                <code>Task&lt;Choice&gt; RequestChoice(Room room)</code>
+                <p>
+                    Called when a choice must be made by the player. The return value must not be null.
+                    In case the player makes an invalid choice or incorrect input, this function must
+                    continue requesting input from the player until a valid choice is made or the game
+                    is closed. Can be asynchronous.
+                </p>
+            </li>
+            <li>
+                <code>void ListChoices(List&lt;Choice&gt; choices)</code>
+                <p>
+                    Called when all currently available choices should be listed to the player.
+                </p>
+            </li>
+            <li>
+                <code>void Write(string text, bool lineBreak, bool wordWrap, Color? color = null, Color? background = null)</code>
+                <p>
+                    Called when text should be written to the output. The parameters are as follows:
+                <ul>
+                    <li><code>text</code>: The text to write.</li>
+                    <li><code>lineBreak</code>: If true, a line break should be added after the text.</li>
+                    <li><code>wordWrap</code>: If true, the text should be word-wrapped according to the interface's
+                        width.</li>
+                    <li><code>color</code>: Optional text color. If null, the color should be left as-is.</li>
+                    <li><code>background</code>: Optional background color. If null, the background color should be left
+                        as-is.</li>
+                </ul>
+                </p>
+            </li>
+            <li>
+                <code>void LineBreak()</code>
+                <p>Called when a line break should be added to the output.</p>
+            </li>
+            <li>
+                <code>void Header(string text)</code>
+                <p>
+                    Called when a header should be added to the output.
+                    The styling of headers is up to the implementing interface.
+                </p>
+            </li>
+            <li>
+                <code>void Hint(string text)</code>
+                <p>
+                    Called when a hint should be displayed to the player. Hints are usually brief and provide
+                    additional context or guidance and are often displayed in a more muted color to distinguish
+                    them from regular text. A common example is
+                    <code class="output-inline" style="color: #666">[Press any key to continue]</code>.
+                </p>
+            </li>
+            <li>
+                <code>void VerticalSpace(int count = 1)</code>
+                <p>
+                    Called when vertical space should be added to the output (basically a series of line breaks).
+                </p>
+            </li>
+            <li>
+                <code>Task WaitForInput(bool hint)</code>
+                <p>
+                    Called when the system is waiting for user input.
+                    If <code>hint</code> is true, a hint should be displayed to the user, such as "[Press any key]".
+                    Can be asynchronous.
+                </p>
+            </li>
+            <li>
+                <code>Task OnGameOver(string text)</code>
+                <p>
+                    Called when the game is over. This function should handle any necessary cleanup and
+                    display the final game state to the user. It should then either restart the game
+                    (using <code>TextEngine.Start()</code>) or exit the application. Can be asynchronous.
+                </p>
+            </li>
+            <li>
+                <code>void LogWarning(string message)</code>
+                <p>
+                    Called in debug mode to display a warning message.
+                </p>
+            </li>
+            <li>
+                <code>void LogError(string message)</code>
+                <p>
+                    Called in debug mode to display an error message.
+                </p>
+            </li>
+            <li>
+                <code>Task Exit()</code>
+                <p>
+                    Called when the application (or the text engine part of it) should be terminated.
+                    Can be asynchronous.
+                </p>
+            </li>
+        </ul>
+        <h3 id="asynchronous">Asynchronous Methods</h3>
+        <p>
+            Some methods in the ZodiacsTextEngine are asynchronous and return a <code>Task</code> that can be awaited.
+            Asynchronous implementations can be used to wait for user input, a specific event, or a certain duration.
+            If an implementation does not require asynchronous behavior, it should return a completed task using
+            <code>Task.CompletedTask</code>. When using a normal console window, the use of async/await when requesting
+            input is not strictly necessary, however, in GUI applications or game engines, asynchronous methods are
+            often required to avoid blocking the main thread.
+        </p>
+        <code-block>
+            <span>//Example of an asynchronous method implementation</span>
+            <span>public async Task&lt;ReadInput&gt;()</span>
+            <span>{</span>
+            <span>&#9;//Wait until the user provides input</span>
+            <span>&#9;//PlayerInput.Read() here has the return type Task&lt;string&gt;</span>
+            <span>&#9;string input = await PlayerInput.Read();</span>
+            <span>&#9;return input;</span>
+            <span>}</span>
+            <span></span>
+            <span>//Example of a synchronous method implementation</span>
+            <span>public Task&lt;string&gt; ReadInput()</span>
+            <span>{</span>
+            <span>&#9;//Always return "house" immediately</span>
+            <span>&#9;return Task.FromResult("house");</span>
+            <span>}</span>
+        </code-block>
         <footer>
             <p>ZodiacsTextEngine Documentation | 2025 | By <a href="https://github.com/D3TONAT0R">D3TONAT0R</a></p>
         </footer>

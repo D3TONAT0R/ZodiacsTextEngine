@@ -292,6 +292,12 @@ output-window::before {
     padding: 0px 8px 4px;
 }
 
+.output-inline {
+    background-color: black;
+    border: 1px solid var(--border-color);
+    color: #ccc;
+}
+
 .remark {
     position: relative;
     border: var(--border);
@@ -422,4 +428,37 @@ table {
         background-color: var(--group-color);
         font-weight: bold;
     }
+}
+
+.member-list {
+    padding-left: 1em;
+}
+
+.member-list>li {
+    position: relative;
+    border: 1px solid var(--border-color);
+    background-color: var(--group-color);
+    margin: 16px 0 16px;
+    padding: 8px 16px 8px;
+    list-style-type: none;
+}
+
+.member-list>li::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: -4px;
+    bottom: -1px;
+    width: 4px;
+    background-color: var(--accent-color);
+}
+
+.member-list>li>code {
+    background: none;
+    color: var(--primary-color);
+    padding: 0;
+}
+
+.member-list>li>p {
+    margin-bottom: 0;
 }
