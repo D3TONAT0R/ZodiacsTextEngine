@@ -5,7 +5,7 @@ namespace ZodiacsTextEngine.Effects
 {
 	public class Space : Effect
 	{
-		int count;
+		private int count;
 
 		public Space(int count)
 		{

@@ -78,16 +78,20 @@ namespace ZodiacsTextEngine
 
 				case Color.DefaultForeground: return TextEngine.Story?.DefaultForegroundColor ?? ConsoleColor.Gray;
 				case Color.DefaultBackground: return TextEngine.Story?.HighlightBackgroundColor ?? ConsoleColor.Black;
-				case Color.HighlightForeground: return TextEngine.Story?.HighlightForegroundColor
+				case Color.HighlightForeground:
+					return TextEngine.Story?.HighlightForegroundColor
 						?? TextEngine.Story?.DefaultForegroundColor
 						?? ConsoleColor.Gray;
-				case Color.HighlightBackground: return TextEngine.Story?.HighlightBackgroundColor
+				case Color.HighlightBackground:
+					return TextEngine.Story?.HighlightBackgroundColor
 						?? TextEngine.Story?.DefaultBackgroundColor
 						?? ConsoleColor.Black;
-				case Color.HintForeground: return TextEngine.Story?.HintForegroundColor
+				case Color.HintForeground:
+					return TextEngine.Story?.HintForegroundColor
 						?? TextEngine.Story?.DefaultForegroundColor
 						?? ConsoleColor.DarkGray;
-				case Color.HintBackground: return TextEngine.Story?.HintBackgroundColor
+				case Color.HintBackground:
+					return TextEngine.Story?.HintBackgroundColor
 						?? TextEngine.Story?.DefaultBackgroundColor
 						?? ConsoleColor.Black;
 				default: throw new ArgumentOutOfRangeException(nameof(color), color, null);

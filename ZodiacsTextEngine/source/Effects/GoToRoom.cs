@@ -5,7 +5,7 @@ namespace ZodiacsTextEngine.Effects
 {
 	public class GoToRoom : Effect
 	{
-		string nextRoomName;
+		private string nextRoomName;
 
 		public GoToRoom(string nextRoomName)
 		{

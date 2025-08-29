@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 using ZodiacsTextEngine.Effects;
 
@@ -70,7 +69,7 @@ namespace ZodiacsTextEngine
 			bool hasUnreachableEffects = false;
 			var list = new List<Effect>();
 			effectGroup.ListAllEffects(list);
-			foreach(var e in list) 
+			foreach(var e in list)
 			{
 				if(ended)
 				{

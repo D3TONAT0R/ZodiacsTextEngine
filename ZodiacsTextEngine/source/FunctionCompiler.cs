@@ -1,14 +1,14 @@
-﻿using System;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using System;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
 using System.IO;
 using System.Linq;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Text;
 using System.Threading.Tasks;
 using ZodiacsTextEngine.Parsers;
-using System.Runtime.CompilerServices;
 
 namespace ZodiacsTextEngine
 {

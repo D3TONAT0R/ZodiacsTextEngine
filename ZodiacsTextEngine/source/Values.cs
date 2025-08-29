@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace ZodiacsTextEngine
+﻿namespace ZodiacsTextEngine
 {
 	public abstract class Value
 	{

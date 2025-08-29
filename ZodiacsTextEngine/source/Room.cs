@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using ZodiacsTextEngine.Effects;
 using ZodiacsTextEngine.Parsers;
 

@@ -90,7 +90,7 @@ namespace ZodiacsTextEngine
 
 		private static VariableType GetVariableTargetType(Variables.ConditionalOperator op)
 		{
-			switch (op)
+			switch(op)
 			{
 				case Variables.ConditionalOperator.Equal:
 				case Variables.ConditionalOperator.NotEqual:

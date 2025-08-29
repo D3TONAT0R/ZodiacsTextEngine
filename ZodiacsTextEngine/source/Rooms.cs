@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using ZodiacsTextEngine.Effects;
 
 namespace ZodiacsTextEngine
@@ -22,7 +20,7 @@ namespace ZodiacsTextEngine
 			bool headerPrinted = false;
 			List<string> writeVars = new List<string>();
 			List<string> writeSVars = new List<string>() { "input" }; //input is automatically set by the engine
-			//Gather all variables used in the room
+																	  //Gather all variables used in the room
 			foreach(var room in story.Rooms.Values)
 			{
 				var effects = room.ListAllEffects();
