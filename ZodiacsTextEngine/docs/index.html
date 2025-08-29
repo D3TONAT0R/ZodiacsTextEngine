@@ -18,15 +18,16 @@
  /_____\___/ \__,_|_|\__,_|\___|___/_|\___/_/\_\\__|______|_| |_|\__, |_|_| |_|\___|
                                                                   __/ |             
                                                                  |___/              
-</h1>
+        </h1>
         <p>
             The ZodiacsTextEngine is a simple library for creating text adventures,
             originally created for the game <a href="https://dukeofoool.itch.io/sailing-zodiacs"
                 target="_blank">Sailing Zodiacs</a>.
             Content for the game is written using a custom text format, intended to be easy to write,
-            needing only minimal amounts of special characters. The engine can be integrated into any
-            .NET application that can display text and handle user input, ranging from simple
-            console applications to game engines like Unity.
+            needing only minimal amounts of special characters. The engine comes with a basic console
+            application, <i>ZodiacsTextConsole</i>, that can load and play stories written using the engine.
+            The ZodiacsTextEngine can also be integrated into any .NET application, ranging from 
+            simple consol or GUI applications to game engines like Unity.
         </p>
         <br>
         <button>Get ZodiacsTextEngine</button>
@@ -45,6 +46,26 @@
         </footer>
     </main>
     <script src="navigation.js"></script>
+    <script>
+        let grid = document.querySelector(".ascii");
+        // grid.classList.remove("ascii");
+        grid.classList.add("ascii-grid");
+        let content = grid.innerHTML.replace("&lt;", "<").replace("&gt;", ">").replace("&amp;", "&");
+        grid.innerHTML = "";
+        let lines = content.split("\n");
+        lines.forEach(line => {
+            let div = document.createElement("div");
+            line.split("").forEach(char => {
+                let span = document.createElement("span");
+                span.textContent = char;
+                div.appendChild(span);
+            });
+            grid.appendChild(div);
+        });
+    </script>
+    <style>
+
+    </style>
 </body>
 
 </html>

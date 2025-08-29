@@ -101,8 +101,9 @@ nav {
         margin-bottom: 0;
         border: none;
     }
+
     
-    a.group-link {
+    a.subsection-link, a.group-link {
         font-size: 0.75em;
         color: var(--primary-color);
         margin-top: 0;
@@ -354,11 +355,27 @@ hr {
     white-space: pre;
     line-height: 1;
     margin-bottom: 3em;
+    letter-spacing: 0em;
+    user-select: none;
 }
 
 h1.ascii {
     --shadow-color: rgba(255, 255, 255, 0.25);
     text-shadow: 0.2em 0.2em var(--shadow-color);
+}
+
+.ascii-grid>div {
+    line-height: 1.1;
+}
+
+.ascii-grid>div>span {
+    display: inline-block;
+    
+    width: 0.55em;
+    font-family: 'Fira Mono', 'Consolas', monospace;
+    font-weight: bold;
+    margin-bottom: 0em;
+    letter-spacing: 0em;
 }
 
 .effect {
