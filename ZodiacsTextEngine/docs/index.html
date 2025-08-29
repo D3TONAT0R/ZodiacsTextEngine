@@ -27,19 +27,24 @@
             needing only minimal amounts of special characters. The engine comes with a basic console
             application, <i>ZodiacsTextConsole</i>, that can load and play stories written using the engine.
             The ZodiacsTextEngine can also be integrated into any .NET application, ranging from 
-            simple consol or GUI applications to game engines like Unity.
+            simple console or GUI applications to game engines like Unity.
         </p>
         <br>
-        <button>Get ZodiacsTextEngine</button>
+        <img src="https://img.shields.io/badge/Version-1.0.0-blue?style=flat-square">
+        <img src="https://img.shields.io/badge/Build-passing-a?style=flat-square">
+        <img src="https://img.shields.io/badge/Language-C%23-red?style=flat-square">
+        <br>
+        <br>
+        <a class="button" href="https://github.com/D3TONAT0R/ZodiacsTextEngine">Get ZodiacsTextEngine</a>
         <br>
         <br>
         <h2>Features</h2>
         <ul>
-            <li>Simple room file system.</li>
-            <li>Multi-color text output.</li>
-            <li>Includes a pre-built console application that can load custom content out of the box.</li>
-            <li>Support for variables and conditions for branching paths.</li>
-            <li>Ability to write custom functions to extend the engine's functionality.</li>
+            <li>Simple room file system that is easy to write and read</li>
+            <li>Multi-color text output</li>
+            <li>Includes a pre-built console application that can load and play any story written for the engine</li>
+            <li>Support for variables and conditions for branching paths</li>
+            <li>Ability to write custom functions to implement new functionality</li>
         </ul>
         <footer>
             <p>ZodiacsTextEngine Documentation | 2025 | By <a href="https://github.com/D3TONAT0R">D3TONAT0R</a></p>
@@ -48,7 +53,6 @@
     <script src="navigation.js"></script>
     <script>
         let grid = document.querySelector(".ascii");
-        // grid.classList.remove("ascii");
         grid.classList.add("ascii-grid");
         let content = grid.innerHTML.replace("&lt;", "<").replace("&gt;", ">").replace("&amp;", "&");
         grid.innerHTML = "";
@@ -63,9 +67,6 @@
             grid.appendChild(div);
         });
     </script>
-    <style>
-
-    </style>
 </body>
 
 </html>

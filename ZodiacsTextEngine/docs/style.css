@@ -133,7 +133,7 @@ a:hover {
     text-decoration: underline;
 }
 
-button, .btn {
+button, .button {
     background: var(--primary-color);
     color: #fff;
     border: none;
@@ -145,7 +145,7 @@ button, .btn {
     transition: background 0.2s;
 }
 
-button:hover, .btn:hover {
+button:hover, .button:hover {
     background: var(--accent-color);
     color: #232526;
 }

@@ -50,7 +50,7 @@
             then pass it as a parameter to the engine during initialization as mentioned above.
         </p>
         <h3 id="itextinterface-members">Members of ITextInterface</h3>
-        <p>The <code>ITextInterface</code> consists of the following members:</p>
+        <p>The <code>ITextInterface</code> requires an implementation of the following members:</p>
         <ul class="member-list">
             <li>
                 <code>void Initialize(bool debug)</code>
@@ -192,6 +192,56 @@
             <span>{</span>
             <span>&#9;//Always return "house" immediately</span>
             <span>&#9;return Task.FromResult("house");</span>
+            <span>}</span>
+        </code-block>
+        <h2 id="custom-contentloader">Using a custom ContentLoader</h2>
+        <p>
+            The standard content loader is capable of loading story files from either a directory or a zip file
+            from a given path.
+            In the event that you need to load content from a different source (e.g. from an URL, game
+            asset, etc.), you can create a custom content loader that supplies story files to the engine in a
+            different way.
+        </p>
+        <p>To register the custom content loader, it needs to be passed during engine initialization as mentioned
+            <a href="#initialization">above</a>.</p>
+        <h3 id="example">Example</h3>
+        <code-block>
+            <span>using ZodiacsTextEngine;</span>
+            <span></span>
+            <span>public class MyContentLoader : ContentLoader</span>
+            <span>{</span>
+            <span>&#9;private string rootDirectory;</span>
+            <span></span>
+            <span>&#9;public MyContentLoader(string rootDirectory)</span>
+            <span>&#9;{</span>
+            <span>&#9;&#9;//Example constructor</span>
+            <span>&#9;&#9;this.rootDirectory = rootDirectory;</span>
+            <span>&#9;}</span>
+            <span></span>
+            <span>&#9;protected override IEnumerable&lt;Room&gt; LoadRooms()</span>
+            <span>&#9;{</span>
+            <span>&#9;&#9;// Implement your own room file loading logic here</span>
+            <span>&#9;&#9;// Each yield should return a new room</span>
+            <span>&#9;&#9;yield return Room.Parse(story, "room1", Load(rootDirectory + "/room1"));</span>
+            <span>&#9;&#9;yield return Room.Parse(story, "room2", Load(rootDirectory + "/room2"));</span>
+            <span>&#9;&#9;yield return Room.Parse(story, "room3", Load(rootDirectory + "/room3"));</span>
+            <span>&#9;&#9;SetStartRoom("room1");</span>
+            <span>&#9;}</span>
+            <span></span>
+            <span>&#9;protected override IEnumerable&lt;(string, FunctionDelegate)&gt; LoadFunctions()</span>
+            <span>&#9;{</span>
+            <span>&#9;&#9;// Implement your own function loading logic or hardcode them here</span>
+            <span>&#9;&#9;yield return ("MyFunction", async args =&gt; </span>
+            <span>&#9;&#9;{</span>
+            <span>&#9;&#9;&#9;// Your function logic here</span>
+            <span>&#9;&#9;&#9;return "Function Result";</span>
+            <span>&#9;&#9;});</span>
+            <span>&#9;&#9;yield return ("AnotherFunction", async args =&gt; </span>
+            <span>&#9;&#9;{</span>
+            <span>&#9;&#9;&#9;// Another function logic here</span>
+            <span>&#9;&#9;&#9;return "Another Result";</span>
+            <span>&#9;&#9;});</span>
+            <span>&#9;}</span>
             <span>}</span>
         </code-block>
         <footer>
