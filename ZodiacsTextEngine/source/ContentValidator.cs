@@ -38,10 +38,54 @@ namespace ZodiacsTextEngine
 		}
 	}
 
-	public static class RoomValidator
+	public static class ContentValidator
 	{
 
-		public static bool Validate(RoomValidationContext ctx, out List<LogMessage> log)
+		public static void ValidateStory(Story story)
+		{
+			bool headerPrinted = false;
+			List<string> writeVars = new List<string>();
+			List<string> writeSVars = new List<string>() { "input" }; //input is automatically set by the engine
+			//Gather all variables used in the room
+			foreach(var room in story.Rooms.Values)
+			{
+				var effects = room.ListAllEffects();
+				foreach(var effect in effects)
+				{
+					if(effect is ModifyIntVariable mv)
+					{
+						if(!writeVars.Contains(mv.variableName)) writeVars.Add(mv.variableName);
+					}
+					else if(effect is ModifyStringVariable msv)
+					{
+						if(!writeSVars.Contains(msv.variableName)) writeSVars.Add(msv.variableName);
+					}
+				}
+			}
+			foreach(var room in story.Rooms.Values)
+			{
+				var context = new RoomValidationContext(room, writeVars, writeSVars);
+				if(!ValidateRoom(context, out var log))
+				{
+					if(!headerPrinted)
+					{
+						TextEngine.Interface.BackgroundColor = Color.DarkRed;
+						TextEngine.Interface.ForegroundColor = Color.White;
+						TextEngine.Interface.Text("Room validation has found some problems:");
+						TextEngine.Interface.BackgroundColor = Color.DefaultBackground;
+						TextEngine.Interface.ForegroundColor = Color.DefaultForeground;
+						headerPrinted = true;
+					}
+					foreach(var msg in log)
+					{
+						msg.Print();
+					}
+					log.AddRange(log);
+				}
+			}
+		}
+
+		public static bool ValidateRoom(RoomValidationContext ctx, out List<LogMessage> log)
 		{
 			log = new List<LogMessage>();
 			if(ctx.room.onEnter != null && ctx.room.onEnter.effects.Count > 0)

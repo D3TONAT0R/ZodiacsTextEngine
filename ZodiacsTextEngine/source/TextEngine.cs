@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+using ZodiacsTextEngine;
 using ZodiacsTextEngine.Effects;
 
 namespace ZodiacsTextEngine
@@ -43,7 +45,7 @@ namespace ZodiacsTextEngine
 				Interface.OnLoadError();
 				return;
 			}
-			Rooms.Validate(story);
+			ContentValidator.ValidateStory(story);
 			var startRoom = story.StartRoom;
 			if(DebugMode)
 			{

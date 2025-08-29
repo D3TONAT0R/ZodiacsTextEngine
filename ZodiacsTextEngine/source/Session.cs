@@ -22,7 +22,7 @@ namespace ZodiacsTextEngine
 
 		public async Task GoToRoom(string nextRoomName)
 		{
-			await GoToRoom(Rooms.GetRoom(nextRoomName));
+			await GoToRoom(Room.Get(nextRoomName));
 		}
 
 		public async Task GoToRoom(Room next)

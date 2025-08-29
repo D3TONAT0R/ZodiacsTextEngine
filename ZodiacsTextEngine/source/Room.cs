@@ -25,6 +25,16 @@ namespace ZodiacsTextEngine
 			return RoomParser.Parse(story, filename, content);
 		}
 
+		public static Room Get(string roomName)
+		{
+			return TextEngine.Story.Rooms[roomName];
+		}
+
+		public static bool Exists(string roomName)
+		{
+			return TextEngine.Story.Rooms.ContainsKey(roomName);
+		}
+
 		public Choice GetChoice(string input)
 		{
 			input = input.ToUpper().Trim();

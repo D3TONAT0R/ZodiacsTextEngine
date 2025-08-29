@@ -19,7 +19,7 @@ namespace ZodiacsTextEngine.Effects
 
 		public override LogMessage Validate(string site)
 		{
-			if(!Rooms.Exists(nextRoomName)) return LogMessage.Error(site, "Nonexisting room referenced: " + nextRoomName);
+			if(!Room.Exists(nextRoomName)) return LogMessage.Error(site, "Nonexisting room referenced: " + nextRoomName);
 			return null;
 		}
 
