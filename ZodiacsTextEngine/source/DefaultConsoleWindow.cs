@@ -12,6 +12,8 @@ namespace ZodiacsTextEngine
 
 		public bool DebugMode { get; private set; }
 
+		public bool AllowQuit { get; set; } = true;
+
 		public Color ForegroundColor
 		{
 			get => foregroundColor;
@@ -98,20 +100,37 @@ namespace ZodiacsTextEngine
 				LineBreak();
 				Console.Write("> ");
 				string input = await TextEngine.RequestInput();
-
-				if(DebugMode)
-				{
-					if(input == "?")
-					{
-						ListChoices(room.choices);
-						continue;
-					}
-				}
+				input = input.Trim();
 
 				choice = room.GetChoice(input);
 				if(choice == null)
 				{
-					Text("Unknown option: " + input);
+					if(input.Equals("quit", StringComparison.OrdinalIgnoreCase) && AllowQuit)
+					{
+						Console.WriteLine("Are you sure you want to quit? (Y/N)");
+						var key = Console.ReadKey(true);
+						if(key.Key == ConsoleKey.Y)
+						{
+							await Exit();
+							return null;
+						}
+						else
+						{
+							continue;
+						}
+					}
+					else if(DebugMode)
+					{
+						if(input == "?")
+						{
+							ListChoices(room.choices);
+							continue;
+						}
+					}
+					else
+					{
+						Text("Unknown option: " + input);
+					}
 				}
 			}
 			while(choice == null);

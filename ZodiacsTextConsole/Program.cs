@@ -103,11 +103,11 @@ namespace ZodiacsTextConsole
 				Console.WriteLine($"  {i + 1}. {contents[i]}");
 			}
 			Console.WriteLine();
-			Console.WriteLine("Enter the number of the content to load, or type 'exit' to quit:");
+			Console.WriteLine("Enter the number of the story to play, or type 'quit' to quit:");
 			do
 			{
 				string? input = Console.ReadLine()?.Trim();
-				if(input == null || input.Equals("exit", StringComparison.OrdinalIgnoreCase))
+				if(input == null || input.Equals("quit", StringComparison.OrdinalIgnoreCase))
 				{
 					return;
 				}
@@ -121,7 +121,7 @@ namespace ZodiacsTextConsole
 				}
 				else
 				{
-					Console.WriteLine("Invalid input. Please enter a valid number or 'exit' to quit.");
+					Console.WriteLine("Invalid input. Please enter a valid number or 'quit' to quit.");
 				}
 			}
 			while(true);
