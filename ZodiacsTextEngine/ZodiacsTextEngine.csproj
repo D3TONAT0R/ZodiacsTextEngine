@@ -7,7 +7,7 @@
     <Authors>D3TONAT0R</Authors>
     <Description>A simple to use text engine for multilinear text adventure games</Description>
     <RepositoryUrl>https://github.com/d3tonat0r/zodiacstextengine</RepositoryUrl>
-    <PackageTags>Text;Text Adventure;Game;Console;Story;Multilinear</PackageTags>
+    <PackageTags>Text;Adventure;Game;Console;Story;Multilinear</PackageTags>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
