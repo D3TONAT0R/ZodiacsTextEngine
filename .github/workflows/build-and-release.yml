@@ -9,11 +9,13 @@ on:
 jobs:
   build-and-release:
     runs-on: windows-latest  # Use Windows runner for compatibility with existing build scripts
-    
+    permissions:
+      contents: write  # Required for creating releases and uploading assets
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      
+
     - name: Set release version
       id: version
       run: |
@@ -25,21 +27,21 @@ jobs:
         echo "version=$version" >> $env:GITHUB_OUTPUT
         Write-Host "Release version: $version"
       shell: powershell
-      
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '8.0.x'
-        
+
     - name: Restore dependencies
       run: dotnet restore
-      
+
     - name: Run tests
       run: dotnet test Tests/Tests.csproj --configuration Release --no-restore
-      
+
     - name: Build ZodiacsTextEngine library
       run: dotnet build ZodiacsTextEngine/ZodiacsTextEngine.csproj --configuration Release --no-restore
-      
+
     - name: Create ZodiacsTextEngine library zip
       run: |
         $engineOutput = "ZodiacsTextEngine/bin/Release/netstandard2.0"
@@ -52,26 +54,36 @@ jobs:
           exit 1
         }
       shell: powershell
-      
+
     - name: Build ZodiacsTextConsole
       run: dotnet build ZodiacsTextConsole/ZodiacsTextConsole.csproj --configuration Release --no-restore
-      
+
     - name: Publish all profiles for ZodiacsTextConsole
       run: |
         cd ZodiacsTextConsole
         Write-Host "Publishing portable profile..."
         dotnet publish -p:PublishProfile=portable --verbosity normal
+        if ($LASTEXITCODE -ne 0) { Write-Error "Portable publish failed"; exit 1 }
+
         Write-Host "Publishing win-x64 profile..."
         dotnet publish -p:PublishProfile=win-x64 --verbosity normal
+        if ($LASTEXITCODE -ne 0) { Write-Error "Win-x64 publish failed"; exit 1 }
+
         Write-Host "Publishing osx-x64 profile..."
         dotnet publish -p:PublishProfile=osx-x64 --verbosity normal
+        if ($LASTEXITCODE -ne 0) { Write-Error "OSX-x64 publish failed"; exit 1 }
+
         Write-Host "Publishing osx-arm64 profile..."
         dotnet publish -p:PublishProfile=osx-arm64 --verbosity normal
+        if ($LASTEXITCODE -ne 0) { Write-Error "OSX-arm64 publish failed"; exit 1 }
+
         Write-Host "Publishing linux-x64 profile..."
         dotnet publish -p:PublishProfile=linux-x64 --verbosity normal
-        Write-Host "All publish profiles completed."
+        if ($LASTEXITCODE -ne 0) { Write-Error "Linux-x64 publish failed"; exit 1 }
+
+        Write-Host "All publish profiles completed successfully."
       shell: powershell
-      
+
     - name: List generated zip files
       run: |
         Write-Host "Generated zip files:"
@@ -89,7 +101,7 @@ jobs:
           Write-Host "  ZodiacsTextEngine-Library.zip NOT found"
         }
       shell: powershell
-      
+
     - name: Verify all expected files exist
       run: |
         $files = @(
@@ -115,7 +127,7 @@ jobs:
         }
         Write-Host "All expected files found!"
       shell: powershell
-      
+
     - name: Create Release
       uses: softprops/action-gh-release@v1
       env:
@@ -132,7 +144,7 @@ jobs:
           ZodiacsTextConsole/bin/Build/ZodiacsTextConsole-linux-x64.zip
         body: |
           Automated release for ZodiacsTextEngine ${{ steps.version.outputs.version }}
-          
+
           This release includes:
           - ZodiacsTextEngine library
           - ZodiacsTextConsole builds for all supported platforms (portable, win-x64, osx-x64, osx-arm64, linux-x64)
