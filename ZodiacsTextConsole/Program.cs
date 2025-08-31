@@ -114,7 +114,7 @@ namespace ZodiacsTextConsole
 				if(int.TryParse(input, out int index) && index > 0 && index <= contents.Count)
 				{
 					string selectedContent = contents[index - 1];
-					string contentPath = Path.Combine("content", selectedContent);
+					string contentPath = Path.Combine(CONTENT_SUBDIR, selectedContent);
 					Console.WriteLine($"Loading content: {selectedContent}");
 					await Run(contentPath);
 					return;

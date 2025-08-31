@@ -16,18 +16,37 @@
   </ItemGroup>
 
   <Target Name="ModifyFileStructureAfterPublish" AfterTargets="Publish">
-    <Exec Command="for /d %%D in (bin\Build\*) do if /I not &quot;%%~nxD&quot;==&quot;stories&quot; rmdir /s /q &quot;%%D&quot;" />
-    
-    <Exec Command="cmd /c &quot;(echo @echo off &amp; echo ZodiacsTextConsole.exe --menu) &gt; &quot;bin\Build\Main Menu.bat&quot;&quot;" />
-    <Exec Command="cmd /c &quot;(echo @echo off &amp; echo ZodiacsTextConsole.exe --menu --debug) &gt; &quot;bin\Build\Main Menu (Debug).bat&quot;&quot;" />
+    <Message Text="Publish directory: $(PublishDir)" Importance="high" />
 
-    <MakeDir Directories="bin\Build\libs" />
+    <!-- Check if PublishDir contains 'win' -->
+    <PropertyGroup>
+      <IsWinPublish Condition=" '$(PublishDir)' != '' and ($(PublishDir.Contains('win')) or $(PublishDir.Contains('portable'))) ">true</IsWinPublish>
+    </PropertyGroup>
+    <PropertyGroup>
+      <IsPortable Condition=" '$(PublishDir)' != '' and $(PublishDir.Contains('portable')) ">true</IsPortable>
+    </PropertyGroup>
+    <Message Text="IsWinPublish: $(IsWinPublish)" Importance="high" />
+
+    <Exec Command="for /d %%D in ($(PublishDir)*) do if /I not &quot;%%~nxD&quot;==&quot;stories&quot; rmdir /s /q &quot;%%D&quot;" />
+
+    <Exec Condition=" '$(IsWinPublish)' == 'true' " Command="cmd /c &quot;(echo @echo off &amp; echo ZodiacsTextConsole.exe --menu) &gt; &quot;$(PublishDir)Main Menu.bat&quot;&quot;" />
+    <Exec Condition=" '$(IsWinPublish)' == 'true' " Command="cmd /c &quot;(echo @echo off &amp; echo ZodiacsTextConsole.exe --menu --debug) &gt; &quot;$(PublishDir)Main Menu (Debug).bat&quot;&quot;" />
+
+    <MakeDir Directories="$(PublishDir)libs" />
     <ItemGroup>
-      <PublishedFiles Include="bin\Build\*.dll;bin\Build\*.pdb" Exclude="bin\Build\ZodiacsTextConsole.dll;bin\Build\ZodiacsTextConsole.pdb" />
+      <PublishedFiles Include="$(PublishDir)*.dll;$(PublishDir)*.pdb" Exclude="$(PublishDir)ZodiacsTextConsole.dll;$(PublishDir)ZodiacsTextConsole.pdb" />
     </ItemGroup>
-    <Move SourceFiles="@(PublishedFiles)" DestinationFolder="bin\Build\libs\" />
+    <Move SourceFiles="@(PublishedFiles)" DestinationFolder="$(PublishDir)libs\" />
+
+    <MakeDir Directories="$(PublishDir)stories" />
+    <Exec Command="echo Place story files as separate directories or zip files here. > &quot;$(PublishDir)stories\readme.txt&quot;" />
     
-    <MakeDir Directories="bin\Build\stories" />
+    <!-- Compress bin/Build folder to zip file after publish -->
+    <PropertyGroup>
+      <Suffix>$(RuntimeIdentifier)</Suffix>
+      <Suffix Condition=" '$(IsPortable)' == 'true' ">portable</Suffix>
+    </PropertyGroup>
+    <Exec Command="powershell -Command &quot;Compress-Archive -Path $(PublishDir)* -DestinationPath bin\Build\ZodiacsTextConsole-$(Suffix).zip -Force&quot;" />
   </Target>
 
 </Project>
