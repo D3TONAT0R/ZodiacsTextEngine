@@ -29,7 +29,7 @@ namespace ZodiacsTextEngine
 			}
 		}
 
-		public List<string> VariableNames { get; } = new List<string>();
+		public StoryMetadata Metadata { get; private set; }
 
 		internal Dictionary<string, FunctionDelegate> Functions { get; } = new Dictionary<string, FunctionDelegate>();
 
@@ -45,16 +45,16 @@ namespace ZodiacsTextEngine
 		public ConsoleColor? InputForegroundColor { get; set; } = null;
 		public ConsoleColor? InputBackgroundColor { get; set; } = null;
 
-		public Story(Dictionary<string, Room> rooms, string startRoomName, List<string> variableNames)
+		public Story(Dictionary<string, Room> rooms, string startRoomName, StoryMetadata metadata)
 		{
 			Rooms = rooms;
 			StartRoomName = startRoomName;
-			VariableNames = variableNames ?? VariableNames;
+			Metadata = metadata;
 		}
 
-		public Story()
+		public Story(StoryMetadata metadata)
 		{
-
+			Metadata = metadata;
 		}
 
 		public void SetStartRoom(string roomName)

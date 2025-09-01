@@ -23,6 +23,7 @@ namespace ZodiacsTextEngine
 
 		public const string ROOM_FILE_EXT = "room";
 		public const string FUNC_FILE_EXT = "funcs";
+		public const string META_FILE_NAME = "story.meta";
 
 		protected readonly string rootDirectory;
 		protected readonly string startRoomName;
@@ -33,6 +34,37 @@ namespace ZodiacsTextEngine
 		{
 			this.rootDirectory = rootDirectory;
 			this.startRoomName = startRoomName;
+		}
+
+		public override StoryMetadata FetchMetadataFrom(string storyRootPath)
+		{
+			if(Path.GetExtension(storyRootPath).Equals(".zip", StringComparison.OrdinalIgnoreCase))
+			{
+				using(var archive = ZipFile.OpenRead(storyRootPath))
+				{
+					var metaEntry = archive.Entries.FirstOrDefault(e => e.FullName.Equals(META_FILE_NAME, StringComparison.OrdinalIgnoreCase));
+					if(metaEntry != null)
+					{
+						using(var stream = metaEntry.Open())
+						{
+							using(var reader = new StreamReader(stream))
+							{
+								string content = reader.ReadToEnd();
+								return StoryMetadata.FromFile(content.Replace("\r", "").Split('\n'), Path.GetFileNameWithoutExtension(storyRootPath));
+							}
+						}
+					}
+				}
+			}
+			else
+			{
+				var metaPath = Path.Combine(storyRootPath, META_FILE_NAME);
+				if(File.Exists(metaPath))
+				{
+					return StoryMetadata.FromFile(File.ReadAllLines(metaPath), Path.GetFileNameWithoutExtension(storyRootPath));
+				}
+			}
+			return StoryMetadata.CreateBlank(Path.GetFileNameWithoutExtension(storyRootPath));
 		}
 
 		protected override void Begin()
@@ -58,6 +90,21 @@ namespace ZodiacsTextEngine
 						Interface.LineBreak();
 					}
 				}
+			}
+		}
+
+		protected override StoryMetadata LoadMetadata()
+		{
+			var metaFile = LoadFile(META_FILE_NAME);
+			if(metaFile != null)
+			{
+				if(DebugMode) Interface.Text("Loading story metadata ...");
+				return StoryMetadata.FromFile(metaFile.Value.content.Replace("\r", "").Split('\n'), Path.GetFileNameWithoutExtension(rootDirectory));
+			}
+			else
+			{
+				if(DebugMode) Interface.Text("No metadata file found.");
+				return StoryMetadata.CreateBlank(Path.GetFileNameWithoutExtension(rootDirectory));
 			}
 		}
 
@@ -122,6 +169,34 @@ namespace ZodiacsTextEngine
 				zipArchive.Dispose();
 				zipArchive = null;
 			}
+		}
+
+		protected DataFile? LoadFile(string filename)
+		{
+			if(zipArchive != null)
+			{
+				var entry = zipArchive.GetEntry(filename);
+				if(entry != null)
+				{
+					using(var stream = entry.Open())
+					{
+						using(var reader = new StreamReader(stream))
+						{
+							string content = reader.ReadToEnd();
+							return new DataFile(entry.FullName, content);
+						}
+					}
+				}
+			}
+			else
+			{
+				var filePath = Path.Combine(rootDirectory, filename);
+				if(File.Exists(filePath))
+				{
+					return new DataFile(filePath, File.ReadAllText(filePath));
+				}
+			}
+			return null;
 		}
 
 		protected DataFile[] LoadAllFiles(string extension)

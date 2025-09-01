@@ -5,6 +5,18 @@ namespace ZodiacsTextConsole
 {
 	internal class Program
 	{
+		class StoryEntry
+		{
+			public string path;
+			public StoryMetadata metadata;
+
+			public StoryEntry(string path)
+			{
+				this.path = Path.GetFileName(path);
+				metadata = metadataLoader.FetchMetadataFrom(path);
+			}
+		}
+
 		private const string CONTENT_SUBDIR = "stories";
 
 		private static readonly string[] TITLE_ART =
@@ -20,6 +32,8 @@ namespace ZodiacsTextConsole
 		];
 
 		private static bool debugMode = false;
+
+		private static ContentLoader metadataLoader = new StandardContentLoader(null, null);
 
 		private static async Task Main(string[] args)
 		{
@@ -82,13 +96,13 @@ namespace ZodiacsTextConsole
 				Console.WriteLine("Debug mode is active.");
 				Console.WriteLine();
 			}
-			List<string> contents = new();
+			List<StoryEntry> stories = new();
 			if(Directory.Exists(CONTENT_SUBDIR))
 			{
-				contents.AddRange(Directory.GetFiles(CONTENT_SUBDIR, "*.zip").Select(Path.GetFileName)!);
-				contents.AddRange(Directory.GetDirectories(CONTENT_SUBDIR).Select(Path.GetFileName)!);
+				stories.AddRange(Directory.GetFiles(CONTENT_SUBDIR, "*.zip").Select(zip => new StoryEntry(zip)));
+				stories.AddRange(Directory.GetDirectories(CONTENT_SUBDIR).Select(dir => new StoryEntry(dir)));
 			}
-			if(contents.Count == 0)
+			if(stories.Count == 0)
 			{
 				Console.WriteLine($"No content found in the '{CONTENT_SUBDIR}' directory. Add zip files or directories containing story files to the " +
 					$"'{CONTENT_SUBDIR}' folder to have them listed here.");
@@ -98,9 +112,9 @@ namespace ZodiacsTextConsole
 			}
 			Console.WriteLine("STORY SELECTION:");
 			Console.WriteLine();
-			for(int i = 0; i < contents.Count; i++)
+			for(int i = 0; i < stories.Count; i++)
 			{
-				Console.WriteLine($"  {i + 1}. {contents[i]}");
+				Console.WriteLine($"  {i + 1}. {stories[i].metadata.Title}");
 			}
 			Console.WriteLine();
 			Console.WriteLine("Enter the number of the story to play, or type 'quit' to quit:");
@@ -111,12 +125,12 @@ namespace ZodiacsTextConsole
 				{
 					return;
 				}
-				if(int.TryParse(input, out int index) && index > 0 && index <= contents.Count)
+				if(int.TryParse(input, out int index) && index > 0 && index <= stories.Count)
 				{
-					string selectedContent = contents[index - 1];
-					string contentPath = Path.Combine(CONTENT_SUBDIR, selectedContent);
-					Console.WriteLine($"Loading content: {selectedContent}");
-					await Run(contentPath);
+					StoryEntry selectedContent = stories[index - 1];
+					string storyPath = Path.Combine(CONTENT_SUBDIR, selectedContent.path);
+					Console.WriteLine($"Loading story: {selectedContent.metadata.Title}");
+					await Run(storyPath);
 					return;
 				}
 				else

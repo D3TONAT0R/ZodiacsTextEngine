@@ -10,8 +10,9 @@ namespace ZodiacsTextEngine
 
 		public Story Load(ref bool success)
 		{
-			story = new Story();
 			Begin();
+			var meta = LoadMetadata();
+			story = new Story(meta);
 			foreach(var func in LoadFunctions())
 			{
 				AddFunction(func);
@@ -24,10 +25,14 @@ namespace ZodiacsTextEngine
 			return story;
 		}
 
+		public abstract StoryMetadata FetchMetadataFrom(string storyRootPath);
+
 		protected virtual void Begin()
 		{
 
 		}
+
+		protected abstract StoryMetadata LoadMetadata();
 
 		protected virtual IEnumerable<(string, FunctionDelegate)> LoadFunctions()
 		{
@@ -49,11 +54,6 @@ namespace ZodiacsTextEngine
 		public virtual void SetStartRoom(string roomName)
 		{
 			story.SetStartRoom(roomName);
-		}
-
-		public virtual void AddVariable(string name)
-		{
-			story.VariableNames.Add(name);
 		}
 
 		public virtual void AddFunction((string, FunctionDelegate) function)
