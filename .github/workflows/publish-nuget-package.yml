@@ -22,10 +22,16 @@ jobs:
       run: dotnet restore
 
     - name: Build
-      run: dotnet build --configuration Release
+      run: dotnet build ZodiacsTextEngine/ZodiacsTextEngine.csproj --configuration Release
+
+    - name: Delete previous .nupkg and .snupkg files
+      run: Remove-Item -Path *.nupkg,*.snupkg -Recurse -Force -ErrorAction SilentlyContinue
 
     - name: Pack
-      run: dotnet pack --configuration Release --output ./nupkg
+      run: dotnet pack ZodiacsTextEngine/ZodiacsTextEngine.csproj --configuration Release --output ./nupkg
+
+    - name: List all files
+      run: tree /a /f
 
     - name: Push to NuGet
-      run: dotnet nuget push ./nupkg/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+      run: dotnet nuget push "**/*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
