@@ -19,7 +19,7 @@ The workflow (`/.github/workflows/build-and-release.yml`) is triggered in two wa
 The workflow performs the following steps:
 
 1. **Builds ZodiacsTextEngine Library**: Compiles the core .NET Standard 2.0 library
-2. **Creates Library Zip**: Packages the library DLL and dependencies into `ZodiacsTextEngine-Library.zip`
+2. **Creates Library Zip**: Packages the library DLL and dependencies into `ZodiacsTextEngine-{version}.zip`
 3. **Builds ZodiacsTextConsole**: Compiles the console application
 4. **Publishes All Profiles**: Runs all five publish profiles:
    - `portable` - Framework-dependent, cross-platform
@@ -33,12 +33,14 @@ The workflow performs the following steps:
 ## Release Assets
 
 Each release will include these files:
-- `ZodiacsTextEngine-Library.zip` - The core library for developers
-- `ZodiacsTextConsole-portable.zip` - Cross-platform console application 
-- `ZodiacsTextConsole-win-x64.zip` - Windows 64-bit standalone application
-- `ZodiacsTextConsole-osx-x64.zip` - macOS Intel standalone application
-- `ZodiacsTextConsole-osx-arm64.zip` - macOS Apple Silicon standalone application
-- `ZodiacsTextConsole-linux-x64.zip` - Linux 64-bit standalone application
+- `ZodiacsTextEngine-{version}.zip` - The core library for developers
+- `ZodiacsTextConsole-{version}-portable.zip` - Cross-platform console application 
+- `ZodiacsTextConsole-{version}-win-x64.zip` - Windows 64-bit standalone application
+- `ZodiacsTextConsole-{version}-osx-x64.zip` - macOS Intel standalone application
+- `ZodiacsTextConsole-{version}-osx-arm64.zip` - macOS Apple Silicon standalone application
+- `ZodiacsTextConsole-{version}-linux-x64.zip` - Linux 64-bit standalone application
+
+Where `{version}` is the release tag (e.g., `v1.1.0`, `1.1.0`).
 
 ## Requirements
 
