@@ -190,7 +190,7 @@ namespace ZodiacsTextEngine
 			}
 			else
 			{
-				var filePath = Path.Combine(rootDirectory, filename);
+				var filePath = Path.Combine(rootDirectory ?? "", filename);
 				if(File.Exists(filePath))
 				{
 					return new DataFile(filePath, File.ReadAllText(filePath));
