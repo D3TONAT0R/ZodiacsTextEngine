@@ -45,7 +45,7 @@ jobs:
     - name: Create ZodiacsTextEngine library zip
       run: |
         $engineOutput = "ZodiacsTextEngine/bin/Release/netstandard2.0"
-        $zipPath = "ZodiacsTextEngine-Library.zip"
+        $zipPath = "ZodiacsTextEngine.zip"
         if (Test-Path $engineOutput) {
           Compress-Archive -Path "$engineOutput/*" -DestinationPath $zipPath -Force
           Write-Host "Created library zip: $zipPath"
@@ -95,17 +95,17 @@ jobs:
           Write-Host "  No ZodiacsTextConsole/bin/Build directory found"
         }
         Write-Host "Engine library zip:"
-        if (Test-Path "ZodiacsTextEngine-Library.zip") {
-          Write-Host "  ZodiacsTextEngine-Library.zip found"
+        if (Test-Path "ZodiacsTextEngine.zip") {
+          Write-Host "  ZodiacsTextEngine.zip found"
         } else {
-          Write-Host "  ZodiacsTextEngine-Library.zip NOT found"
+          Write-Host "  ZodiacsTextEngine.zip NOT found"
         }
       shell: powershell
 
     - name: Verify all expected files exist
       run: |
         $files = @(
-          "ZodiacsTextEngine-Library.zip",
+          "ZodiacsTextEngine.zip",
           "ZodiacsTextConsole/bin/Build/ZodiacsTextConsole-portable.zip",
           "ZodiacsTextConsole/bin/Build/ZodiacsTextConsole-win-x64.zip",
           "ZodiacsTextConsole/bin/Build/ZodiacsTextConsole-osx-x64.zip",
@@ -136,7 +136,7 @@ jobs:
         tag_name: ${{ steps.version.outputs.version }}
         name: Release ${{ steps.version.outputs.version }}
         files: |
-          ZodiacsTextEngine-Library.zip
+          ZodiacsTextEngine.zip
           ZodiacsTextConsole/bin/Build/ZodiacsTextConsole-portable.zip
           ZodiacsTextConsole/bin/Build/ZodiacsTextConsole-win-x64.zip
           ZodiacsTextConsole/bin/Build/ZodiacsTextConsole-osx-x64.zip
