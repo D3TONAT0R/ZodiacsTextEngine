@@ -45,7 +45,8 @@ jobs:
     - name: Create ZodiacsTextEngine library zip
       run: |
         $engineOutput = "ZodiacsTextEngine/bin/Release/netstandard2.0"
-        $zipPath = "ZodiacsTextEngine.zip"
+        $version = "${{ steps.version.outputs.version }}"
+        $zipPath = "ZodiacsTextEngine-$version.zip"
         if (Test-Path $engineOutput) {
           Compress-Archive -Path "$engineOutput/*" -DestinationPath $zipPath -Force
           Write-Host "Created library zip: $zipPath"
@@ -61,24 +62,25 @@ jobs:
     - name: Publish all profiles for ZodiacsTextConsole
       run: |
         cd ZodiacsTextConsole
+        $version = "${{ steps.version.outputs.version }}"
         Write-Host "Publishing portable profile..."
-        dotnet publish -p:PublishProfile=portable --verbosity normal
+        dotnet publish -p:PublishProfile=portable -p:ReleaseVersion=$version --verbosity normal
         if ($LASTEXITCODE -ne 0) { Write-Error "Portable publish failed"; exit 1 }
 
         Write-Host "Publishing win-x64 profile..."
-        dotnet publish -p:PublishProfile=win-x64 --verbosity normal
+        dotnet publish -p:PublishProfile=win-x64 -p:ReleaseVersion=$version --verbosity normal
         if ($LASTEXITCODE -ne 0) { Write-Error "Win-x64 publish failed"; exit 1 }
 
         Write-Host "Publishing osx-x64 profile..."
-        dotnet publish -p:PublishProfile=osx-x64 --verbosity normal
+        dotnet publish -p:PublishProfile=osx-x64 -p:ReleaseVersion=$version --verbosity normal
         if ($LASTEXITCODE -ne 0) { Write-Error "OSX-x64 publish failed"; exit 1 }
 
         Write-Host "Publishing osx-arm64 profile..."
-        dotnet publish -p:PublishProfile=osx-arm64 --verbosity normal
+        dotnet publish -p:PublishProfile=osx-arm64 -p:ReleaseVersion=$version --verbosity normal
         if ($LASTEXITCODE -ne 0) { Write-Error "OSX-arm64 publish failed"; exit 1 }
 
         Write-Host "Publishing linux-x64 profile..."
-        dotnet publish -p:PublishProfile=linux-x64 --verbosity normal
+        dotnet publish -p:PublishProfile=linux-x64 -p:ReleaseVersion=$version --verbosity normal
         if ($LASTEXITCODE -ne 0) { Write-Error "Linux-x64 publish failed"; exit 1 }
 
         Write-Host "All publish profiles completed successfully."
@@ -86,6 +88,7 @@ jobs:
 
     - name: List generated zip files
       run: |
+        $version = "${{ steps.version.outputs.version }}"
         Write-Host "Generated zip files:"
         if (Test-Path "ZodiacsTextConsole/bin/Build") {
           Get-ChildItem -Path "ZodiacsTextConsole/bin/Build" -Filter "*.zip" -Recurse | ForEach-Object {
@@ -95,22 +98,23 @@ jobs:
           Write-Host "  No ZodiacsTextConsole/bin/Build directory found"
         }
         Write-Host "Engine library zip:"
-        if (Test-Path "ZodiacsTextEngine.zip") {
-          Write-Host "  ZodiacsTextEngine.zip found"
+        if (Test-Path "ZodiacsTextEngine-$version.zip") {
+          Write-Host "  ZodiacsTextEngine-$version.zip found"
         } else {
-          Write-Host "  ZodiacsTextEngine.zip NOT found"
+          Write-Host "  ZodiacsTextEngine-$version.zip NOT found"
         }
       shell: powershell
 
     - name: Verify all expected files exist
       run: |
+        $version = "${{ steps.version.outputs.version }}"
         $files = @(
-          "ZodiacsTextEngine.zip",
-          "ZodiacsTextConsole/bin/Build/ZodiacsTextConsole-portable.zip",
-          "ZodiacsTextConsole/bin/Build/ZodiacsTextConsole-win-x64.zip",
-          "ZodiacsTextConsole/bin/Build/ZodiacsTextConsole-osx-x64.zip",
-          "ZodiacsTextConsole/bin/Build/ZodiacsTextConsole-osx-arm64.zip",
-          "ZodiacsTextConsole/bin/Build/ZodiacsTextConsole-linux-x64.zip"
+          "ZodiacsTextEngine-$version.zip",
+          "ZodiacsTextConsole/bin/Build/ZodiacsTextConsole-$version-portable.zip",
+          "ZodiacsTextConsole/bin/Build/ZodiacsTextConsole-$version-win-x64.zip",
+          "ZodiacsTextConsole/bin/Build/ZodiacsTextConsole-$version-osx-x64.zip",
+          "ZodiacsTextConsole/bin/Build/ZodiacsTextConsole-$version-osx-arm64.zip",
+          "ZodiacsTextConsole/bin/Build/ZodiacsTextConsole-$version-linux-x64.zip"
         )
         $missing = @()
         foreach ($file in $files) {
@@ -136,12 +140,12 @@ jobs:
         tag_name: ${{ steps.version.outputs.version }}
         name: Release ${{ steps.version.outputs.version }}
         files: |
-          ZodiacsTextEngine.zip
-          ZodiacsTextConsole/bin/Build/ZodiacsTextConsole-portable.zip
-          ZodiacsTextConsole/bin/Build/ZodiacsTextConsole-win-x64.zip
-          ZodiacsTextConsole/bin/Build/ZodiacsTextConsole-osx-x64.zip
-          ZodiacsTextConsole/bin/Build/ZodiacsTextConsole-osx-arm64.zip
-          ZodiacsTextConsole/bin/Build/ZodiacsTextConsole-linux-x64.zip
+          ZodiacsTextEngine-${{ steps.version.outputs.version }}.zip
+          ZodiacsTextConsole/bin/Build/ZodiacsTextConsole-${{ steps.version.outputs.version }}-portable.zip
+          ZodiacsTextConsole/bin/Build/ZodiacsTextConsole-${{ steps.version.outputs.version }}-win-x64.zip
+          ZodiacsTextConsole/bin/Build/ZodiacsTextConsole-${{ steps.version.outputs.version }}-osx-x64.zip
+          ZodiacsTextConsole/bin/Build/ZodiacsTextConsole-${{ steps.version.outputs.version }}-osx-arm64.zip
+          ZodiacsTextConsole/bin/Build/ZodiacsTextConsole-${{ steps.version.outputs.version }}-linux-x64.zip
         body: |
           Automated release for ZodiacsTextEngine ${{ steps.version.outputs.version }}
 

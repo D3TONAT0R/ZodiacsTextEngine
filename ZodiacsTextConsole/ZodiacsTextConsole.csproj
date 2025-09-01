@@ -45,8 +45,10 @@
     <PropertyGroup>
       <Suffix>$(RuntimeIdentifier)</Suffix>
       <Suffix Condition=" '$(IsPortable)' == 'true' ">portable</Suffix>
+      <VersionPrefix Condition=" '$(ReleaseVersion)' != '' ">$(ReleaseVersion)-</VersionPrefix>
+      <VersionPrefix Condition=" '$(ReleaseVersion)' == '' "></VersionPrefix>
     </PropertyGroup>
-    <Exec Command="powershell -Command &quot;Compress-Archive -Path $(PublishDir)* -DestinationPath bin\Build\ZodiacsTextConsole-$(Suffix).zip -Force&quot;" />
+    <Exec Command="powershell -Command &quot;Compress-Archive -Path $(PublishDir)* -DestinationPath bin\Build\ZodiacsTextConsole-$(VersionPrefix)$(Suffix).zip -Force&quot;" />
   </Target>
 
 </Project>
