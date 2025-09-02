@@ -26,7 +26,9 @@
         </ul>
         <h3 id="download">Download</h3>
         <p>The console application and the engine DLL can be downloaded from the
-            <a href="https://github.com/D3TONAT0R/ZodiacsTextEngine/releases" target="_blank">releases page on GitHub</a>.</p>
+            <a href="https://github.com/D3TONAT0R/ZodiacsTextEngine/releases" target="_blank">releases page on
+                GitHub</a>.
+        </p>
         <div class="remark">
             For more information how to setup the engine in a .NET project, refer to <a href="library-usage.html">Using
                 ZodiacsTextEngine in a custom Application</a>.
@@ -69,6 +71,7 @@
         </p>
 
         <h2 id="writing-stories">Writing Stories</h2>
+        <h3 id="room-files">Room Files</h3>
         <p>
             The ZodiacsTextEngine follows a file structure where each section is defined in its own file
             (called a <i>room</i>).
@@ -80,11 +83,28 @@
             By default, the engine uses a file named <code>start.room</code>
             as the starting point for the story.
         </p>
+        <p>
+            See <a href="room-files.html">Room File Structure</a> for detailed information on how to write room files.
+        </p>
+        <h3 id="story-metadata">Story Metadata</h3>
+        <p>
+            The <code>story.meta</code> file is an optional file that contains metadata about the story.
+            It expects the following format:
+        </p>
+        <code-block>
+            <span>Title=<i>Story Title</i></span>
+            <span>Authors=<i>Author Name 1,Author Name 2, ...</i></span>
+            <span>Version=<i>1.0</i></span>
+            <span>Description=<i>A brief description of the story.</i></span>
+        </code-block>
+        <p>All lines are optional, but it is recommended to provide at least the title for displaying purposes.</p>
+        <h3 id="example-file-structure">Example File Structure</h3>
         <p>The folder structure for a story may look like this:</p>
         <div class="file-structure">
             <div class="folder">Game Directory
                 <div class="file">game.exe</div>
                 <div class="folder">content
+                    <div class="file"><em>story.meta</em></div>
                     <div class="file"><em>start.room</em></div>
                     <div class="file">entrance.room</div>
                     <div class="file">hallway.room</div>
@@ -103,9 +123,6 @@
         <p>
             Room files can be grouped into subfolders without restrictions,
             the subfolders have no effect on how the room files are processed.
-        </p>
-        <p>
-            See <a href="room-files.html">Room File Structure</a> for detailed information on how to write room files.
         </p>
         <footer>
             <p>ZodiacsTextEngine Documentation | 2025 | By <a href="https://github.com/D3TONAT0R">D3TONAT0R</a></p>
