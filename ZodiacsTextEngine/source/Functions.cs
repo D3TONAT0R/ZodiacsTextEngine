@@ -11,9 +11,8 @@ namespace ZodiacsTextEngine
 		{
 			if(TryGet(id, out var func))
 			{
-				var task = func.Invoke(args);
-				if(task != null) return await task;
-				return Task.FromResult<string>(null).Result; // If the function returns null, return null
+				var result = await func.Invoke(args);
+				return result;
 			}
 			else
 			{
@@ -22,7 +21,7 @@ namespace ZodiacsTextEngine
 				{
 					await TextEngine.Interface.WaitForInput(true);
 				}
-				return Task.FromResult<string>(null).Result; // Return null if the function does not exist
+				return null;
 			}
 		}
 
