@@ -1,17 +1,17 @@
 /* Modern Dark Theme Stylesheet */
 
 :root {
-    --bg-color: #181a1b;
-    --group-color: #1e2020;
-    --surface-color: #232526;
-    --primary-color: #5e8ee9;
-    --accent-color: #ffb86c;
-    --code-color: #e0d1c0;
+    --bg-color: #00001a;
+    --group-color: #050524;
+    --surface-color: #09092c;
+    --primary-color: #ffbb69;
+    --accent-color: #e0773b;
+    --code-color: #ecddcb;
     --highlight-color: #f78d37;
-    --line-num-color: #808286;
-    --text-color: #eaeaea;
-    --muted-text: #b0b3b8;
-    --border-color: #404447;
+    --line-num-color: #83106e;
+    --text-color: #eee;
+    --muted-text: #3a3a77;
+    --border-color: #590049;
     --border-width: 1px;
     --border: var(--border-width) solid var(--border-color);
     --radius: 0px;
