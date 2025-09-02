@@ -6,7 +6,7 @@ This repository includes a GitHub Actions workflow that automatically builds and
 
 The workflow (`/.github/workflows/build-and-release.yml`) is triggered in two ways:
 
-1. **Automatic Release**: When a version tag (starting with 'v') is pushed to the repository
+1. **Automatic Release**: When a version tag is pushed to the repository
    ```bash
    git tag v1.0.0
    git push origin v1.0.0
