@@ -1,17 +1,15 @@
-/* Modern Dark Theme Stylesheet */
-
 :root {
     --bg-color: #00001a;
     --group-color: #050524;
-    --surface-color: #09092c;
-    --primary-color: #ffbb69;
-    --accent-color: #e0773b;
+    --surface-color: #111130;
+    --primary-color: #ffc681;
+    --accent-color: #e98044;
     --code-color: #ecddcb;
     --highlight-color: #f78d37;
     --line-num-color: #83106e;
     --text-color: #eee;
-    --muted-text: #3a3a77;
-    --border-color: #590049;
+    --muted-text: #5c5c8d;
+    --border-color: #313157;
     --border-width: 1px;
     --border: var(--border-width) solid var(--border-color);
     --radius: 0px;
@@ -134,7 +132,7 @@ a:hover {
 }
 
 button, .button {
-    background: var(--primary-color);
+    background: var(--accent-color);
     color: #fff;
     border: none;
     border-radius: var(--radius);
@@ -283,7 +281,7 @@ output-window {
 output-window::before {
     display: block;
     color: var(--text-color);
-    background-color: #444;
+    background-color: var(--border-color);
     transform: translate(-1em, -1em);
     width: calc(100% + 1em);
     content: "Output";
